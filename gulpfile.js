@@ -60,7 +60,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('doc', function(){
-  gulp.src(path.source)
+  return gulp.src(path.source)
     .pipe(yuidoc.parser(null, 'api.json'))
     .pipe(gulp.dest(path.doc));
 });
@@ -84,7 +84,7 @@ gulp.task('changelog', function(callback) {
 });
 
 gulp.task('build', function(callback) {
-  runSequence(
+  return runSequence(
     'clean',
     ['build-amd', 'build-html'],
     callback
