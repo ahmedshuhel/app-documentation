@@ -2,7 +2,7 @@
 
 An [Aurelia](http://www.aurelia.io/) app used to browse and read versioned docs for the various libraries of the [Aurelia](http://www.aurelia.io/) framework.
 
-> To keep up to date on [Aurelia](http://www.aurelia.io/), please visit and subscribe to [the official blog](http://blog.durandal.io/). If you have questions, we invite you to join us on [our Gitter Channel](https://gitter.im/Aurelia/Discuss).
+> To keep up to date on [Aurelia](http://www.aurelia.io/), please visit and subscribe to [the official blog](http://blog.durandal.io/). If you have questions, we invite you to join us on [our Gitter Channel](https://gitter.im/aurelia/discuss).
 
 ## Running The App
 
