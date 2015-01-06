@@ -1,23 +1,26 @@
-define(["exports", "./github"], function (exports, _github) {
+System.register(["./github"], function (_export) {
   "use strict";
 
-  var GitHub = _github.GitHub;
-  var App = (function () {
-    var App = function App(github) {
-      this.github = github;
-      this.name = "Aurelia Documentation";
-    };
+  var GitHub, App;
+  return {
+    setters: [function (_github) {
+      GitHub = _github.GitHub;
+    }],
+    execute: function () {
+      App = function App(github) {
+        this.github = github;
+        this.name = "Aurelia Documentation";
+      };
 
-    App.inject = function () {
-      return [GitHub];
-    };
+      App.inject = function () {
+        return [GitHub];
+      };
 
-    App.prototype.attached = function () {
-      this.github.getTags();
-    };
+      App.prototype.attached = function () {
+        this.github.getTags();
+      };
 
-    return App;
-  })();
-
-  exports.App = App;
+      _export("App", App);
+    }
+  };
 });
