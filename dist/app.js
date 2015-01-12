@@ -1,25 +1,45 @@
 System.register(["./github"], function (_export) {
   "use strict";
 
-  var GitHub, App;
+  var GitHub, _prototypeProperties, App;
   return {
     setters: [function (_github) {
       GitHub = _github.GitHub;
     }],
     execute: function () {
-      App = function App(github) {
-        this.github = github;
-        this.name = "Aurelia Documentation";
+      _prototypeProperties = function (child, staticProps, instanceProps) {
+        if (staticProps) Object.defineProperties(child, staticProps);
+        if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
       };
 
-      App.inject = function () {
-        return [GitHub];
-      };
+      App = (function () {
+        function App(github) {
+          this.github = github;
+          this.name = "Aurelia Documentation";
+        }
 
-      App.prototype.attached = function () {
-        this.github.getTags();
-      };
+        _prototypeProperties(App, {
+          inject: {
+            value: function () {
+              return [GitHub];
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          }
+        }, {
+          attached: {
+            value: function () {
+              this.github.getTags();
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          }
+        });
 
+        return App;
+      })();
       _export("App", App);
     }
   };

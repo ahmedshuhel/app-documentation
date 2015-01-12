@@ -1,7 +1,7 @@
 System.register(["aurelia-http-client", "aurelia-framework"], function (_export) {
   "use strict";
 
-  var HttpClient, LogManager, logger, GitHub;
+  var HttpClient, LogManager, _prototypeProperties, logger, GitHub;
   return {
     setters: [function (_aureliaHttpClient) {
       HttpClient = _aureliaHttpClient.HttpClient;
@@ -9,23 +9,47 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
       LogManager = _aureliaFramework.LogManager;
     }],
     execute: function () {
+      _prototypeProperties = function (child, staticProps, instanceProps) {
+        if (staticProps) Object.defineProperties(child, staticProps);
+        if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+      };
+
       logger = LogManager.getLogger("github");
-      GitHub = function GitHub(http) {
-        this.http = http;
-      };
+      GitHub = (function () {
+        function GitHub(http) {
+          this.http = http;
+        }
 
-      GitHub.inject = function () {
-        return [HttpClient];
-      };
+        _prototypeProperties(GitHub, {
+          inject: {
+            value: function () {
+              return [HttpClient];
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          }
+        }, {
+          getTags: {
+            value: function (library) {
+              logger.error("getTags is not yet implemented.");
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          },
+          getPackageInfo: {
+            value: function (library, tag) {
+              logger.error("getPackageInfo is not yet implemented.");
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          }
+        });
 
-      GitHub.prototype.getTags = function (library) {
-        logger.error("getTags is not yet implemented.");
-      };
-
-      GitHub.prototype.getPackageInfo = function (library, tag) {
-        logger.error("getPackageInfo is not yet implemented.");
-      };
-
+        return GitHub;
+      })();
       _export("GitHub", GitHub);
     }
   };
