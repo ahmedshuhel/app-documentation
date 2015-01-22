@@ -22,7 +22,7 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
 
         _prototypeProperties(GitHub, {
           inject: {
-            value: function () {
+            value: function inject() {
               return [HttpClient];
             },
             writable: true,
@@ -31,7 +31,7 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
           }
         }, {
           getTags: {
-            value: function (library) {
+            value: function getTags(library) {
               logger.error("getTags is not yet implemented.");
             },
             writable: true,
@@ -39,7 +39,7 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
             configurable: true
           },
           getPackageInfo: {
-            value: function (library, tag) {
+            value: function getPackageInfo(library, tag) {
               logger.error("getPackageInfo is not yet implemented.");
             },
             writable: true,

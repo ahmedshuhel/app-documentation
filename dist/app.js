@@ -20,7 +20,7 @@ System.register(["./github"], function (_export) {
 
         _prototypeProperties(App, {
           inject: {
-            value: function () {
+            value: function inject() {
               return [GitHub];
             },
             writable: true,
@@ -29,7 +29,7 @@ System.register(["./github"], function (_export) {
           }
         }, {
           attached: {
-            value: function () {
+            value: function attached() {
               this.github.getTags();
             },
             writable: true,
