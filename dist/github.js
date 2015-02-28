@@ -1,7 +1,6 @@
 System.register(["aurelia-http-client", "aurelia-framework"], function (_export) {
-  "use strict";
+  var HttpClient, LogManager, _prototypeProperties, _classCallCheck, logger, GitHub;
 
-  var HttpClient, LogManager, _prototypeProperties, logger, GitHub;
   return {
     setters: [function (_aureliaHttpClient) {
       HttpClient = _aureliaHttpClient.HttpClient;
@@ -9,14 +8,17 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
       LogManager = _aureliaFramework.LogManager;
     }],
     execute: function () {
-      _prototypeProperties = function (child, staticProps, instanceProps) {
-        if (staticProps) Object.defineProperties(child, staticProps);
-        if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-      };
+      "use strict";
+
+      _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+
+      _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
       logger = LogManager.getLogger("github");
-      GitHub = (function () {
+      GitHub = _export("GitHub", (function () {
         function GitHub(http) {
+          _classCallCheck(this, GitHub);
+
           this.http = http;
         }
 
@@ -26,16 +28,15 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
               return [HttpClient];
             },
             writable: true,
-            enumerable: true,
             configurable: true
           }
         }, {
           getTags: {
             value: function getTags(library) {
+              //https://developer.github.com/v3/git/refs/#get-all-references
               logger.error("getTags is not yet implemented.");
             },
             writable: true,
-            enumerable: true,
             configurable: true
           },
           getPackageInfo: {
@@ -43,15 +44,13 @@ System.register(["aurelia-http-client", "aurelia-framework"], function (_export)
               logger.error("getPackageInfo is not yet implemented.");
             },
             writable: true,
-            enumerable: true,
             configurable: true
           }
         });
 
         return GitHub;
-      })();
-      _export("GitHub", GitHub);
+      })());
     }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImdpdGh1Yi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7TUFBUSxVQUFVLEVBQ1YsVUFBVSx3QkFFZCxNQUFNLEVBRUcsTUFBTTs7O0FBTFgsZ0JBQVUsc0JBQVYsVUFBVTs7QUFDVixnQkFBVSxxQkFBVixVQUFVOzs7Ozs7OztBQUVkLFlBQU0sR0FBRyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztBQUU5QixZQUFNO0FBRU4saUJBRkEsTUFBTSxDQUVMLElBQUksRUFBQztBQUNmLGNBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO1NBQ2xCOzs2QkFKVSxNQUFNO0FBQ1YsZ0JBQU07bUJBQUEsa0JBQUU7QUFBRSxxQkFBTyxDQUFDLFVBQVUsQ0FBQyxDQUFBO2FBQUU7Ozs7OztBQUt0QyxpQkFBTzttQkFBQSxpQkFBQyxPQUFPLEVBQUM7QUFFZCxvQkFBTSxDQUFDLEtBQUssQ0FBQyxpQ0FBaUMsQ0FBQyxDQUFDO2FBQ2pEOzs7OztBQUVELHdCQUFjO21CQUFBLHdCQUFDLE9BQU8sRUFBRSxHQUFHLEVBQUM7QUFDMUIsb0JBQU0sQ0FBQyxLQUFLLENBQUMsd0NBQXdDLENBQUMsQ0FBQzthQUN4RDs7Ozs7OztlQWJVLE1BQU07O3dCQUFOLE1BQU0iLCJmaWxlIjoiZ2l0aHViLmpzIiwic291cmNlUm9vdCI6Ii9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImdpdGh1Yi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO01BQVEsVUFBVSxFQUNWLFVBQVUseUNBRWQsTUFBTSxFQUVHLE1BQU07Ozs7QUFMWCxnQkFBVSxzQkFBVixVQUFVOztBQUNWLGdCQUFVLHFCQUFWLFVBQVU7Ozs7Ozs7OztBQUVkLFlBQU0sR0FBRyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztBQUU5QixZQUFNO0FBRU4saUJBRkEsTUFBTSxDQUVMLElBQUk7Z0NBRkwsTUFBTTs7QUFHZixjQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztTQUNsQjs7NkJBSlUsTUFBTTtBQUNWLGdCQUFNO21CQUFBLGtCQUFFO0FBQUUscUJBQU8sQ0FBQyxVQUFVLENBQUMsQ0FBQTthQUFFOzs7OztBQUt0QyxpQkFBTzttQkFBQSxpQkFBQyxPQUFPLEVBQUM7O0FBRWQsb0JBQU0sQ0FBQyxLQUFLLENBQUMsaUNBQWlDLENBQUMsQ0FBQzthQUNqRDs7OztBQUVELHdCQUFjO21CQUFBLHdCQUFDLE9BQU8sRUFBRSxHQUFHLEVBQUM7QUFDMUIsb0JBQU0sQ0FBQyxLQUFLLENBQUMsd0NBQXdDLENBQUMsQ0FBQzthQUN4RDs7Ozs7O2VBYlUsTUFBTSIsImZpbGUiOiJnaXRodWIuanMiLCJzb3VyY2VSb290IjoiL3NyYy8ifQ==
