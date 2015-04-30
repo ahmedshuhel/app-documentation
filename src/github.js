@@ -4,7 +4,8 @@ import {LogManager} from 'aurelia-framework';
 var logger = LogManager.getLogger('github');
 
 export class GitHub {
-  static inject(){ return [HttpClient] };
+  static inject = [HttpClient];
+  
   constructor(http){
     this.http = http;
   }

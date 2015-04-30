@@ -1,7 +1,8 @@
 import {GitHub} from './github';
 
 export class App {
-  static inject() { return [GitHub]; }
+  static inject = [GitHub];
+  
   constructor(github){
     this.github = github;
     this.name = 'Aurelia Documentation';
