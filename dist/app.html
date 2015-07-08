@@ -1,4 +1,9 @@
 <template>
-  <input class="form-control" type="text" value.bind="name">
-  ${name}
+  <require from='./nav-bar'></require>
+
+  <nav-bar router.bind="router"></nav-bar>
+
+  <div class="page-host">
+    <router-view></router-view>
+  </div>
 </template>

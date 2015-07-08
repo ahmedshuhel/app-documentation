@@ -1,0 +1,96 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.au-layer {
+
+  // gives a "on top" shadow effect
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  .clearfix;
+}
+
+.au-logo {
+  margin: 16px;
+
+  img {
+    border-right: 1px solid #ccc;
+    padding-right: 7px;
+    margin-right: 7px;
+    display: inline-block;
+  }
+  span {
+    font-size: 28px;
+    color: #92278f;
+    vertical-align: 10px;
+  }
+}
+
+.au-tabs {
+  height: 100%;
+
+  // these don't really belong here
+  margin-right: 444px;
+  margin-left: 298px;
+  text-align: center;
+
+  .au-tab {
+    display: inline-block;
+    padding: 6px 28px;
+    margin: 29px 0;
+    color: #70519e;
+    border-radius: 4px;
+    font-size: 13px;
+
+    .au-tag {
+      background: white;
+      color: rgb(239,103,168);
+      font-weight: bold;
+      font-size: 10px;
+      padding: 1px 7px;
+      border-radius: 2px;
+      margin-left: 4px;
+      vertical-align: bottom;
+    }
+  }
+
+  .au-tab.au-active {
+    color: white;
+    background: #70519e;
+    -webkit-box-shadow: 0px 4px 2px -1px rgba(217,217,217,1);
+    -moz-box-shadow: 0px 4px 2px -1px rgba(217,217,217,1);
+    box-shadow: 0px 3px 2px -1px rgba(217,217,217,1);
+  }
+}
+
+.au-stuff {
+  margin: 25px 0;
+}
+
+.au-select {
+  padding: 4px;
+  border-radius: 2px;
+  color: rgb(128,128,128);
+  border-color: rgb(128,128,128);
+  margin: 0 7px;
+  font-size: 14px;
+}
+
+.au-search {
+  color: #70519e;  
+  font-size: 28px;
+  font-weight: lighter;
+  margin: 30px;
+  vertical-align: top;
+}
+
+// fixes spacing on elements with floating
+.clearfix {
+  display: table;
+  clear: both;
+  content: "";
+}
