@@ -2,15 +2,10 @@ export class App {
   configureRouter(config, router){
     config.title = 'Aurelia';
     config.map([{ 
-        route: ['', 'tutorials(/:tutorial)'], 
+        route: '', 
         moduleId: './tutorials',
         title: 'Tutorials',
         href: '#/tutorials',
-        nav: true 
-    },{ 
-        route: 'api', 
-        moduleId: './api', 
-        title: 'API Docs',
         nav: true 
     }]);
 
