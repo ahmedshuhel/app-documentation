@@ -18,6 +18,10 @@ nav-bar {
   .full-width;
 }
 
+body {
+  overflow-y: auto;
+}
+
 .page-host {
   position: relative;
   z-index: -1;
@@ -28,15 +32,16 @@ nav-bar {
   position: relative;
   .full-height;
 
-  ul {
+  .au-menu {
     width: 298px;
     background: rgb(236,236,236);
     box-shadow: 3px 0px 2px -1px rgba(217,217,217,1);
+    .pull-left;
     .full-height;
 
     li {  
-      height: 44px;
-      line-height: 44px;
+      height: 48px;
+      line-height: 48px;
       color: #92278f;
       font-size: 20px;
       font-weight: 300;
@@ -58,4 +63,105 @@ nav-bar {
       border-top: 1px solid rgb(192,192,192);
     }
   }
+
+  main {
+    margin-left: 298px;
+    padding: 42px;
+    background: rgb(247,247,247);
+
+    .au-section {
+      border: 1px solid rgb(218,218,218);
+      border-radius: 6px;
+      -webkit-box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
+      -moz-box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
+      box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
+
+      .au-section-heading {
+        border-bottom: 1px solid #dadada;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        color: #7d519e;
+        background: rgb(247,247,247);
+        font-size: 32px;
+        line-height: 64px;
+        text-align: center;
+        padding: 0 32px;
+
+        .au-tag {
+          color: rgb(128,128,128);
+          background: white;
+          border: 1px solid #dadada;
+          border-radius: 4px;
+          -webkit-box-shadow: 0px 1px 3px 0px #dadada;
+          -moz-box-shadow: 0px 1px 3px 0px #dadada;
+          box-shadow: 0px 1px 1px 0px #dadada;
+          font-size: 10px;
+          padding: 2px 7px;
+          vertical-align: middle;
+        }
+      }
+      .au-section-body {
+        border-radius: 6px;
+        background: white;
+        padding: 32px;
+        
+        h1 {
+          font-size: 18px;
+          font-weight: 900;
+          border-bottom: 1px solid #d9d9d9;
+          line-height: 38px;
+          margin-bottom: 8px;
+        }
+
+        h2 {
+          font-size: 14px;
+          font-weight: 900;
+        }
+
+        h3 {
+          font-size: 17px;
+          border-bottom: 1px solid #d9d9d9;
+          padding-bottom: 12px;
+          margin-bottom: 4px;
+        }
+
+        ul {
+          margin-left: 24px;
+          font-size: 14px;
+          line-height: 26px;
+          margin-left: 24px;
+          list-style: initial;
+
+          a {
+            font-family: consolas;
+            font-size: 14px;
+            color: #ef67a8;
+            text-decoration: underline;
+          }
+
+          li {
+            padding-left: 6px;
+          }
+        }
+      }
+
+      button {  
+        color: #7d519e;
+        background: white;
+        border: 1px solid #7d519e;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 12px;
+        margin: 0 2px;
+      }
+    }
+
+    .au-section + .au-section {
+      margin-top: 18px;
+    }
+  }
+}
+
+.spaced {
+  margin-top: 28px;
 }
