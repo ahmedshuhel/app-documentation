@@ -1,9 +1,65 @@
 <template>
   <section id="TutorialsView" class="au-animate">
-    <ul>
+    <ul class="au-menu">
       <li class="au-active">Dependency Injection</li>
       <li>Binding</li>
       <li>Metadata</li>
     </ul>
+
+    <main>
+      <div class="au-section">
+        
+        <h1 class="au-section-heading">
+          <span>${title}</span>
+          <div class="pull-right">
+            <span class="au-tag">Version: ${version}</span>
+          </div>
+        </h1>
+        
+        <div class="au-section-body">
+          <h3>${description}</h3>
+
+          <div class="text-sm">
+            <span class="strong">Keywords:</span>
+            <span>${keywords.join(',')}</span>
+          </div>
+        
+          <div class="spaced">
+            <button>Changes</button>
+            <button>Issues</button>
+            <button>License</button>
+            <button>Repository</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="au-section">
+        <div class="au-section-body">
+          <h1>Dependencies</h1>
+          <ul>
+            <a href="#"><li repeat.for="dependency of dependencies">${dependency}</li></a>
+          </ul>
+
+          <h1>Used By</h1>
+          <ul>
+            <a href="#"><li repeat.for="use of usedby">${use}</li></a>
+          </ul>
+
+          <h1>Exports</h1>
+          <h2>Classes</h2>
+          <ul>
+            <li repeat.for="exportClass of exports.classes">${exportClass}</li>
+          </ul>
+          <h1>Functions</h1>
+          <ul>
+            <li repeat.for="exportFunction of exports.functions">${exportFunction}</li>
+          </ul>
+          
+          <h1>Related Articles</h1>
+          <ul>
+            <a href="#"><li repeat.for="article of articles"></li></a>
+          </ul>
+        </div>
+    </main>
   </section>
 </template>

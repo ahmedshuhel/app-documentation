@@ -8,7 +8,5 @@ export class App {
         href: '#/tutorials',
         nav: true 
     }]);
-
-    this.router = router;
   }
 }
