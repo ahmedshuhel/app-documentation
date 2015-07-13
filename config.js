@@ -22,8 +22,8 @@ System.config({
     "aurelia-framework": "github:aurelia/framework@0.13.0",
     "aurelia-http-client": "github:aurelia/http-client@0.10.0",
     "aurelia-router": "github:aurelia/router@0.10.0",
-    "babel": "npm:babel-core@5.6.17",
-    "babel-runtime": "npm:babel-runtime@5.6.17",
+    "babel": "npm:babel-core@5.6.18",
+    "babel-runtime": "npm:babel-runtime@5.6.18",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.12",
@@ -193,6 +193,9 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:babel-runtime@5.6.17": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:babel-runtime@5.6.18": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:buffer@3.2.2": {
