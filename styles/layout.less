@@ -16,28 +16,30 @@
 
 nav-bar {
   .full-width;
+  position: fixed;
+  top: 0;
+  background: white;
+}
+
+nav-bar + * {
+  margin-top: 83px;
 }
 
 body {
   overflow-y: auto;
 }
 
-.page-host {
-  position: relative;
-  z-index: -1;
-  .full-height;
-}
-
 #TutorialsView {
   position: relative;
-  .full-height;
+  z-index: -1;
 
   .au-menu {
     width: 298px;
     background: rgb(236,236,236);
     box-shadow: 3px 0px 2px -1px rgba(217,217,217,1);
-    .pull-left;
-    .full-height;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     li {  
       height: 48px;
@@ -62,6 +64,11 @@ body {
     li.au-active + li {
       border-top: 1px solid rgb(192,192,192);
     }
+  }
+
+  .au-menu + * {
+    margin-left: 298px;
+    clear: right;
   }
 
   main {
