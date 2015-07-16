@@ -1,20 +1,86 @@
+// variables 
+// @pink-text
+// @purple-text
+// @grey-text
+
+// @white-bg
+// @light-bg
+// @dark-bg
+// @purple-bg
+
+// defaults
+body {
+  overflow-y: auto;
+}
 body, html {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   letter-spacing: 0.4px;
 }
-
 a {
+  color: inherit;
   text-decoration: none;
 }
-
-.au-layer {
-  box-shadow: 0px 3px 2px -1px rgba(217,217,217,1);
-  .clearfix;
+button, 
+select,
+a {
+  cursor: pointer;
 }
 
-.au-logo {
-  margin: 16px;
+// generics
+.strong {
+  font-weight: 900;
+}
+.text-sm { 
+  font-size: 14px;
+  color: rgb(128,128,128);
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+.align-center {
+  text-align: center;
+}
+.clearfix {
+  display: table;
+  clear: both;
+  content: "";
+}
+.full-width {
+  width: 100%;
+}
+.full-height {
+  height: 100%;
+}
+.spaced {
+  margin-top: 28px;
+}
+
+// specifics
+.au-navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 83px;
+  z-index: 1;
+  background: white;
+  box-shadow: 0px 3px 2px -1px rgba(217,217,217,1);
+
+  .au-select {
+    margin: 25px 0;
+  }
+}
+.au-navbar + * {
+  margin-top: 83px;
+  position: relative;
+}
+.au-navbar-logo {
+  .pull-left;
+  margin: 16px;  
 
   img {
     border-right: 1px solid #ccc;
@@ -29,15 +95,138 @@ a {
     vertical-align: 10px;
   }
 }
+.au-menu {
+  width: 298px;
+  background: rgb(236,236,236);
+  box-shadow: 3px 0px 2px -1px rgba(217,217,217,1);
+  /* position: absolute; 
+  top: 0; */
+  bottom: 0;
 
-.au-tabs {
-  height: 100%;
+  /* test */
+  position: fixed;
+  top: 83px;
+  overflow-y: scroll;
 
-  // these don't really belong here
-  margin-right: 444px;
+  li {  
+    height: 48px;
+    line-height: 48px;
+    color: #92278f;
+    font-size: 20px;
+    font-weight: 300;
+    padding-left: 28px;
+
+  }
+  .au-active li {
+    color: #ef67a8;
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(100%, rgba(236,236,236,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
+  }
+  * + .au-active li,
+  .au-active + * li {
+    border-top: 1px solid rgb(192,192,192);
+  }
+}
+.au-menu + * {
   margin-left: 298px;
-  text-align: center;
+  padding: 42px;
+  background: rgb(247,247,247);
+}
+.au-section {
+  border: 1px solid rgb(218,218,218);
+  border-radius: 6px;
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
+  box-shadow: 0px 1px 3px 0px rgba(218,218,218,1);
 
+  .au-section-heading {
+    border-bottom: 1px solid #dadada;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: #7d519e;
+    background: rgb(247,247,247);
+    font-size: 32px;
+    line-height: 64px;
+    text-align: center;
+    padding: 0 32px;
+
+    .au-tag {
+      color: rgb(128,128,128);
+      background: white;
+      border: 1px solid #dadada;
+      border-radius: 4px;
+      -webkit-box-shadow: 0px 1px 3px 0px #dadada;
+      -moz-box-shadow: 0px 1px 3px 0px #dadada;
+      box-shadow: 0px 1px 1px 0px #dadada;
+      font-size: 10px;
+      padding: 2px 7px;
+      vertical-align: middle;
+    }
+  }
+  .au-section-body {
+    border-radius: 6px;
+    background: white;
+    padding: 32px;
+    
+    h1 {
+      font-size: 18px;
+      font-weight: 900;
+      border-bottom: 1px solid #d9d9d9;
+      line-height: 38px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    h3 {
+      font-size: 17px;
+      border-bottom: 1px solid #d9d9d9;
+      padding-bottom: 12px;
+      margin-bottom: 4px;
+    }
+
+    ul {
+      margin-left: 24px;
+      font-size: 14px;
+      line-height: 26px;
+      margin-left: 24px;
+      list-style: initial;
+
+      a {
+        font-family: consolas;
+        font-size: 14px;
+        color: #ef67a8;
+        text-decoration: underline;
+      }
+
+      li {
+        padding-left: 6px;
+      }
+    }
+  }
+
+  button {  
+    color: #7d519e;
+    background: white;
+    border: 1px solid #7d519e;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    margin: 0 2px;
+  }
+}
+.au-section + .au-section {
+  margin-top: 18px;
+}
+.au-tabs {
   .au-tab {
     display: inline-block;
     padding: 6px 28px;
@@ -57,7 +246,6 @@ a {
       vertical-align: 1px;
     }
   }
-
   .au-tab.au-active {
     color: white;
     background: #70519e;
@@ -66,11 +254,6 @@ a {
     box-shadow: 0px 3px 2px -1px rgba(217,217,217,1);
   }
 }
-
-.au-stuff {
-  margin: 25px 0;
-}
-
 .au-select {
   padding: 4px;
   border-radius: 2px;
@@ -79,27 +262,10 @@ a {
   margin: 0 7px;
   font-size: 14px;
 }
-
-.au-search {
+.au-icon-button {
   color: #70519e;  
   font-size: 28px;
-  font-weight: lighter;
+  font-weight: 300;
   margin: 30px;
   vertical-align: top;
-}
-
-// fixes spacing on elements with floating
-.clearfix {
-  display: table;
-  clear: both;
-  content: "";
-}
-
-.strong {
-  font-weight: 900;
-}
-
-.text-sm { 
-  font-size: 14px;
-  color: rgb(128,128,128);
 }
