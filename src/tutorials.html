@@ -1,9 +1,9 @@
 <template>
   <section id="TutorialsView" class="au-animate">
     <ul class="au-menu">
-      <li class="au-active">Dependency Injection</li>
-      <li>Binding</li>
-      <li>Metadata</li>
+      <a class="au-active" href="#"><li>Dependency Injection</li></a>
+      <a href="#"><li>Binding</li></a>
+      <a href="#"><li>Metadata</li></a>
     </ul>
 
     <main>
@@ -57,7 +57,7 @@
           
           <h1>Related Articles</h1>
           <ul>
-            <a href="#"><li repeat.for="article of articles"></li></a>
+            <a href="#"><li repeat.for="article of articles">${article}</li></a>
           </ul>
         </div>
     </main>

@@ -1,12 +1,12 @@
 <template>
-  <div class="pull-left au-logo">
+  <div class="au-navbar-logo">
     <a href="#/">
       <img src="images/aurelia-logo.png">
       <span>Docs</span>
     </a>
   </div>
 
-  <div class="pull-right au-stuff">
+  <div class="pull-right">
     <select class="au-select">
       <option>English</option>
     </select>
@@ -16,14 +16,16 @@
     <select class="au-select">
       <option>Aurelia v1.0.0</option>
     </select>    
-    <a class="au-search"><i class="fa fa-search"></i></a>
+    <a class="au-icon-button" href="#"><i class="fa fa-search"></i></a>
   </div>
 
-  <div class="au-tabs">
-    <div class="au-tab">Step-by-Step</div>
-    <div class="au-tab au-active">
-      Libraries
-      <span class="au-tag">API</span>
+  <div class="align-center">
+    <div class="au-tabs">
+      <a class="au-tab">Step-by-Step</a>
+      <a class="au-tab au-active">
+        Libraries
+        <span class="au-tag">API</span>
+      </a>
     </div>
   </div>
 </template>
