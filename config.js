@@ -22,7 +22,7 @@ System.config({
     "aurelia-framework": "github:aurelia/framework@0.13.0",
     "aurelia-http-client": "github:aurelia/http-client@0.10.0",
     "aurelia-router": "github:aurelia/router@0.10.0",
-    "babel": "npm:babel-core@5.7.3",
+    "babel": "npm:babel-core@5.7.4",
     "babel-runtime": "npm:babel-runtime@5.7.0",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.9.18",

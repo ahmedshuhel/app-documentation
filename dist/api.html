@@ -1,17 +1,73 @@
 <template>
-  <section class="au-animate">
-    <h2>${heading}</h2>
-    <div>
-      <div class="col-md-2">
-        <ul class="well nav nav-pills nav-stacked">
-          <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-            <a href.bind="row.href">${row.title}</a>
-          </li>
-        </ul>
+  <section id="APIView" class="au-animate">
+    <ul class="au-menu">
+      <a href="#/api/dependency-injection" class="${module.title == 'Dependency Injection' ? 'au-active' : ''}"><li>Dependency Injection</li></a>
+      <a href="#/api/binding" class="${module.title == 'Binding' ? 'au-active' : ''}"><li>Binding</li></a>
+      <a href="#/api/metadata" class="${module.title == 'Metadata' ? 'au-active' : ''}"><li>Metadata</li></a>
+    </ul>
+
+    <main>
+      <div class="au-section">
+        
+        <h1 class="au-section-heading">
+          <span>${module.title}</span>
+          <div class="pull-right">
+            <span class="au-tag" if.bind="module.version">Version: ${module.version}</span>
+          </div>
+        </h1>
+        
+        <div class="au-section-body">
+          <h3 if.bind="module.description">${module.description}</h3>
+
+          <div class="text-sm" if.bind="module.keywords">
+            <span class="strong">Keywords:</span>
+            <span>${module.keywords.join(',')}</span>
+          </div>
+        
+          <div class="spaced">
+            <button>Changes</button>
+            <button>Issues</button>
+            <button>License</button>
+            <button>Repository</button>
+          </div>
+        </div>
       </div>
-      <div class="col-md-10" style="padding: 0">
-        <router-view></router-view>
-      </div>
-    </div>
+
+      <div class="au-section">
+        <div class="au-section-body">
+          <template if.bind="module.dependencies">
+            <h1>Dependencies</h1>
+            <ul>
+              <a href="#"><li repeat.for="dependency of module.dependencies">${dependency}</li></a>
+            </ul>
+          </template>
+
+          <template if.bind="module.usedby">
+            <h1>Used By</h1>
+            <ul>
+              <a href="#"><li repeat.for="use of module.usedby">${use}</li></a>
+            </ul>
+          </template>
+
+          <template if.bind="module.exports">
+            <h1>Exports</h1>
+            <h2>Classes</h2>
+            <ul>
+              <li repeat.for="exportClass of module.exports.classes">${exportClass}</li>
+            </ul>
+            <h1>Functions</h1>
+            <ul>
+              <li repeat.for="exportFunction of module.exports.functions">${exportFunction}</li>
+            </ul>
+          </template>
+          
+          <template if.bind="module.articles">
+            <h1>Related Articles</h1>
+            <ul>
+              <a href="#"><li repeat.for="article of module.articles">${article}</li></a>
+            </ul>
+          </template>
+        </div>
+    </main>
   </section>
 </template>
