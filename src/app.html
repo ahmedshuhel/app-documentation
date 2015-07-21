@@ -1,7 +1,37 @@
 <template>
   <require from='./nav-bar'></require>
 
-  <nav-bar class="au-navbar" router.bind="router"></nav-bar>
+  <nav class="au-navbar">
+    <div class="au-navbar-logo">
+      <a href="#/">
+        <img src="images/aurelia-logo.png">
+        <span>Docs</span>
+      </a>
+    </div>
+
+    <div class="pull-right">
+      <select class="au-select">
+        <option>English</option>
+      </select>
+      <select class="au-select">
+        <option>JavaScript</option>
+      </select>
+      <select class="au-select">
+        <option>Aurelia v1.0.0</option>
+      </select>    
+      <a class="au-icon-button" href="#"><i class="fa fa-search"></i></a>
+    </div>
+
+    <div class="align-center">
+      <div class="au-tabs">
+        <a href="#/tutorial" class="au-tab ${currentRoute == 'tutorial' ? 'au-active' : ''}">Step-by-Step</a>
+        <a href="#/api" class="au-tab ${currentRoute == 'api' ? 'au-active' : ''}">
+          Libraries
+          <span class="au-tag">API</span>
+        </a>
+      </div>
+    </div>
+  </nav>
 
   <div class="page-host">
     <router-view></router-view>
