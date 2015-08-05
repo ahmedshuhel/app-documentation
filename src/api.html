@@ -1,21 +1,20 @@
 <template>
   <section id="APIView" class="au-animate">
     <ul class="au-menu">
-      <a href="#/api/dependency-injection" class="${module.title == 'Dependency Injection' ? 'au-active' : ''}"><li>Dependency Injection</li></a>
-      <a href="#/api/binding" class="${module.title == 'Binding' ? 'au-active' : ''}"><li>Binding</li></a>
-      <a href="#/api/metadata" class="${module.title == 'Metadata' ? 'au-active' : ''}"><li>Metadata</li></a>
+      <li repeat.for="repository of localCache.repositories">
+        <a href="#/api/${repository.name}" class="${selectedModule === repository ? 'au-active': ''}">${repository.prettyName}</a>
+      </li>
     </ul>
-
     <div>
       <div class="au-section">
-        
+
         <h1 class="au-section-heading">
-          <span>${module.title}</span>
+          <span>${module.name}</span>
           <div class="pull-right">
             <span class="au-tag" if.bind="module.version">Version: ${module.version}</span>
           </div>
         </h1>
-        
+
         <div class="au-section-body">
           <h3 if.bind="module.description">${module.description}</h3>
 
@@ -23,7 +22,7 @@
             <span class="strong">Keywords:</span>
             <span>${module.keywords.join(',')}</span>
           </div>
-        
+
           <div class="spaced">
             <button>Changes</button>
             <button>Issues</button>
@@ -49,18 +48,26 @@
             </ul>
           </template>
 
-          <template if.bind="module.exports">
+          <template if.bind="selectedModule.classes">
             <h1>Exports</h1>
             <h2>Classes</h2>
             <ul>
-              <li repeat.for="exportClass of module.exports.classes">${exportClass}</li>
+              <li repeat.for="exportClass of selectedModule.classes">${exportClass.name}</li>
             </ul>
-            <h1>Functions</h1>
+            <h1>Methods</h1>
             <ul>
-              <li repeat.for="exportFunction of module.exports.functions">${exportFunction}</li>
+              <li repeat.for="method of selectedModule.methods">${method.name}</li>
+            </ul>
+            <h1>Properties</h1>
+            <ul>
+              <li repeat.for="prop of selectedModule.properties">${prop.name}</li>
+            </ul>
+            <h1>Events</h1>
+            <ul>
+              <li repeat.for="event of selectedModule.events">${event.name}</li>
             </ul>
           </template>
-          
+
           <template if.bind="module.articles">
             <h1>Related Articles</h1>
             <ul>

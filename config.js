@@ -10,7 +10,9 @@ System.config({
   "paths": {
     "*": "dist/*.js",
     "github:*": "jspm_packages/github/*.js",
-    "npm:*": "jspm_packages/npm/*.js"
+    "npm:*": "jspm_packages/npm/*.js",
+    "services/*": "dist/services/*.js",
+    "models/*": "dist/models/*.js"
   }
 });
 
