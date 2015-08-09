@@ -9,7 +9,7 @@ export class App {
   configureRouter(config, router){
     config.title = 'Aurelia';
     config.map([{
-      route: ['', '/api', '/api/:module'],
+      route: ['', '/api', '/api/:module', '/api/:module/:version'],
       moduleId: './api',
       title: 'API',
       href: '#/api'
@@ -30,7 +30,7 @@ export class App {
   }
 
   get currentRoute() {
-    var route = null
+    let route = null
     if (this.router.currentInstruction) {
       route = this.router.currentInstruction.fragment;
     }

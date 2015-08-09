@@ -1,5 +1,6 @@
 export class Repository {
   name = '';
+  description = '';
   endpoint = '';
   location = '';
   classes = [];

@@ -10,11 +10,14 @@ export class Api{
   }
   selectedModule;
   activate(params){
-    let repoMatch = this.localCache.repositories.filter(repo => {
+    let repoMatch = this.localCache.repositories.find(repo => {
       return repo.name === params.module;
-    })[0];
-    this.gitService.getRepositoryInfo(repoMatch).then(resp => {
-      this.selectedModule = resp;
     });
+    if (repoMatch) {
+      this.gitService.getRepositoryInfo(repoMatch).then(resp => {
+        this.selectedModule = resp;
+      }); 
+    } 
+    // else error out?
   }
 }

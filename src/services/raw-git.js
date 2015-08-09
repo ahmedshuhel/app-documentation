@@ -41,6 +41,7 @@ export class RawGitService {
   getRepositoryInfo(repo){
     this.http = new HttpClient();
     return this.http.get(rawgitUrl + repo.name + docName).then(response => {
+      repo.description = response.content.description;
       response.content.classes.forEach(klass => {
         repo.classes.push(klass);
       });
