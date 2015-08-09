@@ -10,7 +10,7 @@
 
 // defaults
 body {
-  overflow-y: auto;
+  background: rgb(247,247,247);
 }
 body, html {
   font-family: 'Roboto', sans-serif;
@@ -57,6 +57,9 @@ a {
 }
 .spaced {
   margin-top: 28px;
+}
+.scrollable {
+  overflow-y: scroll;
 }
 
 // specifics
@@ -107,14 +110,9 @@ a {
   width: 298px;
   background: rgb(236,236,236);
   box-shadow: 3px 0px 2px -1px rgba(217,217,217,1);
-  /* position: absolute; 
-  top: 0; */
-  bottom: 0;
-
-  /* test */
   position: fixed;
   top: 83px;
-  overflow-y: scroll;
+  bottom: 0;
 
   li {  
     height: 48px;
@@ -125,7 +123,7 @@ a {
     padding-left: 28px;
 
   }
-  .au-active li {
+  li.au-active  {
     color: #ef67a8;
     background: rgba(255,255,255,1);
     background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
@@ -134,16 +132,20 @@ a {
     background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(236,236,236,1) 100%);
-  }
-  * + .au-active li,
-  .au-active + * li {
     border-top: 1px solid rgb(192,192,192);
+    -webkit-box-shadow: 0px 2px 4px -2px rgba(128,128,128,1);
+    -moz-box-shadow: 0px 2px 4px -2px rgba(128,128,128,1);
+    box-shadow: 0px 2px 4px -2px rgba(128,128,128,1);
   }
 }
 .au-menu + * {
-  margin-left: 298px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 298px;
+  margin-top: 83px;
   padding: 42px;
-  background: rgb(247,247,247);
 }
 .au-section {
   border: 1px solid rgb(218,218,218);
@@ -221,7 +223,7 @@ a {
     }
   }
 
-  button {  
+  .au-button {  
     color: #7d519e;
     background: white;
     border: 1px solid #7d519e;
@@ -229,6 +231,10 @@ a {
     padding: 8px 12px;
     font-size: 12px;
     margin: 0 2px;
+  }
+  .au-button:hover { 
+    background: #7d519e;
+    color: white;
   }
 }
 .au-section + .au-section {
