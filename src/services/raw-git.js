@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
-import {RepositoryModel, PluginModel, ChildModel, GroupModel, ClassModel, ConstructorModel, MethodModel, InterfaceModel, PropertyModel, VariableModel} from 'models/index';
+import {RepositoryModel, PluginModel, ChildModel, GroupModel, ClassModel, ConstructorModel, MethodModel, InterfaceModel, PropertyModel, VariableModel, SignatureModel} from 'models/index';
 import {LocalCache} from 'services/local-cache';
 
 const cacheBuster = 'v123';
@@ -55,9 +55,6 @@ function checkForChildren (obj, localcache) {
   if (obj.children) {
     obj.children.forEach(child => {
       let newChild = castObjectAsType(child, obj);
-      // let newChild = new ChildModel(child);
-      // newChild.parent = parent;
-      // parent.children.push(newChild);
       localcache.checkAddObjectReference(newChild);
       checkForChildren(newChild, localcache);
     });
@@ -86,10 +83,12 @@ function castObjectAsType (obj, parent) {
       break;
     case 'Constructor':
       thisObject = new ConstructorModel(obj);
+      thisObject.signature = new SignatureModel(thisObject.signatures[0])
       parent.constructorMethod = thisObject;
       break;
     case 'Method':
       thisObject = new MethodModel(obj);
+      thisObject.signature = new SignatureModel(thisObject.signatures[0])
       parent.methods.push(thisObject);
       break;
     case 'Interface':
@@ -103,6 +102,10 @@ function castObjectAsType (obj, parent) {
     case 'Variable':
       thisObject = new VariableModel(obj);
       parent.variables.push(thisObject);
+      break;
+    case 'Signature':
+      thisObject = new SignatureModel(obj);
+      parent.signature.push(thisObject);
       break;
   };
   return thisObject;

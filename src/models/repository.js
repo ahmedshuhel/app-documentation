@@ -54,20 +54,24 @@ export class GroupModel {
   children = [];
   constructor(data){
     Object.assign(this, data);
-    this.kindName = this.kindString;
+    this.kindName = this.kindName;
   };
 }
 
 export class ClassModel {
   methods = [];
+  groups = [];
+  flags = {};
   constructorMethod = {};
   constructor(data){
     Object.assign(this, data);
     this.kindName = this.kindString;
+    console.log(this)
   }
 }
 
 export class MethodModel {
+  signature = {};
   constructor(data){
     Object.assign(this, data);
     this.kindName = this.kindString;
@@ -75,6 +79,7 @@ export class MethodModel {
 }
 
 export class ConstructorModel {
+  signature = {};
   constructor(data){
     Object.assign(this, data);
     this.kindName = this.kindString;
@@ -93,6 +98,14 @@ export class InterfaceModel {
 }
 
 export class PropertyModel {
+  constructor(data){
+    Object.assign(this, data);
+    this.kindName = this.kindString;
+  }
+}
+
+export class SignatureModel {
+  comment = {};
   constructor(data){
     Object.assign(this, data);
     this.kindName = this.kindString;

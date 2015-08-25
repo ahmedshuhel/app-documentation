@@ -1,0 +1,26 @@
+<template>
+  <li>
+    <a href="#" click.delegate="toggleExpand()">
+      ${value.name} - ${value.kindName}
+    </a>
+    <template if.bind="isExpanded">
+      <article>
+        <h4>Signature</h4>
+        <au-signature repeat.for="signature of value.signatures" value.bind="signature"></au-signature>
+        <em if.bind="value.children.length === 0">
+          No child properties exist.
+        </em>
+
+        <h4>Attributes</h4>
+        <ul>
+          <li if.bind="value.flags && value.flags.isExported">
+            <strong>Exported</strong>
+          </li>
+          <li if.bind="value.flags && value.flags.isStatic">
+            <strong>Static</strong>
+          </li>
+        </ul>
+      </article>
+    </template>
+  </li>
+</template>

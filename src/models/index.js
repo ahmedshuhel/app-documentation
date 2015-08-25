@@ -7,6 +7,7 @@ export {
   ConstructorModel,
   InterfaceModel,
   PropertyModel,
+  SignatureModel,
   VariableModel
 } from 'models/repository';
 export {PluginModel} from 'models/plugin';

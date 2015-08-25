@@ -1,5 +1,5 @@
 <template>
-  <require from="templates/details"></require>
+  <require from="resources/details"></require>
   <section class="au-animate body">
     <ul class="au-menu">
       <li class="${$parent.selectedModule === repository ? 'au-active': ''}" repeat.for="repository of localCache.repositories">
@@ -54,23 +54,23 @@
             <h1>Exports</h1>
             <h2>Classes - <small>(${selectedModule.classes.length} ${selectedModule.classes.length === 1 ? 'class' : 'classes'})</small></h2>
             <ul>
-              <details repeat.for="child of selectedModule.classes" value.bind="child"></details>
+              <au-class repeat.for="child of selectedModule.classes" value.bind="child"></au-class>
             </ul>
             <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
             <ul>
-              <details repeat.for="method of selectedModule.methods" value.bind="method"></details>
+              <au-method repeat.for="method of selectedModule.methods" value.bind="method"></au-method>
             </ul>
             <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
             <ul>
-              <details repeat.for="prop of selectedModule.properties" value.bind="prop"></details>
+              <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
             </ul>
             <h1>Events - <small>(${selectedModule.events.length} ${selectedModule.events.length === 1 ? 'event' : 'events'})</small></h1>
             <ul>
-              <details repeat.for="event of selectedModule.events" value.bind="event"></details>
+              <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
             </ul>
             <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
             <ul>
-              <details repeat.for="variable of selectedModule.variables" value.bind="variable"></details>
+              <au-variable repeat.for="variable of selectedModule.variables" value.bind="variable"></au-variable>
             </ul>
           </template>
 
@@ -78,13 +78,6 @@
             <h1>Related Articles</h1>
             <ul>
               <a href="#"><li repeat.for="article of selectedModule.articles">${article}</li></a>
-            </ul>
-          </template>
-
-          <template if.bind="selectedModule.groups">
-            <h1>Groups</h1>
-            <ul>
-              <a href="#"><li repeat.for="group of selectedModule.groups">${group.title} - ${group.kindName}</li></a>
             </ul>
           </template>
 
