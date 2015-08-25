@@ -1,4 +1,4 @@
-export class Plugin {
+export class PluginModel {
   name = '';
   endpoint = '';
   location = '';
