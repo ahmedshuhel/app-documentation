@@ -1,17 +1,20 @@
 <template>
-  <li>
-    <a href="#" click.delegate="toggleExpand()">
-      ${value.name} - ${value.comment ? value.comment.shortText : ''}
-    </a>
-    <template if.bind="isExpanded">
-      <div if.bind="value.type">
-        <h4>Type</h4>
-        <p>value.type.name</p>
-      </div>
-      <div if.bind="value.flags && value.flags.isExported">
-      <h4>Exported?</h4>
-        <p>Yes</p>
-      </div>
-    </template>
-  </li>
+  <a href="#" click.delegate="toggleExpand()">
+    ${value.name} - ${value.comment ? value.comment.shortText : ''}
+  </a>
+  <template if.bind="isExpanded">
+    <div if.bind="value.type">
+      <h4>Type</h4>
+      <p>value.type.name</p>
+    </div>
+    <h4>Attributes</h4>
+    <ul>
+      <li if.bind="value.flags && value.flags.isExported">
+        <strong>Exported</strong>
+      </li>
+      <li if.bind="value.flags && value.flags.isStatic">
+        <strong>Static</strong>
+      </li>
+    </ul>
+  </template>
 </template>

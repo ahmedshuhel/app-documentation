@@ -54,11 +54,15 @@
             <h1>Exports</h1>
             <h2>Classes - <small>(${selectedModule.classes.length} ${selectedModule.classes.length === 1 ? 'class' : 'classes'})</small></h2>
             <ul>
-              <au-class repeat.for="child of selectedModule.classes" value.bind="child"></au-class>
+              <li repeat.for="child of selectedModule.classes">
+                <au-class value.bind="child"></au-class>
+              </li>
             </ul>
             <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
-            <ul>
-              <au-method repeat.for="method of selectedModule.methods" value.bind="method"></au-method>
+            <ul class="no-bullet">
+              <li repeat.for="method of selectedModule.methods">
+                <au-method value.bind="method"></au-method>
+              </li>
             </ul>
             <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
             <ul>
@@ -69,8 +73,10 @@
               <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
             </ul>
             <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
-            <ul>
-              <au-variable repeat.for="variable of selectedModule.variables" value.bind="variable"></au-variable>
+            <ul class="no-bullet">
+              <li repeat.for="variable of selectedModule.variables" >
+                <au-variable value.bind="variable"></au-variable>
+              </li>
             </ul>
           </template>
 

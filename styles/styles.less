@@ -27,6 +27,13 @@ a {
   cursor: pointer;
 }
 
+strong {
+  font-weight: bold;
+}
+em {
+  font-style: italic;
+}
+
 // generics
 .strong {
   font-weight: 900;
@@ -228,6 +235,9 @@ a {
 
       li {
         padding-left: 6px;
+      }
+      &.no-bullet {
+        list-style-type:none
       }
     }
   }

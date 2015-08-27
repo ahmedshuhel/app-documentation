@@ -1,45 +1,23 @@
 <template>
-  <li>
+  <div class="${ isExpanded ? 'au-section' : ''}">
     <a href="#" click.delegate="toggleExpand()">
-      ${value.name} - ${value.kindName}
+      ${value.name}
     </a>
     <template if.bind="isExpanded">
-      <article>
-        <h4>Constructor</h4>
+      <article class="au-section">
+        <h3>Constructor</h3>
         <au-constructor value.bind="value.constructorMethod">
         </au-constructor>
-        <h4>Methods</h4>
-        <au-method repeat.for="method of value.methods" value.bind="method"></au-method>
-        <table if.bind="value.children.length > 0">
-          <tr>
-            <th>
-              Name
-            </th>
-            <th>
-              Type
-            </th>
-            <th>
-              Kind
-            </th>
-          </tr>
-          <tr repeat.for="kid of value.children">
-            <th>
-              ${kid.name}
-            </th>
-            <th>
-              <span if.bind="kid.type">
-                ${kid.type.name}
-              </span>
-            </th>
-            <th>
-              ${kid.kindString}
-            </th>
-          </tr>
-        </table>
+        <h3>Methods</h3>
+        <ul class="no-bullet">
+          <li repeat.for="method of value.methods">
+            <au-method value.bind="method"></au-method>
+          </li>
+        </ul>
         <em if.bind="value.children.length === 0">
           No child properties exist.
         </em>
       </article>
     </template>
-  </li>
+  </div>
 </template>

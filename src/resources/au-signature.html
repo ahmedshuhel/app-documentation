@@ -1,19 +1,31 @@
 <template>
   <article>
-    <h4>Returns:</h4>
-    <strong>${value.comment.return || 'nothing'}</strong>
-
-    <h4>Description:</h4>
-    <strong>${value.comment.shortText || 'nothing'}</strong>
-
-    <h4>Parameters</h4>
-    <ul>
-      <li repeat.for="parameter of value.parameters">
-        ${parameter.name} - ${parameter.comment.text}
-      </li>
-      <li if.bind="value.parameters.length === 0">
-        <em>No parameters</em>
-      </li>
-    </ul>
+    <div class="row">
+      <div class="col-xs-2">
+      </div>
+      <div class="col-xs-10">
+        <div class="row">
+          <div class="col-xs-4">
+            <h4>Returns:</h4>
+            <strong>${value.comment.return || 'nothing'}</strong>
+          </div>
+          <div class="col-xs-4">
+            <h4>Parameters</h4>
+            <ul>
+              <li repeat.for="parameter of value.parameters">
+                ${parameter.name} - ${parameter.comment.text}
+              </li>
+              <li if.bind="value.parameters.length === 0">
+                <em>No parameters</em>
+              </li>
+            </ul>
+          </div>
+          <div class="col-xs-4">
+            <h4>Description:</h4>
+            <strong>${value.comment.shortText || 'nothing'}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
