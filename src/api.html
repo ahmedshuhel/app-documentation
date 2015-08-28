@@ -1,11 +1,12 @@
 <template>
-  <section id="APIView" class="au-animate">
+  <require from="resources/details"></require>
+  <section class="au-animate body">
     <ul class="au-menu">
       <li class="${$parent.selectedModule === repository ? 'au-active': ''}" repeat.for="repository of localCache.repositories">
         <a href="#/api/${repository.name}">${repository.prettyName}</a>
       </li>
     </ul>
-    <div>
+    <div class="content">
       <div class="au-section">
 
         <h1 class="au-section-heading">
@@ -34,6 +35,7 @@
 
       <div class="au-section">
         <div class="au-section-body">
+
           <template if.bind="selectedModule.dependencies">
             <h1>Dependencies</h1>
             <ul>
@@ -50,21 +52,31 @@
 
           <template if.bind="selectedModule.classes">
             <h1>Exports</h1>
-            <h2>Classes</h2>
+            <h2>Classes - <small>(${selectedModule.classes.length} ${selectedModule.classes.length === 1 ? 'class' : 'classes'})</small></h2>
             <ul>
-              <li repeat.for="exportClass of selectedModule.classes">${exportClass.name}</li>
+              <li repeat.for="child of selectedModule.classes">
+                <au-class value.bind="child"></au-class>
+              </li>
             </ul>
-            <h1>Methods</h1>
-            <ul>
-              <li repeat.for="method of selectedModule.methods">${method.name}</li>
+            <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
+            <ul class="no-bullet">
+              <li repeat.for="method of selectedModule.methods">
+                <au-method value.bind="method"></au-method>
+              </li>
             </ul>
-            <h1>Properties</h1>
+            <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
             <ul>
-              <li repeat.for="prop of selectedModule.properties">${prop.name}</li>
+              <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
             </ul>
-            <h1>Events</h1>
+            <h1>Events - <small>(${selectedModule.events.length} ${selectedModule.events.length === 1 ? 'event' : 'events'})</small></h1>
             <ul>
-              <li repeat.for="event of selectedModule.events">${event.name}</li>
+              <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
+            </ul>
+            <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
+            <ul class="no-bullet">
+              <li repeat.for="variable of selectedModule.variables" >
+                <au-variable value.bind="variable"></au-variable>
+              </li>
             </ul>
           </template>
 
@@ -74,6 +86,7 @@
               <a href="#"><li repeat.for="article of selectedModule.articles">${article}</li></a>
             </ul>
           </template>
+
         </div>
     </div>
   </section>

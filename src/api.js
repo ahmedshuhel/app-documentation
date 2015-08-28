@@ -4,20 +4,22 @@ import {RawGitService} from 'services/raw-git';
 
 @inject(LocalCache, RawGitService)
 export class Api{
+  selectedModule;
   constructor(localCache, gitService){
     this.localCache = localCache;
     this.gitService = gitService;
   }
-  selectedModule;
   activate(params){
     let repoMatch = this.localCache.repositories.find(repo => {
       return repo.name === params.module;
     });
-    if (repoMatch) {
+    if (repoMatch && !repoMatch.isLoaded) {
       this.gitService.getRepositoryInfo(repoMatch).then(resp => {
         this.selectedModule = resp;
-      }); 
-    } 
-    // else error out?
+        repoMatch.isLoaded = true;
+      });
+    } else if (repoMatch) {
+    	this.selectedModule = repoMatch;
+    }
   }
 }

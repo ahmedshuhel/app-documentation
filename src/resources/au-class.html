@@ -1,0 +1,23 @@
+<template>
+  <div class="${ isExpanded ? 'au-section' : ''}">
+    <a href="#" click.delegate="toggleExpand()">
+      ${value.name}
+    </a>
+    <template if.bind="isExpanded">
+      <article class="au-section">
+        <h3>Constructor</h3>
+        <au-constructor value.bind="value.constructorMethod">
+        </au-constructor>
+        <h3>Methods</h3>
+        <ul class="no-bullet">
+          <li repeat.for="method of value.methods">
+            <au-method value.bind="method"></au-method>
+          </li>
+        </ul>
+        <em if.bind="value.children.length === 0">
+          No child properties exist.
+        </em>
+      </article>
+    </template>
+  </div>
+</template>

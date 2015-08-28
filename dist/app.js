@@ -1,58 +1,71 @@
-System.register([], function (_export) {
-    'use strict';
+System.register(['aurelia-framework', 'services/raw-git'], function (_export) {
+  'use strict';
 
-    var App;
+  var inject, RawGitService, App;
 
-    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    return {
-        setters: [],
-        execute: function () {
-            App = (function () {
-                function App() {
-                    _classCallCheck(this, App);
-                }
+  return {
+    setters: [function (_aureliaFramework) {
+      inject = _aureliaFramework.inject;
+    }, function (_servicesRawGit) {
+      RawGitService = _servicesRawGit.RawGitService;
+    }],
+    execute: function () {
+      App = (function () {
+        function App(gitService) {
+          _classCallCheck(this, _App);
 
-                _createClass(App, [{
-                    key: 'configureRouter',
-                    value: function configureRouter(config, router) {
-                        config.title = 'Aurelia';
-                        config.map([{
-                            route: ['', '/api', '/api/:module'],
-                            moduleId: './api',
-                            title: 'API',
-                            href: '#/api'
-                        }, {
-                            route: ['/tutorial', '/tutorial/:module'],
-                            moduleId: './tutorial',
-                            title: 'Tutorial',
-                            href: '#/tutorial'
-                        }]);
-
-                        this.router = router;
-                    }
-                }, {
-                    key: 'currentRoute',
-                    get: function get() {
-                        var route = null;
-                        if (this.router.currentInstruction) {
-                            route = this.router.currentInstruction.fragment;
-                        }
-                        if (/^\/tutorial/.test(route)) {
-                            return 'tutorial';
-                        } else {
-                            return 'api';
-                        }
-                    }
-                }]);
-
-                return App;
-            })();
-
-            _export('App', App);
+          this.gitService = gitService;
         }
-    };
+
+        _createClass(App, [{
+          key: 'configureRouter',
+          value: function configureRouter(config, router) {
+            config.title = 'Aurelia';
+            config.map([{
+              route: ['', '/api', '/api/:module', '/api/:module/:version'],
+              moduleId: './api',
+              title: 'API',
+              href: '#/api'
+            }, {
+              route: ['/tutorial', '/tutorial/:module'],
+              moduleId: './tutorial',
+              title: 'Tutorial',
+              href: '#/tutorial'
+            }]);
+
+            this.router = router;
+          }
+        }, {
+          key: 'activate',
+          value: function activate() {
+            return Promise.all([this.gitService.getOfficialRepos(), this.gitService.getPluginRepos()]);
+          }
+        }, {
+          key: 'currentRoute',
+          get: function get() {
+            var route = null;
+            if (this.router.currentInstruction) {
+              route = this.router.currentInstruction.fragment;
+            }
+            if (/^\/tutorial/.test(route)) {
+              return 'tutorial';
+            } else {
+              return 'api';
+            }
+          }
+        }]);
+
+        var _App = App;
+        App = inject(RawGitService)(App) || App;
+        return App;
+      })();
+
+      _export('App', App);
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7UUFBYSxHQUFHOzs7Ozs7Ozs7QUFBSCxlQUFHO3lCQUFILEdBQUc7MENBQUgsR0FBRzs7OzZCQUFILEdBQUc7OzJCQUVHLHlCQUFDLE1BQU0sRUFBRSxNQUFNLEVBQUM7QUFDM0IsOEJBQU0sQ0FBQyxLQUFLLEdBQUcsU0FBUyxDQUFDO0FBQ3pCLDhCQUFNLENBQUMsR0FBRyxDQUFDLENBQUM7QUFDUixpQ0FBSyxFQUFFLENBQUMsRUFBRSxFQUFFLE1BQU0sRUFBRSxjQUFjLENBQUM7QUFDbkMsb0NBQVEsRUFBRSxPQUFPO0FBQ2pCLGlDQUFLLEVBQUUsS0FBSztBQUNaLGdDQUFJLEVBQUUsT0FBTzt5QkFDaEIsRUFBQztBQUNFLGlDQUFLLEVBQUUsQ0FBQyxXQUFXLEVBQUUsbUJBQW1CLENBQUM7QUFDekMsb0NBQVEsRUFBRSxZQUFZO0FBQ3RCLGlDQUFLLEVBQUUsVUFBVTtBQUNqQixnQ0FBSSxFQUFFLFlBQVk7eUJBQ3JCLENBQUMsQ0FBQyxDQUFDOztBQUVKLDRCQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztxQkFDeEI7Ozt5QkFFZSxlQUFHO0FBQ2YsNEJBQUksS0FBSyxHQUFHLElBQUksQ0FBQTtBQUNoQiw0QkFBSSxJQUFJLENBQUMsTUFBTSxDQUFDLGtCQUFrQixFQUFFO0FBQ2hDLGlDQUFLLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxrQkFBa0IsQ0FBQyxRQUFRLENBQUM7eUJBQ25EO0FBQ0QsNEJBQUksYUFBYSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsRUFBRTtBQUMzQixtQ0FBTyxVQUFVLENBQUM7eUJBQ3JCLE1BQU07QUFDSCxtQ0FBTyxLQUFLLENBQUM7eUJBQ2hCO3FCQUNKOzs7dUJBN0JRLEdBQUc7OzsyQkFBSCxHQUFHIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjbGFzcyBBcHAge1xyXG4gIFxyXG4gICAgY29uZmlndXJlUm91dGVyKGNvbmZpZywgcm91dGVyKXtcclxuICAgICAgICBjb25maWcudGl0bGUgPSAnQXVyZWxpYSc7XHJcbiAgICAgICAgY29uZmlnLm1hcChbeyBcclxuICAgICAgICAgICAgcm91dGU6IFsnJywgJy9hcGknLCAnL2FwaS86bW9kdWxlJ10sIFxyXG4gICAgICAgICAgICBtb2R1bGVJZDogJy4vYXBpJyxcclxuICAgICAgICAgICAgdGl0bGU6ICdBUEknLFxyXG4gICAgICAgICAgICBocmVmOiAnIy9hcGknXHJcbiAgICAgICAgfSx7IFxyXG4gICAgICAgICAgICByb3V0ZTogWycvdHV0b3JpYWwnLCAnL3R1dG9yaWFsLzptb2R1bGUnXSwgXHJcbiAgICAgICAgICAgIG1vZHVsZUlkOiAnLi90dXRvcmlhbCcsXHJcbiAgICAgICAgICAgIHRpdGxlOiAnVHV0b3JpYWwnLFxyXG4gICAgICAgICAgICBocmVmOiAnIy90dXRvcmlhbCdcclxuICAgICAgICB9XSk7XHJcblxyXG4gICAgICAgIHRoaXMucm91dGVyID0gcm91dGVyO1xyXG4gICAgfVxyXG5cclxuICAgIGdldCBjdXJyZW50Um91dGUoKSB7XHJcbiAgICAgICAgdmFyIHJvdXRlID0gbnVsbFxyXG4gICAgICAgIGlmICh0aGlzLnJvdXRlci5jdXJyZW50SW5zdHJ1Y3Rpb24pIHtcclxuICAgICAgICAgICAgcm91dGUgPSB0aGlzLnJvdXRlci5jdXJyZW50SW5zdHJ1Y3Rpb24uZnJhZ21lbnQ7XHJcbiAgICAgICAgfVxyXG4gICAgICAgIGlmICgvXlxcL3R1dG9yaWFsLy50ZXN0KHJvdXRlKSkge1xyXG4gICAgICAgICAgICByZXR1cm4gJ3R1dG9yaWFsJztcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICByZXR1cm4gJ2FwaSc7XHJcbiAgICAgICAgfVxyXG4gICAgfVxyXG59Il0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7NkJBSWEsR0FBRzs7Ozs7Ozs7aUNBSlIsTUFBTTs7c0NBQ04sYUFBYTs7O0FBR1IsU0FBRztBQUNILGlCQURBLEdBQUcsQ0FDRixVQUFVLEVBQUM7OztBQUNyQixjQUFJLENBQUMsVUFBVSxHQUFHLFVBQVUsQ0FBQztTQUM5Qjs7cUJBSFUsR0FBRzs7aUJBSUMseUJBQUMsTUFBTSxFQUFFLE1BQU0sRUFBQztBQUM3QixrQkFBTSxDQUFDLEtBQUssR0FBRyxTQUFTLENBQUM7QUFDekIsa0JBQU0sQ0FBQyxHQUFHLENBQUMsQ0FBQztBQUNWLG1CQUFLLEVBQUUsQ0FBQyxFQUFFLEVBQUUsTUFBTSxFQUFFLGNBQWMsRUFBRSx1QkFBdUIsQ0FBQztBQUM1RCxzQkFBUSxFQUFFLE9BQU87QUFDakIsbUJBQUssRUFBRSxLQUFLO0FBQ1osa0JBQUksRUFBRSxPQUFPO2FBQ2QsRUFBQztBQUNBLG1CQUFLLEVBQUUsQ0FBQyxXQUFXLEVBQUUsbUJBQW1CLENBQUM7QUFDekMsc0JBQVEsRUFBRSxZQUFZO0FBQ3RCLG1CQUFLLEVBQUUsVUFBVTtBQUNqQixrQkFBSSxFQUFFLFlBQVk7YUFDbkIsQ0FBQyxDQUFDLENBQUM7O0FBRUosZ0JBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO1dBQ3RCOzs7aUJBQ08sb0JBQUU7QUFDUixtQkFBTyxPQUFPLENBQUMsR0FBRyxDQUFDLENBQ2pCLElBQUksQ0FBQyxVQUFVLENBQUMsZ0JBQWdCLEVBQUUsRUFDbEMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxjQUFjLEVBQUUsQ0FDakMsQ0FBQyxDQUFDO1dBQ0o7OztlQUVlLGVBQUc7QUFDakIsZ0JBQUksS0FBSyxHQUFHLElBQUksQ0FBQTtBQUNoQixnQkFBSSxJQUFJLENBQUMsTUFBTSxDQUFDLGtCQUFrQixFQUFFO0FBQ2xDLG1CQUFLLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxrQkFBa0IsQ0FBQyxRQUFRLENBQUM7YUFDakQ7QUFDRCxnQkFBSSxhQUFhLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxFQUFFO0FBQzdCLHFCQUFPLFVBQVUsQ0FBQzthQUNuQixNQUFNO0FBQ0wscUJBQU8sS0FBSyxDQUFDO2FBQ2Q7V0FDRjs7O21CQXJDVSxHQUFHO0FBQUgsV0FBRyxHQURmLE1BQU0sQ0FBQyxhQUFhLENBQUMsQ0FDVCxHQUFHLEtBQUgsR0FBRztlQUFILEdBQUc7OztxQkFBSCxHQUFHIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7aW5qZWN0fSBmcm9tICdhdXJlbGlhLWZyYW1ld29yayc7XG5pbXBvcnQge1Jhd0dpdFNlcnZpY2V9IGZyb20gJ3NlcnZpY2VzL3Jhdy1naXQnO1xuXG5AaW5qZWN0KFJhd0dpdFNlcnZpY2UpXG5leHBvcnQgY2xhc3MgQXBwIHtcbiAgY29uc3RydWN0b3IoZ2l0U2VydmljZSl7XG4gICAgdGhpcy5naXRTZXJ2aWNlID0gZ2l0U2VydmljZTtcbiAgfVxuICBjb25maWd1cmVSb3V0ZXIoY29uZmlnLCByb3V0ZXIpe1xuICAgIGNvbmZpZy50aXRsZSA9ICdBdXJlbGlhJztcbiAgICBjb25maWcubWFwKFt7XG4gICAgICByb3V0ZTogWycnLCAnL2FwaScsICcvYXBpLzptb2R1bGUnLCAnL2FwaS86bW9kdWxlLzp2ZXJzaW9uJ10sXG4gICAgICBtb2R1bGVJZDogJy4vYXBpJyxcbiAgICAgIHRpdGxlOiAnQVBJJyxcbiAgICAgIGhyZWY6ICcjL2FwaSdcbiAgICB9LHtcbiAgICAgIHJvdXRlOiBbJy90dXRvcmlhbCcsICcvdHV0b3JpYWwvOm1vZHVsZSddLFxuICAgICAgbW9kdWxlSWQ6ICcuL3R1dG9yaWFsJyxcbiAgICAgIHRpdGxlOiAnVHV0b3JpYWwnLFxuICAgICAgaHJlZjogJyMvdHV0b3JpYWwnXG4gICAgfV0pO1xuXG4gICAgdGhpcy5yb3V0ZXIgPSByb3V0ZXI7XG4gIH1cbiAgYWN0aXZhdGUoKXtcbiAgICByZXR1cm4gUHJvbWlzZS5hbGwoW1xuICAgICAgdGhpcy5naXRTZXJ2aWNlLmdldE9mZmljaWFsUmVwb3MoKSxcbiAgICAgIHRoaXMuZ2l0U2VydmljZS5nZXRQbHVnaW5SZXBvcygpXG4gICAgXSk7XG4gIH1cblxuICBnZXQgY3VycmVudFJvdXRlKCkge1xuICAgIGxldCByb3V0ZSA9IG51bGxcbiAgICBpZiAodGhpcy5yb3V0ZXIuY3VycmVudEluc3RydWN0aW9uKSB7XG4gICAgICByb3V0ZSA9IHRoaXMucm91dGVyLmN1cnJlbnRJbnN0cnVjdGlvbi5mcmFnbWVudDtcbiAgICB9XG4gICAgaWYgKC9eXFwvdHV0b3JpYWwvLnRlc3Qocm91dGUpKSB7XG4gICAgICByZXR1cm4gJ3R1dG9yaWFsJztcbiAgICB9IGVsc2Uge1xuICAgICAgcmV0dXJuICdhcGknO1xuICAgIH1cbiAgfVxufSJdLCJzb3VyY2VSb290IjoiL3NvdXJjZS8ifQ==

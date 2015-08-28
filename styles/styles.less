@@ -1,4 +1,4 @@
-// variables 
+// variables
 // @pink-text
 // @purple-text
 // @grey-text
@@ -21,17 +21,24 @@ a {
   color: inherit;
   text-decoration: none;
 }
-button, 
+button,
 select,
 a {
   cursor: pointer;
+}
+
+strong {
+  font-weight: bold;
+}
+em {
+  font-style: italic;
 }
 
 // generics
 .strong {
   font-weight: 900;
 }
-.text-sm { 
+.text-sm {
   font-size: 14px;
   color: rgb(128,128,128);
 }
@@ -91,7 +98,7 @@ a {
 }
 .au-navbar-logo {
   .pull-left;
-  margin: 16px;  
+  margin: 16px;
 
   img {
     border-right: 1px solid #ccc;
@@ -106,6 +113,15 @@ a {
     vertical-align: 10px;
   }
 }
+.body {
+  > .content {
+    overflow: auto;
+  }
+  > .au-menu {
+    overflow: auto;
+  }
+}
+
 .au-menu {
   width: 298px;
   background: rgb(236,236,236);
@@ -114,7 +130,7 @@ a {
   top: 83px;
   bottom: 0;
 
-  li {  
+  li {
     height: 48px;
     line-height: 48px;
     color: #92278f;
@@ -182,7 +198,7 @@ a {
     border-radius: 6px;
     background: white;
     padding: 32px;
-    
+
     h1 {
       font-size: 18px;
       font-weight: 900;
@@ -220,10 +236,13 @@ a {
       li {
         padding-left: 6px;
       }
+      &.no-bullet {
+        list-style-type:none
+      }
     }
   }
 
-  .au-button {  
+  .au-button {
     color: #7d519e;
     background: white;
     border: 1px solid #7d519e;
@@ -232,7 +251,7 @@ a {
     font-size: 12px;
     margin: 0 2px;
   }
-  .au-button:hover { 
+  .au-button:hover {
     background: #7d519e;
     color: white;
   }
@@ -281,7 +300,7 @@ a {
   font-size: 14px;
 }
 .au-icon-button {
-  color: #70519e;  
+  color: #70519e;
   font-size: 28px;
   font-weight: 300;
   margin: 30px;

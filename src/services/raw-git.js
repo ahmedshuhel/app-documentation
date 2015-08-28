@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
-import {Repository, Plugin} from 'models/index';
+import {RepositoryModel, PluginModel, ChildModel, GroupModel, ClassModel, ConstructorModel, MethodModel, InterfaceModel, PropertyModel, VariableModel, SignatureModel} from 'models/index';
 import {LocalCache} from 'services/local-cache';
 
 const cacheBuster = 'v123';
@@ -15,12 +15,12 @@ export class RawGitService {
     this.localCache = localCache;
     this.repoHttp = new HttpClient().configure(x=> {
       x.withReviver((k,v) => {
-        return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ? new Repository(v) : v;
+        return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ?  new RepositoryModel(v) : v;
       });
     });
     this.pluginHttp = new HttpClient().configure(x=> {
       x.withReviver((k,v) => {
-        return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ? new Plugin(v) : v;
+        return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ? new PluginModel(v) : v;
       });
     });
   }
@@ -42,19 +42,71 @@ export class RawGitService {
     this.http = new HttpClient();
     return this.http.get(rawgitUrl + repo.name + docName).then(response => {
       repo.description = response.content.description;
-      response.content.classes.forEach(klass => {
-        repo.classes.push(klass);
-      });
-      response.content.methods.forEach(method => {
-        repo.methods.push(method);
-      });
-      response.content.properties.forEach(property => {
-        repo.properties.push(property);
-      });
-      response.content.events.forEach(event => {
-        repo.events.push(event);
-      });
+      Object.assign(repo, response.content);
+      checkForChildren(repo, this.localCache);
+      this.localCache.checkAddKind(repo);
+      checkForGroups(repo, this.localCache);
       return repo;
     });
   }
+}
+
+function checkForChildren (obj, localcache) {
+  if (obj.children) {
+    obj.children.forEach(child => {
+      let newChild = castObjectAsType(child, obj);
+      localcache.checkAddObjectReference(newChild);
+      checkForChildren(newChild, localcache);
+    });
+  }
+}
+
+function checkForGroups (obj, localcache) {
+  if (obj && obj.groups) {
+    obj.groups.forEach(group => {
+      let kindName = localcache.getKindName(group.kind);
+      group.kindName = kindName;
+      obj.groups.push(new GroupModel(group));
+      localcache.checkAddObjectReference(group);
+      checkForGroups(group, localcache);
+    });
+  }
+}
+
+function castObjectAsType (obj, parent) {
+  let type = obj.kindString;
+  let thisObject;
+  switch (type) {
+    case 'Class':
+      thisObject = new ClassModel(obj);
+      parent.classes.push(thisObject);
+      break;
+    case 'Constructor':
+      thisObject = new ConstructorModel(obj);
+      thisObject.signature = new SignatureModel(thisObject.signatures[0])
+      parent.constructorMethod = thisObject;
+      break;
+    case 'Method':
+      thisObject = new MethodModel(obj);
+      thisObject.signature = new SignatureModel(thisObject.signatures[0])
+      parent.methods.push(thisObject);
+      break;
+    case 'Interface':
+      thisObject = new InterfaceModel(obj);
+      parent.interface = thisObject;
+      break;
+    case 'Property':
+      thisObject = new PropertyModel(obj);
+      parent.properties.push(thisObject);
+      break;
+    case 'Variable':
+      thisObject = new VariableModel(obj);
+      parent.variables.push(thisObject);
+      break;
+    case 'Signature':
+      thisObject = new SignatureModel(obj);
+      parent.signature.push(thisObject);
+      break;
+  };
+  return thisObject;
 }
