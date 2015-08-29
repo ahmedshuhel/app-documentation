@@ -7,7 +7,7 @@ const cacheBuster = 'v123';
 const coreUrl = 'https://rawgit.com/aurelia/registry/master/core-registry.json';
 const pluginUrl = 'https://rawgit.com/aurelia/registry/master/plugin-registry.json';
 const docName = '/master/doc/api.json';
-const rawgitUrl = 'https://rawgit.com/aurelia/'
+const rawgitUrl = 'https://rawgit.com/aurelia/';
 
 @inject(LocalCache)
 export class RawGitService {
@@ -48,6 +48,20 @@ export class RawGitService {
       checkForGroups(repo, this.localCache);
       return repo;
     });
+  }
+  getPackageJson(repo) {
+    return this.http.get(rawgitUrl + repo.name + '/master/package.json').then(response => {
+      repo.packageJson = response.content;
+    });
+  }
+  getChangeLog(repo) {
+    return this.http.createRequest(rawgitUrl + repo.name + '/master/doc/CHANGELOG.md')
+      .asGet()
+      .withResponseType('text/markdown')
+      .send().then(response => {
+        console.log(response.content);
+        repo.changeLog = response.content;
+      });
   }
 }
 

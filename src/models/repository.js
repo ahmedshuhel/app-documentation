@@ -1,5 +1,3 @@
-import {factory} from 'aurelia-dependency-injection';
-
 export class RepositoryModel {
   id = -1;
   name = '';
@@ -14,6 +12,12 @@ export class RepositoryModel {
   events = [];
   methods = [];
   groups = [];
+  keywords = [];
+  usedBy = [];
+  bugsUrl = '';
+  repositoryUrl = '';
+  changeLog = {};
+  versions = [];
   constructor(data){
     Object.assign(this, data);
     this.prettyName = prettyName(this.name);
@@ -26,7 +30,6 @@ function prettyName(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-@factory('LocalCache')
 
 export class ChildModel {
   id = -1;
@@ -59,6 +62,7 @@ export class GroupModel {
 }
 
 export class ClassModel {
+  comment = {};
   methods = [];
   groups = [];
   flags = {};
@@ -66,7 +70,6 @@ export class ClassModel {
   constructor(data){
     Object.assign(this, data);
     this.kindName = this.kindString;
-    console.log(this)
   }
 }
 

@@ -5,18 +5,29 @@
     </a>
     <template if.bind="isExpanded">
       <article class="au-section">
-        <h3>Constructor</h3>
-        <au-constructor value.bind="value.constructorMethod">
-        </au-constructor>
-        <h3>Methods</h3>
-        <ul class="no-bullet">
-          <li repeat.for="method of value.methods">
-            <au-method value.bind="method"></au-method>
-          </li>
-        </ul>
-        <em if.bind="value.children.length === 0">
-          No child properties exist.
-        </em>
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Description</h3>
+            <strong>${value.comment.shortText || '(no description provided)'}</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Constructor</h3>
+            <au-constructor value.bind="value.constructorMethod">
+            </au-constructor>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Methods</h3>
+            <ul class="no-bullet">
+              <li repeat.for="method of value.methods">
+                <au-method value.bind="method"></au-method>
+              </li>
+            </ul>
+          </div>
+        </div>
       </article>
     </template>
   </div>

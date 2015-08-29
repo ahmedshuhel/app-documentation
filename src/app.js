@@ -1,10 +1,10 @@
 import {inject} from 'aurelia-framework';
-import {RawGitService} from 'services/raw-git';
+import {RepositoryService} from 'services/repository';
 
-@inject(RawGitService)
+@inject(RepositoryService)
 export class App {
-  constructor(gitService){
-    this.gitService = gitService;
+  constructor(repositoryService){
+    this.repositoryService = repositoryService;
   }
   configureRouter(config, router){
     config.title = 'Aurelia';
@@ -24,8 +24,8 @@ export class App {
   }
   activate(){
     return Promise.all([
-      this.gitService.getOfficialRepos(),
-      this.gitService.getPluginRepos()
+      this.repositoryService.getOfficialRepos(),
+      this.repositoryService.getPluginRepos()
     ]);
   }
 

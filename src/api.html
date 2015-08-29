@@ -6,11 +6,19 @@
         <a href="#/api/${repository.name}">${repository.prettyName}</a>
       </li>
     </ul>
-    <div class="content">
+    <div class="content" if.bind="!selectedModule">
+      <h1>Please select a repository to view the API</h1>
+    </div>
+    <div class="content" if.bind="selectedModule">
       <div class="au-section">
 
         <h1 class="au-section-heading">
           <span>${selectedModule.prettyName}</span>
+          <div class="pull-right">
+            <select class="au-select">
+              <option repeat.for="version of selectedModule.versions">${version}</option>
+            </select>
+          </div>
           <div class="pull-right">
             <span class="au-tag" if.bind="selectedModule.version">Version: ${selectedModule.version}</span>
           </div>
@@ -26,9 +34,9 @@
 
           <div class="spaced">
             <a class="au-button" href="https://github.com/${selectedModule.location}/blob/master/doc/CHANGELOG.md" target="_blank">Changes</a>
-            <a class="au-button" href="https://github.com/${selectedModule.location}/issues" target="_blank">Issues</a>
+            <a class="au-button" href.bind="bugsUrl" target="_blank">Issues</a>
             <a class="au-button" href="https://github.com/${selectedModule.location}/blob/master/LICENSE" target="_blank">License</a>
-            <a class="au-button" href="https://github.com/${selectedModule.location}" target="_blank">Repository</a>
+            <a class="au-button" href.bind="repositoryUrl" target="_blank">Repository</a>
           </div>
         </div>
       </div>
@@ -58,26 +66,37 @@
                 <au-class value.bind="child"></au-class>
               </li>
             </ul>
-            <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
-            <ul class="no-bullet">
-              <li repeat.for="method of selectedModule.methods">
-                <au-method value.bind="method"></au-method>
-              </li>
-            </ul>
-            <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
-            <ul>
-              <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
-            </ul>
-            <h1>Events - <small>(${selectedModule.events.length} ${selectedModule.events.length === 1 ? 'event' : 'events'})</small></h1>
-            <ul>
-              <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
-            </ul>
-            <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
-            <ul class="no-bullet">
-              <li repeat.for="variable of selectedModule.variables" >
-                <au-variable value.bind="variable"></au-variable>
-              </li>
-            </ul>
+            <template if.bind="selectedModule.methods.length > 0">
+              <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
+              <ul class="no-bullet">
+                <li repeat.for="method of selectedModule.methods">
+                  <au-method value.bind="method"></au-method>
+                </li>
+              </ul>
+            </template>
+
+            <template if.bind="selectedModule.properties.length > 0">
+              <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
+              <ul>
+                <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
+              </ul>
+            </template>
+
+            <template if.bind="selectedModule.events.length > 0">
+              <h1>Events - <small>(${selectedModule.events.length} ${selectedModule.events.length === 1 ? 'event' : 'events'})</small></h1>
+              <ul>
+                <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
+              </ul>
+            </template>
+
+            <template if.bind="selectedModule.variables.length > 0">
+              <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
+              <ul class="no-bullet">
+                <li repeat.for="variable of selectedModule.variables" >
+                  <au-variable value.bind="variable"></au-variable>
+                </li>
+              </ul>
+            </template>
           </template>
 
           <template if.bind="selectedModule.articles">
