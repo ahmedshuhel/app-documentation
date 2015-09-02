@@ -8,6 +8,7 @@ export function configure(aurelia) {
     './au-method',
     './au-property',
     './au-signature',
-    './au-variable'
+    './au-variable',
+    './au-function'
   );
 }

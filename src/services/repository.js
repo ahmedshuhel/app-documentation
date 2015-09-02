@@ -25,7 +25,7 @@ export class RepositoryService {
       return this.npmService.parsePackageJson(repo);
     }).then(() => {
       return this.changeLogService.parseChangeLog(repo);
-    })
+    });
   }
   getPackageJson(repo) {
     return this.npmService.getPackageJson(repo);

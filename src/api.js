@@ -3,13 +3,13 @@ import {LocalCache} from 'services/local-cache';
 import {RepositoryService} from 'services/repository';
 
 @inject(LocalCache, RepositoryService)
-export class Api{
+export class Api {
   selectedModule;
-  constructor(localCache, repositoryService){
+  constructor(localCache, repositoryService) {
     this.localCache = localCache;
     this.repositoryService = repositoryService;
   }
-  activate(params){
+  activate(params) {
     let repoMatch = this.localCache.repositories.find(repo => {
       return repo.name === params.module;
     });
@@ -19,7 +19,7 @@ export class Api{
         repoMatch.isLoaded = true;
       });
     } else if (repoMatch) {
-    	this.selectedModule = repoMatch;
+      this.selectedModule = repoMatch;
     }
   }
 }

@@ -3,7 +3,7 @@ import {inject} from 'aurelia-framework';
 
 @inject(HttpClient)
 export class NpmService {
-  constructor(http){
+  constructor(http) {
     this.http = http;
   }
   parsePackageJson(repo) {

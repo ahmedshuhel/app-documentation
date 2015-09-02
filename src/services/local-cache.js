@@ -3,7 +3,7 @@ export class LocalCache {
   plugins = [];
   kinds = [];
   allObjects = [];
-  checkAddKind(data){
+  checkAddKind(data) {
     let match = this.kinds.filter(kind => {
       return kind.id === data.kind;
     })[0];
@@ -16,7 +16,7 @@ export class LocalCache {
       });
     }
   }
-  checkAddObjectReference(ref){
+  checkAddObjectReference(ref) {
     let match = this.allObjects.filter(obj => {
       return obj.id === ref.id;
     })[0];
@@ -24,7 +24,7 @@ export class LocalCache {
       this.allObjects.push(new ObjectReference(ref.id, ref.name));
     }
   }
-  getKindName(kindId){
+  getKindName(kindId) {
     let match = this.kinds.filter(kind => {
       return kind.id === kindId;
     })[0];
@@ -35,7 +35,7 @@ export class LocalCache {
 class Kind {
   id = -1;
   name = '';
-  constructor(id, name){
+  constructor(id, name) {
     this.id = id;
     this.name = name;
   }
@@ -44,7 +44,7 @@ class Kind {
 class ObjectReference {
   id = -1;
   name = '';
-  constructor(id, name){
+  constructor(id, name) {
     this.id = id;
     this.name = name;
   }

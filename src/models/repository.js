@@ -11,22 +11,26 @@ export class RepositoryModel {
   variables = [];
   events = [];
   methods = [];
+  functions = [];
   groups = [];
   keywords = [];
   usedBy = [];
   bugsUrl = '';
   repositoryUrl = '';
   changeLog = {};
-  versions = [];
-  constructor(data){
+  majorVersions = [];
+  minorVersions = [];
+  constructor(data) {
     Object.assign(this, data);
     this.prettyName = prettyName(this.name);
   }
 }
 
 function prettyName(s) {
-  s =  s.replace(/(\-\w)/g, function(m){return m[1].toUpperCase();});
-  s = s.replace(/([a-z])([A-Z])/g, '$1 $2')
+  s =  s.replace(/(\-\w)/g, function(m) {
+    return m[1].toUpperCase();
+  });
+  s = s.replace(/([a-z])([A-Z])/g, '$1 $2');
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -42,11 +46,11 @@ export class ChildModel {
   classes = [];
   groups = [];
   flags = {};
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
     this.prettyName = prettyName(this.name);
-  };
+  }
 }
 
 export class GroupModel {
@@ -55,10 +59,10 @@ export class GroupModel {
   kindName = '';
   title = '';
   children = [];
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindName;
-  };
+  }
 }
 
 export class ClassModel {
@@ -66,8 +70,9 @@ export class ClassModel {
   methods = [];
   groups = [];
   flags = {};
+  properties = [];
   constructorMethod = {};
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
@@ -75,7 +80,7 @@ export class ClassModel {
 
 export class MethodModel {
   signature = {};
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
@@ -83,7 +88,7 @@ export class MethodModel {
 
 export class ConstructorModel {
   signature = {};
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
@@ -94,14 +99,14 @@ export class InterfaceModel {
   properties = [];
   variables = [];
   methods = [];
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
 }
 
 export class PropertyModel {
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
@@ -109,14 +114,21 @@ export class PropertyModel {
 
 export class SignatureModel {
   comment = {};
-  constructor(data){
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }
 }
 
 export class VariableModel {
-  constructor(data){
+  constructor(data) {
+    Object.assign(this, data);
+    this.kindName = this.kindString;
+  }
+}
+
+export class FunctionModel {
+  constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
   }

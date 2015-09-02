@@ -5,5 +5,7 @@ export function configure(aurelia) {
     .plugin('aurelia-animator-css')
     .feature('resources');
 
-  aurelia.start().then(a => a.setRoot());
+  aurelia.start().then(a => {
+    a.setRoot();
+  });
 }

@@ -16,7 +16,10 @@
           <span>${selectedModule.prettyName}</span>
           <div class="pull-right">
             <select class="au-select">
-              <option repeat.for="version of selectedModule.versions">${version}</option>
+              <option repeat.for="version of selectedModule.majorVersions">${version}</option>
+            </select>
+            <select class="au-select">
+              <option repeat.for="version of selectedModule.minorVersions">${version}</option>
             </select>
           </div>
           <div class="pull-right">
@@ -71,6 +74,15 @@
               <ul class="no-bullet">
                 <li repeat.for="method of selectedModule.methods">
                   <au-method value.bind="method"></au-method>
+                </li>
+              </ul>
+            </template>
+
+            <template if.bind="selectedModule.functions.length > 0">
+              <h1>Functions - <small>(${selectedModule.functions.length} ${selectedModule.functions.length === 1 ? 'function' : 'functions'})</small></h1>
+              <ul class="no-bullet">
+                <li repeat.for="function of selectedModule.functions">
+                  <au-function value.bind="function"></au-function>
                 </li>
               </ul>
             </template>

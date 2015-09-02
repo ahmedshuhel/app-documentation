@@ -4,7 +4,7 @@ import {bindable, containerless} from 'aurelia-framework';
 export class AuChild {
   @bindable value;
   isExpanded = false;
-  toggleExpand(){
+  toggleExpand() {
     this.isExpanded = !this.isExpanded;
   }
 }
