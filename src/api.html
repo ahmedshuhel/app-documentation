@@ -15,11 +15,8 @@
         <h1 class="au-section-heading">
           <span>${selectedModule.prettyName}</span>
           <div class="pull-right">
-            <select class="au-select">
-              <option repeat.for="version of selectedModule.majorVersions">${version}</option>
-            </select>
-            <select class="au-select">
-              <option repeat.for="version of selectedModule.minorVersions">${version}</option>
+            <select class="au-select" value.bind="selectedVersion">
+              <option repeat.for="version of selectedModule.myVersions">${version.display}</option>
             </select>
           </div>
           <div class="pull-right">
@@ -63,14 +60,14 @@
 
           <template if.bind="selectedModule.classes">
             <h1>Exports</h1>
-            <h2>Classes - <small>(${selectedModule.classes.length} ${selectedModule.classes.length === 1 ? 'class' : 'classes'})</small></h2>
+            <h2>Classes - <small>(${selectedModule.classes.length})</small></h2>
             <ul>
               <li repeat.for="child of selectedModule.classes">
                 <au-class value.bind="child"></au-class>
               </li>
             </ul>
             <template if.bind="selectedModule.methods.length > 0">
-              <h1>Methods - <small>(${selectedModule.methods.length} ${selectedModule.methods.length === 1 ? 'method' : 'methods'})</small></h1>
+              <h1>Methods - <small>(${selectedModule.methods.length})</small></h1>
               <ul class="no-bullet">
                 <li repeat.for="method of selectedModule.methods">
                   <au-method value.bind="method"></au-method>
@@ -79,7 +76,7 @@
             </template>
 
             <template if.bind="selectedModule.functions.length > 0">
-              <h1>Functions - <small>(${selectedModule.functions.length} ${selectedModule.functions.length === 1 ? 'function' : 'functions'})</small></h1>
+              <h1>Functions - <small>(${selectedModule.functions.length})</small></h1>
               <ul class="no-bullet">
                 <li repeat.for="function of selectedModule.functions">
                   <au-function value.bind="function"></au-function>
@@ -88,21 +85,21 @@
             </template>
 
             <template if.bind="selectedModule.properties.length > 0">
-              <h1>Properties - <small>(${selectedModule.properties.length} ${selectedModule.properties.length === 1 ? 'property' : 'properties'})</small></h1>
+              <h1>Properties - <small>(${selectedModule.properties.length})</small></h1>
               <ul>
                 <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
               </ul>
             </template>
 
             <template if.bind="selectedModule.events.length > 0">
-              <h1>Events - <small>(${selectedModule.events.length} ${selectedModule.events.length === 1 ? 'event' : 'events'})</small></h1>
+              <h1>Events - <small>(${selectedModule.events.length})</small></h1>
               <ul>
                 <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
               </ul>
             </template>
 
             <template if.bind="selectedModule.variables.length > 0">
-              <h1>Variables - <small>(${selectedModule.variables.length} ${selectedModule.variables.length === 1 ? 'variable' : 'variables'})</small></h1>
+              <h1>Variables - <small>(${selectedModule.variables.length})</small></h1>
               <ul class="no-bullet">
                 <li repeat.for="variable of selectedModule.variables" >
                   <au-variable value.bind="variable"></au-variable>

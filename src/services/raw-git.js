@@ -38,9 +38,9 @@ export class RawGitService {
       });
     });
   }
-  getRepositoryInfo(repo) {
+  getRepositoryInfo(repo, version) {
     this.http = new HttpClient();
-    return this.http.get(rawgitUrl + repo.name + docName).then(response => {
+    return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + docName).then(response => {
       repo.description = response.content.description;
       Object.assign(repo, response.content);
       checkForChildren(repo, this.localCache);
@@ -49,13 +49,13 @@ export class RawGitService {
       return repo;
     });
   }
-  getPackageJson(repo) {
-    return this.http.get(rawgitUrl + repo.name + '/master/package.json').then(response => {
+  getPackageJson(repo, version) {
+    return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + '/package.json').then(response => {
       repo.packageJson = response.content;
     });
   }
   getChangeLog(repo) {
-    return this.http.createRequest(rawgitUrl + repo.name + '/master/doc/CHANGELOG.md')
+    return this.http.createRequest(rawgitUrl + stripOutAurelia(repo.location) + '/master/doc/CHANGELOG.md')
       .asGet()
       .withResponseType('text/markdown')
       .send().then(response => {
@@ -128,4 +128,9 @@ function castObjectAsType(obj, parent) {
       // Do nothing
   };
   return thisObject;
+}
+
+// Remove when name is fixed
+function stripOutAurelia(location) {
+  return location.replace('aurelia/', '');
 }

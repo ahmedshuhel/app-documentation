@@ -1,20 +1,28 @@
-import {inject} from 'aurelia-framework';
+import {inject, bindable} from 'aurelia-framework';
 import {LocalCache} from 'services/local-cache';
 import {RepositoryService} from 'services/repository';
 
 @inject(LocalCache, RepositoryService)
 export class Api {
-  selectedModule;
+  @bindable selectedModule;
+  @bindable selectedVersion;
   constructor(localCache, repositoryService) {
     this.localCache = localCache;
     this.repositoryService = repositoryService;
   }
   activate(params) {
+    this.loadRepository(params.module);
+  }
+  selectedVersionChanged(newValue) {
+    this.loadRepository(stripOutAurelia(this.selectedModule.location), true);
+  }
+  loadRepository(repoName, forceReload) {
     let repoMatch = this.localCache.repositories.find(repo => {
-      return repo.name === params.module;
+      return stripOutAurelia(repo.location) === repoName;
     });
-    if (repoMatch && !repoMatch.isLoaded) {
-      this.repositoryService.getRepositoryInfo(repoMatch).then(resp => {
+    if (repoMatch && (!repoMatch.isLoaded || forceReload)) {
+      repoMatch.cleanRepository();
+      this.repositoryService.getRepositoryInfo(repoMatch, this.selectedVersion).then(resp => {
         this.selectedModule = resp;
         repoMatch.isLoaded = true;
       });
@@ -22,4 +30,9 @@ export class Api {
       this.selectedModule = repoMatch;
     }
   }
+}
+
+// Remove when name is fixed
+function stripOutAurelia(location) {
+  return location.replace('aurelia/', '');
 }

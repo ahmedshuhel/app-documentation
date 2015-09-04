@@ -1,11 +1,4 @@
-import {HttpClient} from 'aurelia-http-client';
-import {inject} from 'aurelia-framework';
-
-@inject(HttpClient)
 export class NpmService {
-  constructor(http) {
-    this.http = http;
-  }
   parsePackageJson(repo) {
     let packageJson = repo.packageJson;
     repo.description = packageJson.description;

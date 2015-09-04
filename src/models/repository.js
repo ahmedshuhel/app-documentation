@@ -19,10 +19,23 @@ export class RepositoryModel {
   repositoryUrl = '';
   changeLog = {};
   majorVersions = [];
+  myVersions = [];
   minorVersions = [];
   constructor(data) {
     Object.assign(this, data);
     this.prettyName = prettyName(this.name);
+  }
+  cleanRepository() {
+    this.children.splice(0, this.children.length);
+    this.classes.splice(0, this.classes.length);
+    this.properties.splice(0, this.properties.length);
+    this.variables.splice(0, this.variables.length);
+    this.events.splice(0, this.events.length);
+    this.methods.splice(0, this.methods.length);
+    this.functions.splice(0, this.functions.length);
+    this.groups.splice(0, this.groups.length);
+    this.keywords.splice(0, this.keywords.length);
+    this.usedBy.splice(0, this.usedBy.length);
   }
 }
 
