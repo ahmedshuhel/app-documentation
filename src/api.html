@@ -16,7 +16,7 @@
           <span>${selectedModule.prettyName}</span>
           <div class="pull-right">
             <select class="au-select" value.bind="selectedVersion">
-              <option repeat.for="version of selectedModule.myVersions">${version.display}</option>
+              <option repeat.for="version of selectedModule.myVersions" model.bind="version.version">${version.display}</option>
             </select>
           </div>
           <div class="pull-right">
@@ -29,7 +29,7 @@
 
           <div class="text-sm" if.bind="selectedModule.keywords">
             <span class="strong">Keywords:</span>
-            <span>${selectedModule.keywords.join(',')}</span>
+            <span>${keywords}</span>
           </div>
 
           <div class="spaced">

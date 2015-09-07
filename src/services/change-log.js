@@ -5,7 +5,7 @@ export class ChangeLogService {
     let changeLog = repo.changeLog;
     let tempMinorVersions = [];
     let tempPatchVersions = [];
-    let minorRegex = /(\n|^#|^)## (.*?)\n/g;
+    let minorRegex = /(\n|^)## (.*?)\n/g;
     let minorVersions = changeLog.match(minorRegex);
     minorVersions.forEach(arr => {
       let thisArr = arr.replace(/(\r\n|\n|\r)/gm, '');

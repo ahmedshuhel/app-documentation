@@ -6,7 +6,7 @@ import {LocalCache} from 'services/local-cache';
 const cacheBuster = 'v123';
 const coreUrl = 'https://rawgit.com/aurelia/registry/master/core-registry.json';
 const pluginUrl = 'https://rawgit.com/aurelia/registry/master/plugin-registry.json';
-const docName = '/master/doc/api.json';
+const docName = '/doc/api.json';
 const rawgitUrl = 'https://rawgit.com/aurelia/';
 
 @inject(LocalCache)
@@ -40,7 +40,7 @@ export class RawGitService {
   }
   getRepositoryInfo(repo, version) {
     this.http = new HttpClient();
-    return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + docName).then(response => {
+    return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + docName).then(response => {
       repo.description = response.content.description;
       Object.assign(repo, response.content);
       checkForChildren(repo, this.localCache);
@@ -54,8 +54,8 @@ export class RawGitService {
       repo.packageJson = response.content;
     });
   }
-  getChangeLog(repo) {
-    return this.http.createRequest(rawgitUrl + stripOutAurelia(repo.location) + '/master/doc/CHANGELOG.md')
+  getChangeLog(repo, version) {
+    return this.http.createRequest(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + '/doc/CHANGELOG.md')
       .asGet()
       .withResponseType('text/markdown')
       .send().then(response => {

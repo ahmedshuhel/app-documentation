@@ -11,10 +11,18 @@ export class Api {
     this.repositoryService = repositoryService;
   }
   activate(params) {
+    this.selectedVersion = null;
     this.loadRepository(params.module);
   }
-  selectedVersionChanged(newValue) {
-    this.loadRepository(stripOutAurelia(this.selectedModule.location), true);
+  selectedModuleChanged(newValue) {
+    if (newValue) {
+      this.keywords = newValue.keywords.join(',')
+    }
+  }
+  selectedVersionChanged(newValue, oldValue) {
+    if (oldValue) {
+      this.loadRepository(stripOutAurelia(this.selectedModule.location), true);
+    }
   }
   loadRepository(repoName, forceReload) {
     let repoMatch = this.localCache.repositories.find(repo => {

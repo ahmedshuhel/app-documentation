@@ -19,6 +19,7 @@ export class RepositoryService {
     return this.rawGitService.getPluginRepos();
   }
   getRepositoryInfo(repo, version) {
+    console.log('getting repository information');
     let tag = version || this.gitTagService.getLatestVersion(repo);
     return Promise.all([
       this.rawGitService.getRepositoryInfo(repo, tag),
@@ -27,7 +28,11 @@ export class RepositoryService {
     ]).then(() => {
       return this.npmService.parsePackageJson(repo);
     }).then(() => {
-      return this.changeLogService.parseChangeLog(repo);
+      if (!repo.isLoaded) {
+        return this.changeLogService.parseChangeLog(repo);
+      } else {
+        Promise.resolve(false)
+      }
     });
   }
   getAllRepositoryInfo() {

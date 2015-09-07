@@ -1,5 +1,6 @@
 let versions = {
-  'dependency-injection': '0.9.2'
+  'dependency-injection': '0.10.0',
+  'binding': '0.9.0'
 }
 
 export class GitTagListService {
