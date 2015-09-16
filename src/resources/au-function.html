@@ -1,9 +1,9 @@
 <template>
-  <div class="${ isExpanded ? 'au-section' : ''}">
-    <a href="#" click.delegate="toggleExpand()">
+  <div flex="" ai-layout="" class="${ isExpanded ? 'break-horiz' : ''}">
+    <a flex="100" ai-layout="" href="#" click.delegate="toggleExpand()">
       ${value.name}
     </a>
-    <template if.bind="isExpanded">
+    <template if.bind="isExpanded" flex="100" ai-layout="">
       <article>
         <h4>Signature</h4>
         <au-signature repeat.for="signature of value.signatures" value.bind="signature"></au-signature>

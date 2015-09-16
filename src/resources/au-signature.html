@@ -1,30 +1,26 @@
 <template>
-  <article>
-    <div class="row">
-      <div class="col-xs-2">
+  <article ai-layout="" class="break-horiz">
+    <div flex="5" ai-layout="">
+    </div>
+    <div flex="" ai-layout="">
+      <div flex="100" ai-layout="">
+        <h4 flex="100" ai-layout="">Parameters</h4>
+        <ul flex="100" ai-layout="">
+          <li repeat.for="parameter of value.parameters">
+            ${parameter.name}(${parameter.type ? parameter.type.name : ''})
+          </li>
+          <li if.bind="value.parameters.length === 0">
+            <em>No parameters</em>
+          </li>
+        </ul>
       </div>
-      <div class="col-xs-10">
-        <div class="row">
-          <div class="col-xs-4">
-            <h4>Returns:</h4>
-            <strong>${value.comment.return || 'nothing'}</strong>
-          </div>
-          <div class="col-xs-4">
-            <h4>Parameters</h4>
-            <ul>
-              <li repeat.for="parameter of value.parameters">
-                ${parameter.name} - ${parameter.comment.text}
-              </li>
-              <li if.bind="value.parameters.length === 0">
-                <em>No parameters</em>
-              </li>
-            </ul>
-          </div>
-          <div class="col-xs-4">
-            <h4>Description:</h4>
-            <strong>${value.comment.shortText || 'nothing'}</strong>
-          </div>
-        </div>
+      <div flex="50" ai-layout="">
+        <h4 flex="100" ai-layout="">Returns:</h4>
+        <strong flex="100" ai-layout="">${value.comment.return || 'nothing'}</strong>
+      </div>
+      <div flex="50" ai-layout="">
+        <h4 flex="100" ai-layout="">Description:</h4>
+        <strong flex="100" ai-layout="">${value.comment.shortText || 'nothing'}</strong>
       </div>
     </div>
   </article>

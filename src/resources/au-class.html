@@ -1,31 +1,29 @@
 <template>
-  <div class="${ isExpanded ? 'au-section' : ''}">
+  <div flex="" ai-layout="" class="${ isExpanded ? 'break-horiz' : ''}">
     <a href="#" click.delegate="toggleExpand()">
       ${value.name}
     </a>
     <template if.bind="isExpanded">
-      <article class="au-section">
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Description</h3>
-            <strong>${value.comment.shortText || '(no description provided)'}</strong>
-          </div>
+      <article class="break-horiz">
+        <div ai-layout="" flex="">
+          <h3 flex="100" ai-layout="">Description</h3>
+          <strong flex="100" ai-layout="">${value.comment.shortText || '(no description provided)'}</strong>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Constructor</h3>
-            <au-constructor value.bind="value.constructorMethod">
-            </au-constructor>
-          </div>
+        <div ai-layout="" flex="">
+          <h3 flex="100" ai-layout="">Constructor</h3>
+          <au-constructor  flex="100" ai-layout="" value.bind="value.constructorMethod">
+          </au-constructor>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Methods</h3>
-            <ul class="no-bullet">
-              <li repeat.for="method of value.methods">
-                <au-method value.bind="method"></au-method>
-              </li>
-            </ul>
+        <div ai-layout="" flex="">
+          <div flex="100" ai-layout="">
+            <h3 flex="100" ai-layout="">Methods</h3>
+            <div flex="100" ai-layout="">
+              <ul class="no-bullet">
+                <li repeat.for="method of value.methods">
+                  <au-method value.bind="method"></au-method>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </article>

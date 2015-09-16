@@ -19,7 +19,6 @@ export class RepositoryService {
     return this.rawGitService.getPluginRepos();
   }
   getRepositoryInfo(repo, version) {
-    console.log('getting repository information');
     let tag = version || this.gitTagService.getLatestVersion(repo);
     return Promise.all([
       this.rawGitService.getRepositoryInfo(repo, tag),

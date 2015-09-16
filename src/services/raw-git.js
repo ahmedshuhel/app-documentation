@@ -34,7 +34,7 @@ export class RawGitService {
   getPluginRepos() {
     return this.pluginHttp.get(pluginUrl).then(response => {
       response.content.plugins.forEach(plugin => {
-        this.localCache.plugins.push(plugin);
+        this.localCache.plugins.push(new PluginModel(plugin));
       });
     });
   }

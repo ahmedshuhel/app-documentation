@@ -9,15 +9,18 @@ export class App {
   configureRouter(config, router) {
     config.title = 'Aurelia';
     config.map([{
-      route: ['', '/api', '/api/:module', '/api/:module/:version'],
-      moduleId: './api',
-      title: 'API',
-      href: '#/api'
+      route: ['', '/api'],
+      moduleId: 'api',
+      title: 'API'
     }, {
       route: ['/tutorial', '/tutorial/:module'],
       moduleId: './tutorial',
       title: 'Tutorial',
       href: '#/tutorial'
+    }, {
+      route: '/plugins',
+      moduleId: './plugins',
+      href: '#/plugins'
     }]);
     this.router = router;
   }

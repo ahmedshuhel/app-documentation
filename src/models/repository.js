@@ -24,6 +24,12 @@ export class RepositoryModel {
   constructor(data) {
     Object.assign(this, data);
     this.prettyName = prettyName(this.name);
+    this.cleanUpName();
+  }
+  cleanUpName() {
+    if (this.location && this.location.indexOf('aurelia/') > -1) {
+      this.name = stripOutAurelia(this.location);
+    }
   }
   cleanRepository() {
     this.children.splice(0, this.children.length);
@@ -37,6 +43,10 @@ export class RepositoryModel {
     this.keywords.splice(0, this.keywords.length);
     this.usedBy.splice(0, this.usedBy.length);
   }
+}
+
+function stripOutAurelia(location) {
+  return location.replace('aurelia/', '');
 }
 
 function prettyName(s) {

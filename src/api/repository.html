@@ -1,0 +1,115 @@
+<template>
+  <require from="resources/details"></require>
+  <div class="content" if.bind="selectedModule">
+    <div class="au-section">
+
+      <h1 class="au-section-heading">
+        <span>${selectedModule.prettyName}</span>
+        <div class="pull-right"> <!-- if.bind="selectedVersion" -->
+          <select class="au-select" value.bind="selectedVersion">
+            <option repeat.for="version of selectedModule.myVersions" model.bind="version.version">${version.display}</option>
+          </select>
+        </div>
+        <div class="pull-right">
+          <span class="au-tag" if.bind="selectedModule.version">Version: ${selectedModule.version}</span>
+        </div>
+      </h1>
+
+      <div class="au-section-body">
+        <h3 if.bind="selectedModule.description">${selectedModule.description}</h3>
+
+        <div class="text-sm" if.bind="selectedModule.keywords">
+          <span class="strong">Keywords:</span>
+          <span>${keywords}</span>
+        </div>
+
+        <div class="spaced">
+          <a class="au-button" href="https://github.com/${selectedModule.location}/blob/master/doc/CHANGELOG.md" target="_blank">Changes</a>
+          <a class="au-button" href.bind="bugsUrl" target="_blank">Issues</a>
+          <a class="au-button" href="https://github.com/${selectedModule.location}/blob/master/LICENSE" target="_blank">License</a>
+          <a class="au-button" href.bind="repositoryUrl" target="_blank">Repository</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="au-section">
+      <div class="au-section-body">
+
+        <template if.bind="selectedModule.dependencies">
+          <h1>Dependencies</h1>
+          <ul>
+            <a href="#"><li repeat.for="dependency of selectedModule.dependencies">${dependency}</li></a>
+          </ul>
+        </template>
+
+        <template if.bind="selectedModule.usedby">
+          <h1>Used By</h1>
+          <ul>
+            <a href="#"><li repeat.for="use of selectedModule.usedby">${use}</li></a>
+          </ul>
+        </template>
+
+        <template if.bind="selectedModule.classes">
+          <h1>Exports</h1>
+          <h2>Classes -
+            <small>(${selectedModule.classes.length})</small>
+          </h2>
+          <ul class="no-bullet">
+            <li repeat.for="child of selectedModule.classes">
+              <a href="/#/api/${child.name}">
+                ${child.name}
+              </a>
+            </li>
+          </ul>
+          <template if.bind="selectedModule.methods.length > 0">
+            <h1>Methods - <small>(${selectedModule.methods.length})</small></h1>
+            <ul class="no-bullet">
+              <li repeat.for="method of selectedModule.methods">
+                <au-method value.bind="method"></au-method>
+              </li>
+            </ul>
+          </template>
+
+          <template if.bind="selectedModule.functions.length > 0">
+            <h1>Functions - <small>(${selectedModule.functions.length})</small></h1>
+            <ul class="no-bullet">
+              <li repeat.for="function of selectedModule.functions">
+                <au-function value.bind="function"></au-function>
+              </li>
+            </ul>
+          </template>
+
+          <template if.bind="selectedModule.properties.length > 0">
+            <h1>Properties - <small>(${selectedModule.properties.length})</small></h1>
+            <ul>
+              <au-property repeat.for="prop of selectedModule.properties" value.bind="prop"></au-property>
+            </ul>
+          </template>
+
+          <template if.bind="selectedModule.events.length > 0">
+            <h1>Events - <small>(${selectedModule.events.length})</small></h1>
+            <ul>
+              <au-event repeat.for="event of selectedModule.events" value.bind="event"></au-event>
+            </ul>
+          </template>
+
+          <template if.bind="selectedModule.variables.length > 0">
+            <h1>Variables - <small>(${selectedModule.variables.length})</small></h1>
+            <ul class="no-bullet">
+              <li repeat.for="variable of selectedModule.variables" >
+                <au-variable value.bind="variable"></au-variable>
+              </li>
+            </ul>
+          </template>
+        </template>
+
+        <template if.bind="selectedModule.articles">
+          <h1>Related Articles</h1>
+          <ul>
+            <a href="#"><li repeat.for="article of selectedModule.articles">${article}</li></a>
+          </ul>
+        </template>
+
+      </div>
+  </div>
+</template>

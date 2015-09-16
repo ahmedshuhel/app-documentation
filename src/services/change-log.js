@@ -14,7 +14,6 @@ export class ChangeLogService {
       tempMinorVersions.push(thisArr);
     });
     let patchRegex = /(\n|^#|^)### (.*?)\n/g;
-    // let patchRegex = /\n### (.*?)\n/g;
     let patchVersions = changeLog.match(patchRegex);
     patchVersions.forEach(arr => {
       let thisArr = arr.replace(/(\r\n|\n|\r)/gm, '');
