@@ -1,0 +1,89 @@
+{
+  "plugins": [
+    {
+      "name": "animator-css",
+      "endpoint": "github",
+      "location": "aurelia/animator-css"
+    },
+    {
+      "name": "aurelia-bs-modal",
+      "endpoint": "github",
+      "location": "pwkad/aurelia-bs-modal"
+    },
+    {
+      "name": "auth",
+      "endpoint": "github",
+      "location": "paulvanbladel/aurelia-auth"
+    },
+    {
+      "name": "breeze",
+      "endpoint": "github",
+      "location": "jdanyow/aurelia-breeze"
+    },
+    {
+      "name": "computed",
+      "endpoint": "github",
+      "location": "jdanyow/aurelia-computed"
+    },
+    {
+      "name": "dialog",
+      "endpoint": "github",
+      "location": "aurelia/dialog"
+    },
+    {
+      "name": "fetch",
+      "endpoint": "github",
+      "location": "aurelia/fetch-client"
+    },
+    {
+      "name": "flux",
+      "endpoint": "github",
+      "location": "tfrydrychewicz/aurelia-flux"
+    },
+    {
+      "name": "gooy-dialog",
+      "endpoint": "github",
+      "location": "gooy/aurelia-dialog"
+    },
+    {
+      "name": "i18next",
+      "endpoint": "github",
+      "location": "zewa666/aurelia-i18next"
+    },
+    {
+      "name": "leaflet",
+      "endpoint": "github",
+      "location": "ceoaliongroo/aurelia-leaflet"
+    },
+    {
+      "name": "leaflet",
+      "endpoint": "github",
+      "location": "benib/aurelia-leaflet"
+    },
+    {
+      "name": "materialize",
+      "endpoint": "github",
+      "location": "manuel-guilbault/aurelia-materialize"
+    },
+    {
+      "name": "rethink-bindtable",
+      "endpoint": "github",
+      "location": "kristianmandrup/aurelia-rethink-bindtable"
+    },
+    {
+      "name": "token-auth",
+      "endpoint": "github",
+      "location": "paulvanbladel/aureliauth"
+    },
+    {
+      "name": "ui-virtualization",
+      "endpoint": "github",
+      "location": "aurelia/ui-virtualization"
+    },
+    {
+      "name": "validation",
+      "endpoint": "github",
+      "location": "aurelia/validation"
+    }
+  ]
+}

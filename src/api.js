@@ -12,7 +12,6 @@ export class Api {
     ]);
     this.router = router;
     config.mapUnknownRoutes(instruction => {
-      console.log(instruction)
       instruction.config.moduleId = 'index';
     });
   }
