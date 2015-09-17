@@ -12,17 +12,23 @@ export class RepositoryService {
     this.changeLogService = changeLogService;
     this.gitTagService = gitTagService;
   }
+  // get the official repositories from rawgit
   getOfficialRepos() {
     return this.rawGitService.getOfficialRepos();
   }
+  // get the plugins from rawgit
   getPluginRepos() {
     return this.rawGitService.getPluginRepos();
   }
   getRepositoryInfo(repo, version) {
+    // gitTagService is a hardcoded list for now
     let tag = version || this.gitTagService.getLatestVersion(repo);
     return Promise.all([
       this.rawGitService.getRepositoryInfo(repo, tag),
       this.rawGitService.getPackageJson(repo, tag),
+      // Need the change log to get all tags for a repo at the moment
+      //   can probably replace this with Jeremy's recommendation for pulling from Github once
+      //   and storing the tags in localStorage for the user
       this.rawGitService.getChangeLog(repo, tag)
     ]).then(() => {
       return this.npmService.parsePackageJson(repo);
@@ -33,11 +39,5 @@ export class RepositoryService {
         Promise.resolve(false)
       }
     });
-  }
-  getAllRepositoryInfo() {
-
-  }
-  getPackageJson(repo) {
-    return this.npmService.getPackageJson(repo);
   }
 }

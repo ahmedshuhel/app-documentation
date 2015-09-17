@@ -1,8 +1,11 @@
 import {LocalCache} from 'services/local-cache';
 
 export class Api {
+  // LocalCache is a data store with repositories and other info
   static inject = [LocalCache];
+  // Which module is currently selected and visible?
   selectedModule;
+  // Which version has been selected in the dropdown?
   selectedVersion;
   configureRouter(config, router){
     config.map([

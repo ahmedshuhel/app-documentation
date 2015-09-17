@@ -1,6 +1,7 @@
 let mmpRegex = /(\d+)/g;
 
 export class ChangeLogService {
+  // Parse the change log markdown file
   parseChangeLog(repo) {
     let changeLog = repo.changeLog;
     let tempMinorVersions = [];
@@ -21,30 +22,31 @@ export class ChangeLogService {
       thisArr = thisArr.replace(/ \(.*?\)/, '');
       tempPatchVersions.push(thisArr);
     });
-    this.grabOnlyMinorMajorVersions(repo, tempPatchVersions, tempMinorVersions);
+    this.grabOnlyMinorPatchVersions(repo, tempPatchVersions, tempMinorVersions);
     return repo;
   }
-  grabOnlyMinorMajorVersions(repo, tempPatch, tempMinor) {
-    let latestMajorMinorCombos = [];
+  // We only want the minor and patch versions to check for duplicates
+  grabOnlyMinorPatchVersions(repo, tempPatch, tempMinor) {
+    let latestMinorPatchCombos = [];
     tempMinor.forEach(version => {
-      latestMajorMinorCombos.push(version);
+      latestMinorPatchCombos.push(version);
     });
     tempPatch.forEach(version => {
       let [major, minor, patch] = version.match(mmpRegex);
-      let matchedVersion = latestMajorMinorCombos.filter(combo => {
+      let matchedVersion = latestMinorPatchCombos.filter(combo => {
         let [comboMajor, comboMinor, comboPatch] = combo.match(mmpRegex);
         return comboMajor === major && comboMinor === minor;
       })[0];
       if (matchedVersion) {
         let [matchMajor, matchMinor, matchPatch] = matchedVersion.match(mmpRegex);
         if (matchPatch < patch) {
-          let matchedIndex = latestMajorMinorCombos.indexOf(matchedVersion);
-          latestMajorMinorCombos.splice(matchedIndex, 1);
-          latestMajorMinorCombos.splice(matchedIndex, 0, version);
+          let matchedIndex = latestMinorPatchCombos.indexOf(matchedVersion);
+          latestMinorPatchCombos.splice(matchedIndex, 1);
+          latestMinorPatchCombos.splice(matchedIndex, 0, version);
         }
       }
     });
-    latestMajorMinorCombos.forEach(version => {
+    latestMinorPatchCombos.forEach(version => {
       repo.myVersions.push(new Version(version));
     });
   }

@@ -25,6 +25,7 @@ export class App {
     this.router = router;
   }
   activate() {
+    // Go load all repos and plugins from aurelia-registry
     return Promise.all([
       this.repositoryService.getOfficialRepos(),
       this.repositoryService.getPluginRepos()

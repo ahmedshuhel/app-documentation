@@ -45,10 +45,12 @@ export class RepositoryModel {
   }
 }
 
+// Have to strip aurelia out of the location to construct the name
 function stripOutAurelia(location) {
   return location.replace('aurelia/', '');
 }
 
+// Make a PascalCase'd and spaced version of the name from the dasherized-version
 function prettyName(s) {
   s =  s.replace(/(\-\w)/g, function(m) {
     return m[1].toUpperCase();

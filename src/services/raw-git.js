@@ -3,6 +3,7 @@ import {HttpClient} from 'aurelia-http-client';
 import {RepositoryModel, PluginModel, GroupModel, ClassModel, ConstructorModel, MethodModel, InterfaceModel, PropertyModel, VariableModel, SignatureModel, FunctionModel} from 'models/index';
 import {LocalCache} from 'services/local-cache';
 
+// Not used yet but perhaps can help busting cache on rawgit's CDN
 const cacheBuster = 'v123';
 const coreUrl = 'https://rawgit.com/aurelia/registry/master/core-registry.json';
 const pluginUrl = 'https://rawgit.com/aurelia/registry/master/plugin-registry.json';
@@ -43,8 +44,13 @@ export class RawGitService {
     return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + docName).then(response => {
       repo.description = response.content.description;
       Object.assign(repo, response.content);
+      // The API.json returns everything in 'children' so we need to go through and figure out
+      //   the type for each one
       checkForChildren(repo, this.localCache);
+      // Check if the kind (type) is already in the localCache.
+      //   Using the kind at the moment to match kindName to kind
       this.localCache.checkAddKind(repo);
+      // Not using groups for anything yet but could be for filtering
       checkForGroups(repo, this.localCache);
       return repo;
     });
@@ -86,6 +92,7 @@ function checkForGroups(obj, localcache) {
   }
 }
 
+// Finds the type and casts the object as it so we can recursively search objects
 function castObjectAsType(obj, parent) {
   let type = obj.kindString;
   let thisObject;

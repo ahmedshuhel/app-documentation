@@ -1,9 +1,10 @@
 <template>
   <section class="au-animate">
     <ul class="au-menu">
-      <li class="${$parent.selectedModule === repository ? 'active': ''}" repeat.for="repository of localCache.repositories">
-        <a route-href="route: repository; params.bind: {name: repository.name}">
-        ${repository.prettyName}</a>
+      <li class="${$parent.selectedModule === repo ? 'active': ''}" repeat.for="repo of localCache.repositories">
+        <a route-href="route: repository; params.bind: { name: repo.name }">
+          ${repo.prettyName}
+        </a>
       </li>
     </ul>
   </section>
