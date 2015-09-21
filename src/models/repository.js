@@ -1,6 +1,7 @@
 export class RepositoryModel {
   id = -1;
   name = '';
+  organization = 'aurelia';
   description = '';
   flags = {};
   kind = -1;
@@ -21,6 +22,7 @@ export class RepositoryModel {
   majorVersions = [];
   myVersions = [];
   minorVersions = [];
+  
   constructor(data) {
     Object.assign(this, data);
     this.prettyName = prettyName(this.name);

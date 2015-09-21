@@ -1,27 +1,26 @@
-import {LocalCache} from 'services/local-cache';
+import {inject} from 'aurelia-framework';
+import {RepositoryService} from 'services/repository';
 
+@inject(RepositoryService)
 export class Api {
-  // LocalCache is a data store with repositories and other info
-  static inject = [LocalCache];
-  // Which module is currently selected and visible?
   selectedModule;
-  // Which version has been selected in the dropdown?
-  selectedVersion;
+
+  constructor(repositoryService) {
+    this.repositoryService = repositoryService;
+  }
+
   configureRouter(config, router){
     config.map([
-      { route: ['','index'], name: 'index', moduleId: 'api/index', nav: true, title:'Index' },
-      { route: 'repository/:name', name: 'repository', moduleId: 'api/repository', nav: true, title:'Repositories', href: 'repository' },
-      { route: 'classes/:id', name: 'classes', moduleId: 'api/classes', nav: true, title:'Classes', href: 'classes' }
+      { route: '', moduleId: 'api/index', title: 'API Home' },
+      { route: [':organization/:package', ':organization/:package/:version'], moduleId: 'api/repository' }
     ]);
+
+    config.mapUnknownRoutes(instruction => instruction.config.moduleId = '');
+
     this.router = router;
-    config.mapUnknownRoutes(instruction => {
-      instruction.config.moduleId = 'index';
-    });
   }
-  constructor(localCache) {
-    this.localCache = localCache;
-  }
-  activate(params) {
-    this.selectedVersion = null;
+
+  activate() {
+    return this.repositoryService.getOfficialRepos().then(repos => this.repos = repos);
   }
 }

@@ -23,12 +23,11 @@ let versions = {
 }
 
 export class GitTagListService {
-  getLatestVersion(repo) {
-    let repoName = stripOutAurelia(repo.location);
-    return versions[repoName];
-  }
-}
+  getLatestVersion(orgSlug, productSlug) {
+    if(orgSlug == 'aurelia') {
+      return versions[productSlug];
+    }
 
-function stripOutAurelia(location) {
-  return location.replace('aurelia/', '');
+    return 'master';
+  }
 }

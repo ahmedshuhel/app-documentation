@@ -1,7 +1,8 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-http-client';
 import {RepositoryModel, PluginModel, GroupModel, ClassModel, ConstructorModel, MethodModel, InterfaceModel, PropertyModel, VariableModel, SignatureModel, FunctionModel} from 'models/index';
-import {LocalCache} from 'services/local-cache';
+import {LocalCache} from './local-cache';
+import {GitTagListService} from './git-tag-list';
 
 // Not used yet but perhaps can help busting cache on rawgit's CDN
 const cacheBuster = 'v123';
@@ -10,28 +11,38 @@ const pluginUrl = 'https://rawgit.com/aurelia/registry/master/plugin-registry.js
 const docName = '/doc/api.json';
 const rawgitUrl = 'https://rawgit.com/aurelia/';
 
-@inject(LocalCache)
+@inject(LocalCache, GitTagListService)
 export class RawGitService {
-  constructor(localCache) {
+  constructor(localCache, gitTagService) {
     this.localCache = localCache;
+    this.gitTagService = gitTagService;
+
     this.repoHttp = new HttpClient().configure(x=> {
       x.withReviver((k, v) => {
         return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ?  new RepositoryModel(v) : v;
       });
     });
+
     this.pluginHttp = new HttpClient().configure(x=> {
       x.withReviver((k, v) => {
         return (typeof v === 'object' && k !== '_id' && v !== null && !Array.isArray(v)) ? new PluginModel(v) : v;
       });
     });
   }
+
   getOfficialRepos() {
+    if(this.localCache.repositories.length > 0){
+      return Promise.resolve(this.localCache.repositories);
+    }
+
     return this.repoHttp.get(coreUrl + '?v=' + cacheBuster).then(response => {
-      response.content.repositories.forEach(repository => {
-        this.localCache.repositories.push(repository);
-      });
+      this.localCache.repositories = response.content.repositories;
+      this.localCache.repositories
+        .forEach(repo => repo.preferredVersion = this.gitTagService.getLatestVersion(repo.organization, repo.name));
+      return this.localCache.repositories;
     });
   }
+
   getPluginRepos() {
     return this.pluginHttp.get(pluginUrl).then(response => {
       response.content.plugins.forEach(plugin => {
@@ -39,9 +50,11 @@ export class RawGitService {
       });
     });
   }
+
   getRepositoryInfo(repo, version) {
     this.http = new HttpClient();
     return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + docName).then(response => {
+      response.content.name = response.content.name.replace(/"/g, "").replace('aurelia-', '');
       repo.description = response.content.description;
       Object.assign(repo, response.content);
       // The API.json returns everything in 'children' so we need to go through and figure out
@@ -55,11 +68,13 @@ export class RawGitService {
       return repo;
     });
   }
+
   getPackageJson(repo, version) {
     return this.http.get(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + '/package.json').then(response => {
       repo.packageJson = response.content;
     });
   }
+
   getChangeLog(repo, version) {
     return this.http.createRequest(rawgitUrl + stripOutAurelia(repo.location) + '/' + version + '/doc/CHANGELOG.md')
       .asGet()
