@@ -1,7 +1,7 @@
 <template>
   <li>
     <a href="#" click.delegate="toggleExpand()">
-      ${value.name} - ${value.kindName}
+      ${value.name}: ${value.type.name}
     </a>
     <template if.bind="isExpanded">
       <article>

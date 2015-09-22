@@ -1,33 +1,62 @@
 <template>
-  <div class="content">
+  <require from="./exported-class.css"></require>
+
+  <div class="content class">
     <div class="au-section">
       <h1 class="au-section-heading">
         <span>${product.productName} :: ${exportedClass.name}</span>
       </h1>
 
       <div class="au-section-body">
-        <h3 if.bind="product.description">${exportedClass.comment.shortText}</h3>
+        <h3>${exportedClass.comment.shortText || 'no description available'}</h3>
+
+        <div if.bind="constructorSignature" class="text-sm">
+          <strong>
+            ${constructorSignature.name}(<span repeat.for="param of constructorSignature.parameters">${param.name}: ${param.type.name}<span if.bind="!$last">, </span></span>)
+          </strong>
+        </div>
       </div>
     </div>
 
-    <div class="au-section">
-      <div class="au-section-body">
-        <template if.bind="exportedClass.properties.length > 0">
-          <h1>Properties</h1>
-          <ul class="no-bullet">
-            <au-property repeat.for="prop of exportedClass.properties" value.bind="prop"></au-property>
-          </ul>
-        </template>
+    <h1 if.bind="exportedClass.properties.length > 0">Properties</h1>
 
-        <template if.bind="exportedClass.methods.length > 0">
-          <h1>Methods</h1>
-          <ul class="no-bullet">
-            <li repeat.for="method of exportedClass.methods">
-              <au-method value.bind="method"></au-method>
+    <div class="au-section property" repeat.for="prop of exportedClass.properties">
+      <div class="au-section-body">
+        <h3>
+          <span if.bind="prop.flags && prop.flags.isStatic" class="au-tag">static</span>
+
+          <strong>${prop.name}: ${prop.type.name}</strong>
+        </h3>
+
+        <div class="description">${prop.comment.shortText || 'no description available'}</div>
+      </div>
+    </div>
+
+    <h1 if.bind="exportedClass.methods.length > 0">Methods</h1>
+
+    <div class="au-section method" repeat.for="method of exportedClass.methods">
+
+      <div class="au-section-body">
+        <h3>
+          <span if.bind="method.flags && method.flags.isStatic" class="au-tag">static</span>
+
+          <strong>
+            ${method.signature.name}(<span repeat.for="param of method.signature.parameters">${param.name}: ${param.type.name || 'any'}<span if.bind="!$last">, </span></span>): ${value.signature.type.name || 'any'}
+          </strong>
+        </h3>
+
+        <div class="description">${method.signature.comment.shortText || 'no description available'}</div>
+
+        <div class="parameters" if.bind="method.signature.parameters.length > 0">
+          <h4>Parameters</h4>
+          <ul>
+            <li repeat.for="param of method.signature.parameters">
+              <strong>${param.name}: ${param.type.name || 'any'}</strong>
+              <p>${param.comment.text || 'no description available'}</p>
             </li>
           </ul>
-        </template>
+        </div>
       </div>
-    <div>
+    </div>
   </div>
 </template>
