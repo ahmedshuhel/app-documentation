@@ -6,8 +6,28 @@
       </h1>
 
       <div class="au-section-body">
-        <h3 if.bind="product.description">${exportedClass.description}</h3>
+        <h3 if.bind="product.description">${exportedClass.comment.shortText}</h3>
       </div>
     </div>
+
+    <div class="au-section">
+      <div class="au-section-body">
+        <template if.bind="exportedClass.properties.length > 0">
+          <h1>Properties</h1>
+          <ul class="no-bullet">
+            <au-property repeat.for="prop of exportedClass.properties" value.bind="prop"></au-property>
+          </ul>
+        </template>
+
+        <template if.bind="exportedClass.methods.length > 0">
+          <h1>Methods</h1>
+          <ul class="no-bullet">
+            <li repeat.for="method of exportedClass.methods">
+              <au-method value.bind="method"></au-method>
+            </li>
+          </ul>
+        </template>
+      </div>
+    <div>
   </div>
 </template>

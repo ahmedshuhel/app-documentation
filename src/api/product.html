@@ -76,14 +76,14 @@
 
         <template if.bind="selectedProductVersion.properties.length > 0">
           <h1>Properties</h1>
-          <ul>
+          <ul class="no-bullet">
             <au-property repeat.for="prop of selectedProductVersion.properties" value.bind="prop"></au-property>
           </ul>
         </template>
 
         <template if.bind="selectedProductVersion.events.length > 0">
           <h1>Events</h1>
-          <ul>
+          <ul class="no-bullet">
             <au-event repeat.for="event of selectedProductVersion.events" value.bind="event"></au-event>
           </ul>
         </template>
