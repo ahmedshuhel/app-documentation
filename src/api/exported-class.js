@@ -16,7 +16,6 @@ export class ExportedClass {
           this.product = product;
           this.exportedClass = productVersion.findClass(params.className);
           this.constructorSignature = this.exportedClass.constructorMethod ? this.exportedClass.constructorMethod.signature : null;
-          console.log(this.exportedClass);
         });
       });
   }

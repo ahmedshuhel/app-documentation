@@ -53,7 +53,7 @@ export let database = {
     {
       userName: 'aurelia',
       productName: 'logging',
-      latestVersion: '0.11.0'
+      latestVersion: '0.7.0'
     },
     {
       userName: 'aurelia',

@@ -1,7 +1,7 @@
 <template>
-  <require from="resources/details"></require>
+  <require from="./product.css"></require>
 
-  <div class="content">
+  <div class="content  product">
     <div class="au-section">
       <h1 class="au-section-heading">
         <span>${product.productName}</span>
@@ -33,20 +33,23 @@
       </div>
     </div>
 
-    <div class="au-section">
-      <div class="au-section-body">
-
-        <template if.bind="product.dependencies && product.dependencies.length">
-          <h1>Dependencies</h1>
+    <template if.bind="product.dependencies && product.dependencies.length">
+      <h1>Dependencies</h1>
+      <div class="au-section">
+        <div class="au-section-body">
           <ul class="no-bullet">
             <li repeat.for="dependency of product.dependencies">
               <a href="#/api/${dependency.userName}/${dependency.productName}/${dependency.preferredVersion}">${dependency.productName}</a>
             </li>
           </ul>
-        </template>
+        </div>
+      </div>
+    </template>
 
-        <template if.bind="selectedProductVersion.classes.length > 0">
-          <h1>Classes</h1>
+    <template if.bind="selectedProductVersion.classes.length > 0">
+      <h1>Classes</h1>
+      <div class="au-section">
+        <div class="au-section-body">
           <ul class="no-bullet">
             <li repeat.for="child of selectedProductVersion.classes">
               <a href="#/api/${$parent.product.userName}/${$parent.product.productName}/${$parent.product.preferredVersion}/class/${child.name}">
@@ -54,55 +57,45 @@
               </a>
             </li>
           </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.methods.length > 0">
-          <h1>Methods</h1>
-          <ul class="no-bullet">
-            <li repeat.for="method of selectedProductVersion.methods">
-              <au-method value.bind="method"></au-method>
-            </li>
-          </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.functions.length > 0">
-          <h1>Functions</h1>
-          <ul class="no-bullet">
-            <li repeat.for="function of selectedProductVersion.functions">
-              <au-function value.bind="function"></au-function>
-            </li>
-          </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.properties.length > 0">
-          <h1>Properties</h1>
-          <ul class="no-bullet">
-            <au-property repeat.for="prop of selectedProductVersion.properties" value.bind="prop"></au-property>
-          </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.events.length > 0">
-          <h1>Events</h1>
-          <ul class="no-bullet">
-            <au-event repeat.for="event of selectedProductVersion.events" value.bind="event"></au-event>
-          </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.variables.length > 0">
-          <h1>Variables</h1>
-          <ul class="no-bullet">
-            <li repeat.for="variable of selectedProductVersion.variables" >
-              <au-variable value.bind="variable"></au-variable>
-            </li>
-          </ul>
-        </template>
-
-        <template if.bind="selectedProductVersion.articles">
-          <h1>Related Articles</h1>
-          <ul>
-            <a href="#"><li repeat.for="article of selectedProductVersion.articles">${article}</li></a>
-          </ul>
-        </template>
+        </div>
       </div>
+    </template>
+
+    <template if.bind="selectedProductVersion.variables.length > 0">
+      <h1>Variables</h1>
+      <div class="au-section variable" repeat.for="variable of selectedProductVersion.variables">
+        <div class="au-section-body">
+          <h3>
+            <strong>${variable.name}: ${variable.type.name}</strong>
+          </h3>
+          <div class="description">${variable.comment.shortText || 'no description available'}</div>
+        </div>
+      </div>
+    </template>
+
+    <template if.bind="selectedProductVersion.functions.length > 0">
+      <h1>Functions</h1>
+      <div class="au-section function" repeat.for="function of selectedProductVersion.functions">
+        <div class="au-section-body">
+          <h3>
+            <strong>
+              ${function.signature.name}(<span repeat.for="param of function.signature.parameters">${param.name}: ${param.type.name || 'any'}<span if.bind="!$last">, </span></span>): ${function.signature.type.name || 'any'}
+            </strong>
+          </h3>
+
+          <div class="description">${function.signature.comment.shortText || 'no description available'}</div>
+
+          <div class="parameters" if.bind="function.signature.parameters.length > 0">
+            <h4>Parameters</h4>
+            <ul>
+              <li repeat.for="param of function.signature.parameters">
+                <strong>${param.name}: ${param.type.name || 'any'}</strong>
+                <p>${param.comment.text || 'no description available'}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>

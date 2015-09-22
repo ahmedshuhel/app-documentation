@@ -158,5 +158,6 @@ export class FunctionModel {
   constructor(data) {
     Object.assign(this, data);
     this.kindName = this.kindString;
+    this.signature = this.signatures[0];
   }
 }
