@@ -64,9 +64,9 @@ class ProductVersion {
   events = [];
   methods = [];
   functions = [];
-  
-  constructor(attrs) {
 
+  findClass(className) {
+    return this.classes.find(x => x.name === className);
   }
 }
 

@@ -1,0 +1,13 @@
+<template>
+  <div class="content">
+    <div class="au-section">
+      <h1 class="au-section-heading">
+        <span>${product.productName} :: ${exportedClass.name}</span>
+      </h1>
+
+      <div class="au-section-body">
+        <h3 if.bind="product.description">${exportedClass.description}</h3>
+      </div>
+    </div>
+  </div>
+</template>
