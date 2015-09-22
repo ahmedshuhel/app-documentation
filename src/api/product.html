@@ -54,46 +54,47 @@
               </a>
             </li>
           </ul>
-          <template if.bind="selectedProductVersion.methods.length > 0">
-            <h1>Methods</h1>
-            <ul class="no-bullet">
-              <li repeat.for="method of selectedProductVersion.methods">
-                <au-method value.bind="method"></au-method>
-              </li>
-            </ul>
-          </template>
+        </template>
 
-          <template if.bind="selectedProductVersion.functions.length > 0">
-            <h1>Functions</h1>
-            <ul class="no-bullet">
-              <li repeat.for="function of selectedProductVersion.functions">
-                <au-function value.bind="function"></au-function>
-              </li>
-            </ul>
-          </template>
+        <template if.bind="selectedProductVersion.methods.length > 0">
+          <h1>Methods</h1>
+          <ul class="no-bullet">
+            <li repeat.for="method of selectedProductVersion.methods">
+              <au-method value.bind="method"></au-method>
+            </li>
+          </ul>
+        </template>
 
-          <template if.bind="selectedProductVersion.properties.length > 0">
-            <h1>Properties</h1>
-            <ul>
-              <au-property repeat.for="prop of selectedProductVersion.properties" value.bind="prop"></au-property>
-            </ul>
-          </template>
+        <template if.bind="selectedProductVersion.functions.length > 0">
+          <h1>Functions</h1>
+          <ul class="no-bullet">
+            <li repeat.for="function of selectedProductVersion.functions">
+              <au-function value.bind="function"></au-function>
+            </li>
+          </ul>
+        </template>
 
-          <template if.bind="selectedProductVersion.events.length > 0">
-            <h1>Events</h1>
-            <ul>
-              <au-event repeat.for="event of selectedProductVersion.events" value.bind="event"></au-event>
-            </ul>
-          </template>
+        <template if.bind="selectedProductVersion.properties.length > 0">
+          <h1>Properties</h1>
+          <ul>
+            <au-property repeat.for="prop of selectedProductVersion.properties" value.bind="prop"></au-property>
+          </ul>
+        </template>
 
-          <template if.bind="selectedProductVersion.variables.length > 0">
-            <h1>Variables</h1>
-            <ul class="no-bullet">
-              <li repeat.for="variable of selectedProductVersion.variables" >
-                <au-variable value.bind="variable"></au-variable>
-              </li>
-            </ul>
-          </template>
+        <template if.bind="selectedProductVersion.events.length > 0">
+          <h1>Events</h1>
+          <ul>
+            <au-event repeat.for="event of selectedProductVersion.events" value.bind="event"></au-event>
+          </ul>
+        </template>
+
+        <template if.bind="selectedProductVersion.variables.length > 0">
+          <h1>Variables</h1>
+          <ul class="no-bullet">
+            <li repeat.for="variable of selectedProductVersion.variables" >
+              <au-variable value.bind="variable"></au-variable>
+            </li>
+          </ul>
         </template>
 
         <template if.bind="selectedProductVersion.articles">

@@ -6,6 +6,62 @@ function prettyName(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+export class Product {
+  static previousSelection = null;
+
+  constructor(attrs, server) {
+    this.userName = attrs.userName;
+    this.productName = attrs.productName;
+    this.latestVersion = attrs.latestVersion;
+    this.preferredVersion = this.latestVersion;
+    this.isSelected = false;
+    this.versions = [];
+    this.keywords = [];
+    this.server = server;
+  }
+
+  select(){
+    if(Product.previousSelection) {
+      Product.previousSelection.isSelected = false;
+    }
+
+    Product.previousSelection = this;
+    this.isSelected = true;
+  }
+
+  getLatestVersion() {
+    return this.getVersion(this.latestVersion);
+  }
+
+  getVersion(version) {
+    version = version || this.preferredVersion;
+    let found = this.versions.find(x => x.version === version);
+
+    if(found) {
+      return Promise.resolve(found);
+    }
+
+    return this.server.getProductVersion(this, version).then(productVersion => {
+      productVersion.product = this;
+      this.versions.push(productVersion);
+      return productVersion;
+    });
+  }
+}
+
+export class ProductVersion {
+  classes = [];
+  properties = [];
+  variables = [];
+  events = [];
+  methods = [];
+  functions = [];
+
+  findClass(className) {
+    return this.classes.find(x => x.name === className);
+  }
+}
+
 export class ChildModel {
   id = -1;
   kind = -1;

@@ -3,6 +3,8 @@ import {HttpClient} from 'aurelia-http-client';
 import {inject} from 'aurelia-framework';
 import {ChangeLogParser} from './change-log-parser';
 import {
+  Product,
+  ProductVersion,
   GroupModel,
   ClassModel,
   ConstructorModel,
@@ -13,62 +15,6 @@ import {
   SignatureModel,
   FunctionModel
 } from './model';
-
-class Product {
-  static previousSelection = null;
-
-  constructor(attrs, server) {
-    this.userName = attrs.userName;
-    this.productName = attrs.productName;
-    this.latestVersion = attrs.latestVersion;
-    this.preferredVersion = this.latestVersion;
-    this.isSelected = false;
-    this.versions = [];
-    this.keywords = [];
-    this.server = server;
-  }
-
-  select(){
-    if(Product.previousSelection) {
-      Product.previousSelection.isSelected = false;
-    }
-
-    Product.previousSelection = this;
-    this.isSelected = true;
-  }
-
-  getLatestVersion() {
-    return this.getVersion(this.latestVersion);
-  }
-
-  getVersion(version) {
-    version = version || this.preferredVersion;
-    let found = this.versions.find(x => x.version === version);
-
-    if(found) {
-      return Promise.resolve(found);
-    }
-
-    return this.server.getProductVersion(this, version).then(productVersion => {
-      productVersion.product = this;
-      this.versions.push(productVersion);
-      return productVersion;
-    });
-  }
-}
-
-class ProductVersion {
-  classes = [];
-  properties = [];
-  variables = [];
-  events = [];
-  methods = [];
-  functions = [];
-
-  findClass(className) {
-    return this.classes.find(x => x.name === className);
-  }
-}
 
 function getProductVersion(product, version) {
   let apiUrl = `https://rawgit.com/${product.userName}/${product.productName}/${version}/doc/api.json`;
