@@ -1,18 +1,16 @@
 import {inject} from 'aurelia-framework';
-import {RepositoryService} from 'services/repository';
+import {Server} from 'backend/server';
 
-@inject(RepositoryService)
+@inject(Server)
 export class Api {
-  selectedModule;
-
-  constructor(repositoryService) {
-    this.repositoryService = repositoryService;
+  constructor(server) {
+    this.server = server;
   }
 
   configureRouter(config, router){
     config.map([
       { route: '', moduleId: 'api/index', title: 'API Home' },
-      { route: [':organization/:package', ':organization/:package/:version'], moduleId: 'api/repository' }
+      { route: [':userName/:productName', ':userName/:productName/:version'], moduleId: 'api/product' }
     ]);
 
     config.mapUnknownRoutes(instruction => instruction.config.moduleId = '');
@@ -21,6 +19,6 @@ export class Api {
   }
 
   activate() {
-    return this.repositoryService.getOfficialRepos().then(repos => this.repos = repos);
+    return this.server.getOfficialProducts().then(products => this.products = products);
   }
 }

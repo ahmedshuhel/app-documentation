@@ -6,7 +6,5 @@ export function configure(aurelia) {
     .feature('resources')
     .plugin('joelcoxokc/aurelia-interface-grid');
 
-  aurelia.start().then(a => {
-    a.setRoot();
-  });
+  aurelia.start().then(a => a.setRoot());
 }

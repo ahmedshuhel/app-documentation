@@ -1,9 +1,9 @@
 <template>
   <section class="au-animate">
     <ul class="au-menu">
-      <li repeat.for="repo of repos" class="${$parent.selectedModule === repo ? 'active': ''}">
-        <a href="#/api/${repo.organization}/${repo.name}/${repo.preferredVersion}">
-          ${repo.prettyName}
+      <li repeat.for="product of products" class="${product.isSelected ? 'active': ''}">
+        <a href="#/api/${product.userName}/${product.productName}/${product.preferredVersion}">
+          ${product.productName}
         </a>
       </li>
     </ul>

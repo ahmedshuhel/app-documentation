@@ -1,0 +1,107 @@
+<template>
+  <require from="resources/details"></require>
+
+  <div class="content">
+    <div class="au-section">
+      <h1 class="au-section-heading">
+        <span>${product.productName}</span>
+        <span class="au-tag" if.bind="selectedProductVersion.version">${selectedProductVersion.version}</span>
+
+        <div class="pull-right">
+          <select class="au-select" value.bind="selectedVersion">
+            <option repeat.for="version of product.availableVersions" model.bind="version.version">${version.display}</option>
+          </select>
+        </div>
+      </h1>
+
+      <div class="au-section-body">
+        <h3 if.bind="product.description">${product.description}</h3>
+
+        <div class="text-sm" if.bind="product.keywords">
+          <span class="strong">Keywords:</span>
+          <template repeat.for="keyword of product.keywords">
+            <span>${keyword}</span><span if.bind="!$last">, </span>
+          </template>
+        </div>
+
+        <div class="spaced">
+          <a class="au-button" href="https://github.com/${product.userName}/${product.productName}/blob/master/doc/CHANGELOG.md" target="_blank">Changes</a>
+          <a class="au-button" href.bind="product.bugsUrl" target="_blank">Issues</a>
+          <a class="au-button" href="https://github.com/${product.userName}/${product.productName}/blob/master/LICENSE" target="_blank">License</a>
+          <a class="au-button" href.bind="product.repositoryUrl" target="_blank">Repository</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="au-section">
+      <div class="au-section-body">
+
+        <template if.bind="product.dependencies && product.dependencies.length">
+          <h1>Dependencies</h1>
+          <ul class="no-bullet">
+            <li repeat.for="dependency of product.dependencies">
+              <a href="#/api/${dependency.userName}/${dependency.productName}/${dependency.preferredVersion}">${dependency.productName}</a>
+            </li>
+          </ul>
+        </template>
+
+        <template if.bind="selectedProductVersion.classes.length > 0">
+          <h1>Classes</h1>
+          <ul class="no-bullet">
+            <li repeat.for="child of selectedProductVersion.classes">
+              <a href="/#/api/${child.name}">
+                ${child.name}
+              </a>
+            </li>
+          </ul>
+          <template if.bind="selectedProductVersion.methods.length > 0">
+            <h1>Methods</h1>
+            <ul class="no-bullet">
+              <li repeat.for="method of selectedProductVersion.methods">
+                <au-method value.bind="method"></au-method>
+              </li>
+            </ul>
+          </template>
+
+          <template if.bind="selectedProductVersion.functions.length > 0">
+            <h1>Functions</h1>
+            <ul class="no-bullet">
+              <li repeat.for="function of selectedProductVersion.functions">
+                <au-function value.bind="function"></au-function>
+              </li>
+            </ul>
+          </template>
+
+          <template if.bind="selectedProductVersion.properties.length > 0">
+            <h1>Properties</h1>
+            <ul>
+              <au-property repeat.for="prop of selectedProductVersion.properties" value.bind="prop"></au-property>
+            </ul>
+          </template>
+
+          <template if.bind="selectedProductVersion.events.length > 0">
+            <h1>Events</h1>
+            <ul>
+              <au-event repeat.for="event of selectedProductVersion.events" value.bind="event"></au-event>
+            </ul>
+          </template>
+
+          <template if.bind="selectedProductVersion.variables.length > 0">
+            <h1>Variables</h1>
+            <ul class="no-bullet">
+              <li repeat.for="variable of selectedProductVersion.variables" >
+                <au-variable value.bind="variable"></au-variable>
+              </li>
+            </ul>
+          </template>
+        </template>
+
+        <template if.bind="selectedProductVersion.articles">
+          <h1>Related Articles</h1>
+          <ul>
+            <a href="#"><li repeat.for="article of selectedProductVersion.articles">${article}</li></a>
+          </ul>
+        </template>
+      </div>
+  </div>
+</template>
