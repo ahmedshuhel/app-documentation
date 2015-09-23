@@ -1,14 +1,14 @@
 <template>
-  <require from="./exported-class.css"></require>
+  <require from="./class-or-interface.css"></require>
 
   <div class="content class">
     <div class="au-section">
       <h1 class="au-section-heading">
-        <span>${product.productName} :: ${exportedClass.name}</span>
+        <span>${product.productName} :: ${target.name}</span>
       </h1>
 
       <div class="au-section-body">
-        <h3>${exportedClass.comment.shortText || 'no description available'}</h3>
+        <h3>${target.comment.shortText || 'no description available'}</h3>
 
         <div if.bind="constructorSignature" class="text-sm">
           <strong>
@@ -18,9 +18,9 @@
       </div>
     </div>
 
-    <h1 if.bind="exportedClass.properties.length > 0">Properties</h1>
+    <h1 if.bind="target.properties.length > 0">Properties</h1>
 
-    <div class="au-section property" repeat.for="prop of exportedClass.properties">
+    <div class="au-section property" repeat.for="prop of target.properties">
       <div class="au-section-body">
         <h3>
           <span if.bind="prop.flags && prop.flags.isStatic" class="au-tag">static</span>
@@ -32,9 +32,9 @@
       </div>
     </div>
 
-    <h1 if.bind="exportedClass.methods.length > 0">Methods</h1>
+    <h1 if.bind="target.methods.length > 0">Methods</h1>
 
-    <div class="au-section method" repeat.for="method of exportedClass.methods">
+    <div class="au-section method" repeat.for="method of target.methods">
 
       <div class="au-section-body">
         <h3>

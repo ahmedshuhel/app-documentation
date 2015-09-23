@@ -2,7 +2,7 @@ import {inject} from 'aurelia-framework';
 import {Server} from 'backend/server';
 
 @inject(Server)
-export class ExportedClass {
+export class ClassOrInterface {
   constructor(server) {
     this.server = server;
   }
@@ -14,8 +14,14 @@ export class ExportedClass {
         return product.getVersion(params.version).then(productVersion => {
           product.preferredVersion = productVersion.version;
           this.product = product;
-          this.exportedClass = productVersion.findClass(params.className);
-          this.constructorSignature = this.exportedClass.constructorMethod ? this.exportedClass.constructorMethod.signature : null;
+
+          if(params.classOrInterface === 'class') {
+            this.target = productVersion.findClass(params.name);
+          } else {
+            this.target = productVersion.findInterface(params.name);
+          }
+
+          this.constructorSignature = this.target.constructorMethod ? this.target.constructorMethod.signature : null;
         });
       });
   }

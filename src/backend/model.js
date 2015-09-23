@@ -51,6 +51,7 @@ export class Product {
 
 export class ProductVersion {
   classes = [];
+  interfaces = [];
   properties = [];
   variables = [];
   events = [];
@@ -59,6 +60,10 @@ export class ProductVersion {
 
   findClass(className) {
     return this.classes.find(x => x.name === className);
+  }
+
+  findInterface(interfaceName) {
+    return this.interfaces.find(x => x.name === interfaceName);
   }
 }
 

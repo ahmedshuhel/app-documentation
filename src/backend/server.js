@@ -157,7 +157,7 @@ function castObjectAsType(obj, parent) {
       break;
     case 'Interface':
       thisObject = new InterfaceModel(obj);
-      parent.interface = thisObject;
+      parent.interfaces.push(thisObject);
       break;
     case 'Property':
       thisObject = new PropertyModel(obj);
