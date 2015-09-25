@@ -1,0 +1,52 @@
+<!--Values of lang from: http://www.ietf.org/rfc/rfc1766.txt-->
+<html lang="en-US">
+  <head>
+    <title>Introduction to Dependency Injection</title>
+    <meta name="translations" content="list rfc1766 identifiers separated by comma here for all completed translations">
+    <meta name="description" content="Learn how to decompose apps and then construct them at runtime with dependency injection techniques.">
+    <meta name="keywords" content="JavaScript, Architecture, Patterns">
+    <meta name="author" content="Rob Eisenberg">
+    <mete name="profiles" content="Developer, Architect">
+  </head>
+
+  <body>
+    <!--
+    Every narrative section gets a "uid" to map translations in.
+    The "format" describes how to transform the tag's content. Only "markdown" is valid for v1.
+    The "version" indicates the version of the content contained inside the tag.
+    The Major component changes when there are "breaking changes" in content that completely invalidate translations.
+    The Minor component changes when new content is added withot changing old content. It indicates that translatations are still valid, but missing some new info.
+    When typos, grammar or other changes are made which don't change the meaning or content of the narrative, the version should can have its patch component bumped, but it's basically ignored.
+    When the docs are rendered in non-English translations, indicators should be shown if there is new content or if the content is no longer valie.
+    If there is a new narrative section for which there is no translation, that should be indicated.
+    (Perhaps in these last two cases we should revert to displaying the English.)
+    When translation additions/fixes are needed, provide UI that invites the user to help out.
+    -->
+    <narrative uid="1" format="markdown" version="2.1">
+
+    </narrative>
+
+    <!--
+    Example groups display only one example from the group, based on the users selected language.
+    They also have a uid so that the translation can proved the title. The translation should not duplicate the example.
+    -->
+    <example-group uid="2" title="Something Here">
+      <example-code lang="ES2016" src="foo/bar.js">
+
+      </example-code>
+      <example-code lang="TypeScript">
+        <!--
+        Source can be loaded from a src attribute or placed inline.
+        You might want to use the src attr if you intend to also run it as a demo.
+        -->
+      </example-code>
+    </example-group>
+
+    <!--
+    A demo runs code inline.
+    -->
+    <demo uid="3" title="Something Else Here" src="foo/bar.js">
+
+    </demo>
+  </body>
+</html>
