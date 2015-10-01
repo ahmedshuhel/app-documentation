@@ -1,3 +1,5 @@
+import {join} from 'aurelia-framework';
+
 function prettyName(s) {
   s =  s.replace(/(\-\w)/g, function(m) {
     return m[1].toUpperCase();
@@ -14,10 +16,11 @@ export class Product {
     this.productName = attrs.productName;
     this.latestVersion = attrs.latestVersion;
     this.preferredVersion = this.latestVersion;
+    this.tutorials = attrs.tutorials.map(a => new Tutorial(a, this));
     this.isSelected = false;
     this.versions = [];
-    this.keywords = [];
     this.server = server;
+    this.baseUrl = `https://rawgit.com/${this.userName}/${this.productName}`;
   }
 
   select(){
@@ -47,6 +50,14 @@ export class Product {
       return productVersion;
     });
   }
+
+  getTutorialBySlug(articleSlug) {
+    return this.tutorials.find(x => x.slug === articleSlug);
+  }
+
+  getTutorialForProfile(profileName) {
+    return this.tutorials.filter(x => x.matchesProfile(profileName));
+  }
 }
 
 export class ProductVersion {
@@ -57,6 +68,17 @@ export class ProductVersion {
   events = [];
   methods = [];
   functions = [];
+  articles = [];
+  keywords = [];
+
+  constructor(product, version, server) {
+    this.product = product;
+    this.version = version;
+    this.server = server;
+    this.baseUrl = join(product.baseUrl, version);
+    this.apiUrl = join(this.baseUrl, 'doc/api.json');
+    this.packageUrl = join(this.baseUrl, 'package.json');
+  }
 
   findClass(className) {
     return this.classes.find(x => x.name === className);
@@ -64,6 +86,100 @@ export class ProductVersion {
 
   findInterface(interfaceName) {
     return this.interfaces.find(x => x.name === interfaceName);
+  }
+
+  getArticle(slug, culture) {
+    let name = slug + 'html';
+    let found = this.articles.find(x => x.href.indexOf(name) !== -1);
+
+    if(!found) {
+      return Promise.reject();
+    }
+
+    return article.getTranslation(culture);
+  }
+}
+
+export class Article {
+  constructor(attrs, productVersion, server) {
+    this.title = attrs.title;
+    this.productVersion = productVersion;
+    this.server = server;
+    this.baseUrl = productVersion.baseUrl;
+    this.primaryUrl = join(baseUrl, attrs.href);
+    this.translations = {};
+  }
+
+  getTranslation(culture) {
+    if(culture in this.translations) {
+      return Promise.resolve(this.translations[culture]);
+    }
+
+    if(this.primaryTranslation) {
+      return this._loadTranslation(culture);
+    }
+
+    return this._loadTranslation('en-US')
+      .then(translation => {
+        this.primaryTranslation = translation;
+        return this._loadTranslation(culture);
+      });
+  }
+
+  _loadTranslation(culture) {
+    let translation = new ArticleTranslation(this, culture);
+    this.translations[culture] = translation;
+
+    return this.server.loadArticleTranslation(translation)
+      .then(translation => {
+        if(!translation.content) {
+          //no translation found
+        }
+
+        return translation;
+      });
+  }
+}
+
+export class ArticleTranslation {
+  constructor(article, culture) {
+    this.url = article.primaryUrl;
+
+    if(culture !== 'en-US') {
+      this.url = this.url.replace('en-US', culture);
+    }
+  }
+}
+
+export class Tutorial {
+  static previousSelection = null;
+
+  constructor(attrs, product) {
+    this.title = attrs.title;
+    this.slug = attrs.slug;
+    this.profiles = attrs.profiles;
+    this.product = product;
+  }
+
+  getOrderForProfile(profileName) {
+    return this.profiles.find(x => x.name === profileName).order;
+  }
+
+  matchesProfile(profileName) {
+    if(this.profiles) {
+      return this.profiles.find(x => x.name === profileName) !== null;
+    }
+
+    return false;
+  }
+
+  select(){
+    if(Tutorial.previousSelection) {
+      Tutorial.previousSelection.isSelected = false;
+    }
+
+    Tutorial.previousSelection = this;
+    this.isSelected = true;
   }
 }
 

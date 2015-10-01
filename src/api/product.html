@@ -1,7 +1,7 @@
 <template>
   <require from="./product.css"></require>
 
-  <div class="content  product">
+  <div class="content product">
     <div class="au-section">
       <h1 class="au-section-heading">
         <span>${product.productName}</span>
@@ -15,30 +15,30 @@
       </h1>
 
       <div class="au-section-body">
-        <h3 if.bind="product.description">${product.description}</h3>
+        <h3 if.bind="selectedProductVersion.description">${selectedProductVersion.description}</h3>
 
-        <div class="text-sm" if.bind="product.keywords">
+        <div class="text-sm" if.bind="selectedProductVersion.keywords">
           <span class="strong">Keywords:</span>
-          <template repeat.for="keyword of product.keywords">
+          <template repeat.for="keyword of selectedProductVersion.keywords">
             <span>${keyword}</span><span if.bind="!$last">, </span>
           </template>
         </div>
 
         <div class="spaced">
-          <a class="au-button" href="https://github.com/${product.userName}/${product.productName}/blob/master/doc/CHANGELOG.md" target="_blank">Changes</a>
-          <a class="au-button" href.bind="product.bugsUrl" target="_blank">Issues</a>
-          <a class="au-button" href="https://github.com/${product.userName}/${product.productName}/blob/master/LICENSE" target="_blank">License</a>
-          <a class="au-button" href.bind="product.repositoryUrl" target="_blank">Repository</a>
+          <a class="au-button" href.bind="selectedProductVersion.changeLogUrl" target="_blank">Changes</a>
+          <a class="au-button" href.bind="selectedProductVersion.bugsUrl" target="_blank">Issues</a>
+          <a class="au-button" href.bind="selectedProductVersion.licenseUrl" target="_blank">License</a>
+          <a class="au-button" href.bind="selectedProductVersion.repositoryUrl" target="_blank">Repository</a>
         </div>
       </div>
     </div>
 
-    <template if.bind="product.dependencies && product.dependencies.length">
+    <template if.bind="selectedProductVersion.dependencies && selectedProductVersion.dependencies.length">
       <h1>Dependencies</h1>
       <div class="au-section">
         <div class="au-section-body">
           <ul class="no-bullet">
-            <li repeat.for="dependency of product.dependencies">
+            <li repeat.for="dependency of selectedProductVersion.dependencies">
               <a href="#/api/${dependency.userName}/${dependency.productName}/${dependency.preferredVersion}">${dependency.productName}</a>
             </li>
           </ul>

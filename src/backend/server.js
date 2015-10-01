@@ -1,10 +1,11 @@
 import {database} from './database';
 import {HttpClient} from 'aurelia-http-client';
-import {inject} from 'aurelia-framework';
+import {inject, join} from 'aurelia-framework';
 import {ChangeLogParser} from './change-log-parser';
 import {
   Product,
   ProductVersion,
+  Article,
   GroupModel,
   ClassModel,
   ConstructorModel,
@@ -15,26 +16,6 @@ import {
   SignatureModel,
   FunctionModel
 } from './model';
-
-function getProductVersion(product, version) {
-  let apiUrl = `https://rawgit.com/${product.userName}/${product.productName}/${version}/doc/api.json`;
-  let http = new HttpClient();
-
-  return http.get(apiUrl).then(response => {
-    let productVersion = new ProductVersion();
-    productVersion.version = version;
-
-    let api = response.content;
-
-    productVersion.children = api.children;
-    productVersion.groups = api.groups;
-    checkForChildren(productVersion);
-    checkForGroups(productVersion);
-
-    product.versions.push(productVersion);
-    return productVersion;
-  });
-}
 
 @inject(ChangeLogParser)
 export class Server {
@@ -51,6 +32,18 @@ export class Server {
 
     this.officialProducts = database.officialProducts.map(x => new Product(x, this));
     return Promise.resolve(this.officialProducts);
+  }
+
+  getTutorialsForProfile(profileName) {
+    return this.getOfficialProducts().then(products => {
+      let temp = [];
+
+      for(let i = 0, ii = products.length; i < ii; ++i) {
+        temp = products[i].getTutorialForProfile(profileName).concat(temp);
+      }
+
+      return temp.sort((a,b) => a.getOrderForProfile(profileName) < b.getOrderForProfile(profileName) ? -1 : 1);
+    });
   }
 
   getProduct(userName, productName) {
@@ -73,45 +66,74 @@ export class Server {
 
   getProductVersion(product, version) {
     if(product.isLoaded) {
-      return getProductVersion(product, version);
+      return this._loadProductVersion(product, version);
     }
 
-    return this.getProductDescription(this.changeLogParser, product)
-      .then(x => getProductVersion(product, version));
+    return this._loadProductDescription(this.changeLogParser, product)
+      .then(x => this._loadProductVersion(product, version));
   }
 
-  getProductDescription(changeLogParser, product) {
-    let packageUrl = `https://rawgit.com/${product.userName}/${product.productName}/${product.latestVersion}/package.json`;
-    let changeLogUrl = `https://rawgit.com/${product.userName}/${product.productName}/${product.latestVersion}/doc/CHANGELOG.md`;
+  loadArticleTranslation(translation, culture) {
+    return new HttpClient().createRequest(translation.url)
+      .asGet()
+      .withResponseType('text')
+      .send().then(response => translation.content = response.content)
+      .catch(() => translation.content = '');
+  }
+
+  _loadProductVersion(product, version) {
+    let productVersion = new ProductVersion(product, version, this);
+    product.versions.push(productVersion);
+
+    let http = new HttpClient();
 
     return Promise.all([
-      new HttpClient().get(packageUrl).then(response => {
+      http.get(productVersion.apiUrl).then(response => {
+        productVersion.children = response.content.children;
+        productVersion.groups = response.content.groups;
+        checkForChildren(productVersion);
+        checkForGroups(productVersion);
+      }),
+      http.get(productVersion.packageUrl).then(response => {
         let pack = response.content;
 
-        product.description = pack.description;
-        product.bugsUrl = pack.bugs.url;
-        product.repositoryUrl = pack.repository.url;
+        productVersion.description = pack.description;
+        productVersion.bugsUrl = pack.bugs.url;
+        productVersion.repositoryUrl = pack.repository.url;
+        productVersion.changeLogUrl = `https://github.com/${product.userName}/${product.productName}/blob/master/doc/CHANGELOG.md`;
+        productVersion.licenseUrl = `https://github.com/${product.userName}/${product.productName}/blob/master/LICENSE`;
 
         if(pack.jspm && pack.jspm.dependencies) {
-          product.dependencies = Object.keys(pack.jspm.dependencies)
+          productVersion.dependencies = Object.keys(pack.jspm.dependencies)
             .filter(x => x.startsWith('aurelia-'))
             .map(x => x.replace('aurelia-', ''))
             .map(x => this.officialProducts.find(y => y.productName === x) || this.otherProducts.find(y => y.productName === x));
         }
 
+        if(pack.aurelia && pack.aurelia.documentation) {
+          let links = pack.aurelia.documentation.links;
+          productVersion.articles = links.filter(x => x.mediaType === 'application/aurelia-doc+html') || [];
+          productVersion.articles = productVersion.articles.map(x => new Article(x, productVersion, this));
+        }
+
         pack.keywords.forEach(keyword => {
-          product.keywords.push(keyword);
+          productVersion.keywords.push(keyword);
         });
-      }),
-      new HttpClient().createRequest(changeLogUrl)
-        .asGet()
-        .withResponseType('text/markdown')
-        .send().then(response => {
-          product.availableVersions = changeLogParser.parseVersions(response.content);
-        })
-      ]).then(() => {
-      product.isLoaded = true;
-      return product;
+      })
+    ]).then(() => productVersion);
+  }
+
+  _loadProductDescription(changeLogParser, product) {
+    let changeLogUrl = `https://rawgit.com/${product.userName}/${product.productName}/${product.latestVersion}/doc/CHANGELOG.md`;
+
+    return new HttpClient().createRequest(changeLogUrl)
+      .asGet()
+      .withResponseType('text')
+      .send().then(response => {
+        product.availableVersions = changeLogParser.parseVersions(response.content);
+      }).then(() => {
+        product.isLoaded = true;
+        return product;
     });
   }
 }

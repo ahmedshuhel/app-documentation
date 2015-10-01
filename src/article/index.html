@@ -1,0 +1,18 @@
+<template>
+  <section class="au-animate">
+    <ul class="au-menu">
+      <li>
+        <select class="au-select" value.bind="selectedProfile">
+          <option repeat.for="profile of profiles" model.bind="profile">${profile}</option>
+        </select>
+      </li>
+      <li repeat.for="tutorial of tutorials" class="${tutorial.isSelected ? 'active': ''}">
+        <a href="#/article/${tutorial.product.userName}/${tutorial.product.productName}/${tutorial.product.preferredVersion}/${tutorial.slug}">
+          ${$index + 1}. ${tutorial.title}
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <router-view></router-view>
+</template>
