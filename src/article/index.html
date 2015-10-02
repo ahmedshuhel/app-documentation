@@ -2,8 +2,8 @@
   <section class="au-animate">
     <ul class="au-menu">
       <li class="profile-selector">
-        I am <select class="au-select" value.bind="selectedProfile">
-          <option repeat.for="profile of profiles" model.bind="profile">${profile.name}</option>
+        I am<select class="au-select" value.bind="selectedProfile">
+          <option repeat.for="profile of profiles" model.bind="profile">${profile.displayName}</option>
         </select>
       </li>
       <li repeat.for="tutorial of tutorials" class="${tutorial.isSelected ? 'active': ''}">

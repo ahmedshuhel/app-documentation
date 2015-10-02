@@ -86,7 +86,7 @@ export let database = {
         {
           title: 'The Platform Abstraction Layer',
           href: 'doc/article/en-US/the-platform-abstraction-layer.html',
-          profiles: [ {name: 'Architect', order: 1} ]
+          profiles: [ {name: 'architect', order: 1} ]
         }
       ]
     },

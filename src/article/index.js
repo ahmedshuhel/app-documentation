@@ -3,8 +3,13 @@ import {Server} from 'backend/server';
 
 @inject(Server)
 export class Index {
-  profiles = [{name:'a Developer', value:'developer'}];
   tutorials = null;
+  profiles = [
+    {displayName: 'a developer', name: 'developer'},
+    {displayName: 'an architect', name: 'architect'},
+    {displayName: 'a manager or CTO', name: 'manager'}
+  ];
+
   @bindable selectedProfile;
 
   constructor(server) {
@@ -24,11 +29,11 @@ export class Index {
   }
 
   activate() {
-    return this.selectedProfileChanged(this.selectedProfile.value);
+    return this.selectedProfileChanged();
   }
 
-  selectedProfileChanged(newProfile) {
-    return this.server.getTutorialsForProfile(newProfile.value)
+  selectedProfileChanged() {
+    return this.server.getTutorialsForProfile(this.selectedProfile.name)
       .then(tutorials => this.tutorials = tutorials);
   }
 }

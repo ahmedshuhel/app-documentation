@@ -169,7 +169,7 @@ export class Tutorial {
 
   matchesProfile(profileName) {
     if(this.profiles) {
-      return this.profiles.find(x => x.name === profileName) !== null;
+      return !!this.profiles.find(x => x.name === profileName);
     }
 
     return false;
