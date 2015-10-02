@@ -1,6 +1,7 @@
 import {database} from './database';
 import {HttpClient} from 'aurelia-http-client';
-import {join} from 'aurelia-framework';
+import {Cache} from './cache';
+import {join, inject} from 'aurelia-framework';
 import {
   Product,
   ProductVersion,
@@ -16,8 +17,10 @@ import {
   FunctionModel
 } from './model';
 
+@inject(Cache)
 export class Server {
-  constructor() {
+  constructor(cache) {
+    this.cache = cache;
     this.officialProducts = [];
     this.otherProducts = [];
   }
@@ -126,18 +129,26 @@ export class Server {
   }
 
   _loadProductDescription(changeLogParser, product) {
-    let changeLogUrl = `https://rawgit.com/${product.userName}/${product.productName}/${product.latestVersion}/doc/CHANGELOG.md`;
     let tagList = `http://api.github.com/repos/${product.userName}/${product.productName}/tags`;
+    let content = this.cache.get(tagList);
+    let loaded;
 
-    return new HttpClient()
-      .createRequest(tagList)
-      .asGet()
-      .send().then(response => {
-        product.availableVersions = this._getVersions(response.content.map(x => x.name));
-      }).then(() => {
-        product.isLoaded = true;
-        return product;
-      });
+    if(content) {
+      loaded = Promise.resolve(content);
+    } else {
+      loaded = new HttpClient()
+        .createRequest(tagList)
+        .asGet()
+        .send()
+        .then(response => this.cache.put(tagList, response.content));
+    }
+
+    return loaded.then(content => {
+      product.availableVersions = this._getVersions(content.map(x => x.name));
+    }).then(() => {
+      product.isLoaded = true;
+      return product;
+    });
   }
 
   _getVersions(all) {
