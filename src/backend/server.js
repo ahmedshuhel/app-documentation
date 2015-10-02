@@ -1,7 +1,6 @@
 import {database} from './database';
 import {HttpClient} from 'aurelia-http-client';
-import {inject, join} from 'aurelia-framework';
-import {ChangeLogParser} from '../services/change-log-parser';
+import {join} from 'aurelia-framework';
 import {
   Product,
   ProductVersion,
@@ -17,10 +16,8 @@ import {
   FunctionModel
 } from './model';
 
-@inject(ChangeLogParser)
 export class Server {
-  constructor(changeLogParser) {
-    this.changeLogParser = changeLogParser;
+  constructor() {
     this.officialProducts = [];
     this.otherProducts = [];
   }
@@ -130,16 +127,73 @@ export class Server {
 
   _loadProductDescription(changeLogParser, product) {
     let changeLogUrl = `https://rawgit.com/${product.userName}/${product.productName}/${product.latestVersion}/doc/CHANGELOG.md`;
+    let tagList = `http://api.github.com/repos/${product.userName}/${product.productName}/tags`;
 
-    return new HttpClient().createRequest(changeLogUrl)
+    return new HttpClient()
+      .createRequest(tagList)
       .asGet()
-      .withResponseType('text')
       .send().then(response => {
-        product.availableVersions = changeLogParser.parseVersions(response.content);
+        product.availableVersions = this._getVersions(response.content.map(x => x.name));
       }).then(() => {
         product.isLoaded = true;
         return product;
+      });
+  }
+
+  _getVersions(all) {
+    let mmpRegex = /(\d+)/g;
+    let versions = all.map(x => {
+      let [major, minor, patch] = x.match(mmpRegex);
+      return {major, minor, patch};
     });
+
+    let majors = {};
+
+    versions.forEach(x => {
+      let major = majors[x.major];
+      if(!major) {
+        majors[x.major] = major = {};
+      }
+
+      let minor = major[x.minor];
+      if(!minor) {
+        major[x.minor] = minor = [];
+      }
+
+      let patch = minor.find(y => y === x.patch);
+      if(!patch) {
+        minor.push(parseInt(x.patch));
+      }
+    });
+
+    let available = [];
+
+    for(let major in majors) {
+      let minors = majors[major];
+
+      for(let minor in minors) {
+        let patches = minors[minor].sort();
+        available.push({
+          major: parseInt(major),
+          minor: parseInt(minor),
+          patch: patches[0],
+          version: major + '.' + minor + '.' + patches[0],
+          display: major + '.' + minor + '.x'
+        });
+      }
+    }
+
+    available.sort((a, b) => {
+      if(a.major > b.major) return -1;
+      if(a.major < b.major) return 1;
+
+      if(a.minor > b.minor) return -1;
+      if(a.minor < b.minor) return 1;
+
+      return 0;
+    });
+
+    return available;
   }
 }
 
