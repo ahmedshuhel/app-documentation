@@ -36,12 +36,13 @@ export class Article {
     return this.productVersion.getArticle(this.articleSlug, this.culture.current)
       .then(article => {
         article.view = article.view || new InlineViewStrategy(`
-          <template>${article.title}</template>
+          <template>${article.content}</template>
         `);
 
         this.article = article;
-      }).catch(() => {
+      }).catch(e => {
         //TODO: problem with article
+        console.log(e);
       });
   }
 

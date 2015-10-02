@@ -1,7 +1,7 @@
 import {database} from './database';
 import {HttpClient} from 'aurelia-http-client';
 import {inject, join} from 'aurelia-framework';
-import {ChangeLogParser} from './change-log-parser';
+import {ChangeLogParser} from '../services/change-log-parser';
 import {
   Product,
   ProductVersion,
@@ -77,8 +77,14 @@ export class Server {
     return new HttpClient().createRequest(translation.url)
       .asGet()
       .withResponseType('text')
-      .send().then(response => translation.content = response.content)
-      .catch(() => translation.content = '');
+      .send().then(response => {
+        translation.content = response.content;
+        return translation;
+      })
+      .catch(() => {
+        translation.content = '';
+        return translation;
+      });
   }
 
   _loadProductVersion(product, version) {

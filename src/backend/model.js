@@ -89,14 +89,13 @@ export class ProductVersion {
   }
 
   getArticle(slug, culture) {
-    let name = slug + 'html';
-    let found = this.articles.find(x => x.href.indexOf(name) !== -1);
+    let found = this.articles.find(x => x.slug === slug);
 
     if(!found) {
       return Promise.reject();
     }
 
-    return article.getTranslation(culture);
+    return found.getTranslation(culture);
   }
 }
 
@@ -106,7 +105,8 @@ export class Article {
     this.productVersion = productVersion;
     this.server = server;
     this.baseUrl = productVersion.baseUrl;
-    this.primaryUrl = join(baseUrl, attrs.href);
+    this.primaryUrl = join(this.baseUrl, attrs.href);
+    this.slug = this.primaryUrl.substring(this.primaryUrl.lastIndexOf('/') + 1).replace('.html', '');
     this.translations = {};
   }
 

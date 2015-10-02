@@ -43,9 +43,10 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.24",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.8.4",
-    "css": "github:systemjs/plugin-css@0.1.17",
+    "css": "github:systemjs/plugin-css@0.1.18",
     "font-awesome": "npm:font-awesome@4.3.0",
     "joelcoxokc/aurelia-interface-grid": "github:joelcoxokc/aurelia-interface-grid@master",
+    "nprogress": "github:rstacruz/nprogress@0.2.0",
     "github:aurelia/animator-css@0.16.0": {
       "aurelia-metadata": "github:aurelia/metadata@0.8.0",
       "aurelia-templating": "github:aurelia/templating@0.15.3"
@@ -162,6 +163,9 @@ System.config({
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
+    "github:rstacruz/nprogress@0.2.0": {
+      "css": "github:systemjs/plugin-css@0.1.18"
+    },
     "github:twbs/bootstrap@3.3.4": {
       "jquery": "github:components/jquery@2.1.4"
     },
@@ -177,7 +181,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:font-awesome@4.3.0": {
-      "css": "github:systemjs/plugin-css@0.1.17"
+      "css": "github:systemjs/plugin-css@0.1.18"
     }
   }
 });

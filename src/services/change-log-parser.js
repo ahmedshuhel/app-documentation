@@ -5,7 +5,7 @@ export class ChangeLogParser {
     let tempMinorVersions = [];
     let tempPatchVersions = [];
     let minorRegex = /(\n|^)## (.*?)\n/g;
-    let minorVersions = changeLog.match(minorRegex);
+    let minorVersions = changeLog.match(minorRegex) || [];
 
     minorVersions.forEach(arr => {
       let thisArr = arr.replace(/(\r\n|\n|\r)/gm, '');
@@ -15,7 +15,7 @@ export class ChangeLogParser {
     });
 
     let patchRegex = /(\n|^#|^)### (.*?)\n/g;
-    let patchVersions = changeLog.match(patchRegex);
+    let patchVersions = changeLog.match(patchRegex) || [];
 
     patchVersions.forEach(arr => {
       let thisArr = arr.replace(/(\r\n|\n|\r)/gm, '');

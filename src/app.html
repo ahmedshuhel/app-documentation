@@ -1,4 +1,8 @@
 <template>
+  <require from="resources/loading-indicator"></require>
+
+  <loading-indicator loading.bind="router.isNavigating"></loading-indicator>
+
   <nav class="au-navbar">
     <div class="au-navbar-logo">
       <a href="#/">
