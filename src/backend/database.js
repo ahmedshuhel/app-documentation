@@ -4,25 +4,13 @@ export let database = {
       userName: 'aurelia',
       productName: 'binding',
       latestVersion: '0.9.1',
-      tutorials: [
-        {
-          slug: 'using-databinding',
-          title: 'Using Databinding',
-          profiles: [ {name:'Developer', order: 2}, {name:'Newbie', order: 2} ]
-        }
-      ]
+      tutorials: []
     },
     {
       userName: 'aurelia',
       productName: 'bootstrapper',
       latestVersion: '0.17.0',
-      tutorials: [
-        {
-          slug: 'controlling-app-startup',
-          title: 'Controlling App Startup',
-          profiles: [ {name:'Developer', order: 1}, {name:'Newbie', order: 3} ]
-        }
-      ]
+      tutorials: []
     },
     {
       userName: 'aurelia',
@@ -89,6 +77,18 @@ export let database = {
       productName: 'metadata',
       latestVersion: '0.8.0',
       tutorials: []
+    },
+    {
+      userName: 'aurelia',
+      productName: 'pal-browser',
+      latestVersion: '0.1.5',
+      tutorials: [
+        {
+          title: 'The Platform Abstraction Layer',
+          href: 'doc/article/en-US/the-platform-abstraction-layer.html',
+          profiles: [ {name: 'Architect', order: 1} ]
+        }
+      ]
     },
     {
       userName: 'aurelia',

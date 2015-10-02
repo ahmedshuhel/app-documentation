@@ -115,6 +115,7 @@ export class Article {
       return Promise.resolve(this.translations[culture]);
     }
 
+    //TODO: check available translations
     if(this.primaryTranslation) {
       return this._loadTranslation(culture);
     }
@@ -156,7 +157,8 @@ export class Tutorial {
 
   constructor(attrs, product) {
     this.title = attrs.title;
-    this.slug = attrs.slug;
+    this.slug = attrs.href.substring(attrs.href.lastIndexOf('/') + 1).replace('.html', '');
+    this.href = attrs.href;
     this.profiles = attrs.profiles;
     this.product = product;
   }

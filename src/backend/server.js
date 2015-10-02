@@ -111,8 +111,7 @@ export class Server {
         }
 
         if(pack.aurelia && pack.aurelia.documentation) {
-          let links = pack.aurelia.documentation.links;
-          productVersion.articles = links.filter(x => x.mediaType === 'application/aurelia-doc+html') || [];
+          productVersion.articles = pack.aurelia.documentation.articles || [];
           productVersion.articles = productVersion.articles.map(x => new Article(x, productVersion, this));
         }
 

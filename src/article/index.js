@@ -3,12 +3,13 @@ import {Server} from 'backend/server';
 
 @inject(Server)
 export class Index {
-  profiles = ['Developer', 'Newbie'];
+  profiles = [{name:'a Developer', value:'developer'}];
   tutorials = null;
-  @bindable selectedProfile = 'Developer';
+  @bindable selectedProfile;
 
   constructor(server) {
     this.server = server;
+    this.selectedProfile = this.profiles[0];
   }
 
   configureRouter(config, router) {
@@ -23,11 +24,11 @@ export class Index {
   }
 
   activate() {
-    return this.selectedProfileChanged(this.selectedProfile);
+    return this.selectedProfileChanged(this.selectedProfile.value);
   }
 
   selectedProfileChanged(newProfile) {
-    return this.server.getTutorialsForProfile(newProfile)
+    return this.server.getTutorialsForProfile(newProfile.value)
       .then(tutorials => this.tutorials = tutorials);
   }
 }
