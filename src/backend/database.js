@@ -80,8 +80,8 @@ export let database = {
     },
     {
       userName: 'aurelia',
-      productName: 'pal-browser',
-      latestVersion: '0.1.5',
+      productName: 'pal',
+      latestVersion: '0.1.4',
       tutorials: [
         {
           title: 'The Platform Abstraction Layer',
@@ -89,6 +89,12 @@ export let database = {
           profiles: [ {name: 'architect', order: 1} ]
         }
       ]
+    },
+    {
+      userName: 'aurelia',
+      productName: 'pal-browser',
+      latestVersion: '0.1.6',
+      tutorials: []
     },
     {
       userName: 'aurelia',

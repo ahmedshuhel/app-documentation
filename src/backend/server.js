@@ -184,11 +184,12 @@ export class Server {
 
       for(let minor in minors) {
         let patches = minors[minor].sort();
+        let patch = patches[patches.length - 1];
         available.push({
           major: parseInt(major),
           minor: parseInt(minor),
-          patch: patches[0],
-          version: major + '.' + minor + '.' + patches[0],
+          patch: patch,
+          version: major + '.' + minor + '.' + patch,
           display: major + '.' + minor + '.x'
         });
       }
