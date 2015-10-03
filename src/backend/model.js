@@ -14,7 +14,7 @@ export class Product {
   constructor(attrs, server) {
     this.userName = attrs.userName;
     this.productName = attrs.productName;
-    this.latestVersion = attrs.latestVersion;
+    this.latestVersion = 'latest';
     this.preferredVersion = this.latestVersion;
     this.tutorials = attrs.tutorials.map(a => new Tutorial(a, this));
     this.isSelected = false;
@@ -57,6 +57,16 @@ export class Product {
 
   getTutorialForProfile(profileName) {
     return this.tutorials.filter(x => x.matchesProfile(profileName));
+  }
+
+  configureLatestVersion() {
+    if(this.latestVersion === 'latest') {
+      this.latestVersion = this.availableVersions[0].version;
+
+      if(this.preferredVersion === 'latest') {
+        this.preferredVersion = this.latestVersion;
+      }
+    }
   }
 }
 

@@ -88,6 +88,10 @@ export class Server {
   }
 
   _loadProductVersion(product, version) {
+    if(version === 'latest') {
+      version = product.latestVersion;
+    }
+
     let productVersion = new ProductVersion(product, version, this);
     product.versions.push(productVersion);
 
@@ -145,6 +149,7 @@ export class Server {
 
     return loaded.then(content => {
       product.availableVersions = this._getVersions(content.map(x => x.name));
+      product.configureLatestVersion();
     }).then(() => {
       product.isLoaded = true;
       return product;
