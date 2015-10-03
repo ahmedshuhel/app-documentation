@@ -1,6 +1,6 @@
 import {database} from './database';
 import {HttpClient} from 'aurelia-http-client';
-import {Cache} from './cache';
+import {Cache} from 'services/cache';
 import {join, inject} from 'aurelia-framework';
 import {
   Product,
@@ -23,6 +23,14 @@ export class Server {
     this.cache = cache;
     this.officialProducts = [];
     this.otherProducts = [];
+  }
+
+  getProfile() {
+    return new Promise(resolve => resolve(this.cache.getItem('profile')));
+  }
+
+  saveProfile(profileName) {
+    return new Promise(resolve => resolve(this.cache.setItem('profile', profileName, this.cache.farFuture())));
   }
 
   getOfficialProducts() {
@@ -134,7 +142,7 @@ export class Server {
 
   _loadProductDescription(changeLogParser, product) {
     let tagList = `http://api.github.com/repos/${product.userName}/${product.productName}/tags`;
-    let content = this.cache.get(tagList);
+    let content = this.cache.getItem(tagList);
     let loaded;
 
     if(content) {
@@ -144,7 +152,7 @@ export class Server {
         .createRequest(tagList)
         .asGet()
         .send()
-        .then(response => this.cache.put(tagList, response.content));
+        .then(response => this.cache.setItem(tagList, response.content));
     }
 
     return loaded.then(content => {

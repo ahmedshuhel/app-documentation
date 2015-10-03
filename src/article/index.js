@@ -29,10 +29,19 @@ export class Index {
   }
 
   activate() {
-    return this.selectedProfileChanged();
+    this.server.getProfile()
+      .then(profileName => {
+        if(profileName) {
+          this.selectedProfile = this.profiles.find(x => x.name === profileName) || this.profiles[0];
+        }
+
+        return this.selectedProfileChanged();
+      });
   }
 
   selectedProfileChanged() {
+    this.server.saveProfile(this.selectedProfile.name);
+
     return this.server.getTutorialsForProfile(this.selectedProfile.name)
       .then(tutorials => this.tutorials = tutorials);
   }

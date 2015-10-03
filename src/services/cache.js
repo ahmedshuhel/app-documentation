@@ -15,11 +15,15 @@ function dateAdd(date, interval, units) {
 }
 
 export class Cache {
+  farFuture() {
+    return dateAdd(new Date(), 'year', 1);
+  }
+
   fromNow(hours = 1, minutes = 0, seconds = 0) {
     return dateAdd(dateAdd(dateAdd(new Date(), 'hour', hours), 'minute', minutes), 'second', seconds);
   }
 
-  get(key) {
+  getItem(key) {
     let content = null;
 
     try {
@@ -35,7 +39,7 @@ export class Cache {
     }
   }
 
-  put(key, content, expires) {
+  setItem(key, content, expires) {
     try {
       let toStore = {
         content: content,
