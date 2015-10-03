@@ -39,7 +39,7 @@
         <div class="au-section-body">
           <ul class="no-bullet">
             <li repeat.for="dependency of selectedProductVersion.dependencies">
-              <a href="#/api/${dependency.userName}/${dependency.productName}/${dependency.preferredVersion}">${dependency.productName}</a>
+              <a href="#/${dependency.userName}/${dependency.productName}/${dependency.preferredVersion}/doc/api/overview">${dependency.productName}</a>
             </li>
           </ul>
         </div>
@@ -52,7 +52,7 @@
         <div class="au-section-body">
           <ul class="no-bullet">
             <li repeat.for="child of selectedProductVersion.classes">
-              <a href="#/api/${$parent.product.userName}/${$parent.product.productName}/${$parent.product.preferredVersion}/class/${child.name}">
+              <a href="#/${$parent.product.userName}/${$parent.product.productName}/${$parent.product.preferredVersion}/doc/api/class/${child.name}">
                 ${child.name}
               </a>
             </li>
@@ -67,7 +67,7 @@
         <div class="au-section-body">
           <ul class="no-bullet">
             <li repeat.for="child of selectedProductVersion.interfaces">
-              <a href="#/api/${$parent.product.userName}/${$parent.product.productName}/${$parent.product.preferredVersion}/interface/${child.name}">
+              <a href="#/${$parent.product.userName}/${$parent.product.productName}/${$parent.product.preferredVersion}/doc/api/interface/${child.name}">
                 ${child.name}
               </a>
             </li>

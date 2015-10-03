@@ -20,7 +20,7 @@ export class Index {
   configureRouter(config, router) {
     config.map([
       { route: '', moduleId: './no-selection', title: 'API Home' },
-      { route: [':userName/:productName/:version/:articleSlug'], moduleId: './article' }
+      { route: ':articleSlug', moduleId: './article' }
     ]);
 
     config.mapUnknownRoutes(instruction => instruction.config.moduleId = '');

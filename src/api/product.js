@@ -1,4 +1,5 @@
 import {bindable, inject} from 'aurelia-framework';
+import {Redirect} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {Server} from 'backend/server';
 
@@ -19,14 +20,14 @@ export class Repository {
           product.preferredVersion = productVersion.version;
           this.product = product;
           this.selectedProductVersion = productVersion;
-          this.selectedVersion = params.version;
+          this.selectedVersion = productVersion.version;
         });
       });
   }
 
   selectedVersionChanged(newValue, oldValue) {
     if(this.product.preferredVersion !== newValue){
-      this.router.navigate('#/api/' + this.product.userName + '/' + this.product.productName + '/' + newValue);
+      this.router.navigate(`#/${this.product.userName}/${this.product.productName}/${newValue}/doc/api/overview`);
     }
   }
 }

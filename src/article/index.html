@@ -7,7 +7,7 @@
         </select>
       </li>
       <li repeat.for="tutorial of tutorials" class="${tutorial.isSelected ? 'active': ''}">
-        <a href="#/article/${tutorial.product.userName}/${tutorial.product.productName}/${tutorial.product.preferredVersion}/${tutorial.slug}">
+        <a href="#/${tutorial.product.userName}/${tutorial.product.productName}/${tutorial.product.preferredVersion}/doc/article/${tutorial.slug}">
           ${$index + 1}. ${tutorial.title}
         </a>
       </li>

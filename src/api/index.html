@@ -2,7 +2,7 @@
   <section class="au-animate">
     <ul class="au-menu">
       <li repeat.for="product of products" class="${product.isSelected ? 'active': ''}">
-        <a href="#/api/${product.userName}/${product.productName}/${product.preferredVersion}">
+        <a href="#/${product.userName}/${product.productName}/${product.preferredVersion}/doc/api/overview">
           ${product.productName}
         </a>
       </li>

@@ -56,7 +56,7 @@ export class Server {
       found = officialProducts.find(x => x.userName === userName && x.productName === productName);
 
       if(!found) {
-        found = new Product({userName:userName, productName:productName, latestVersion: 'master'}, this)
+        found = new Product({userName:userName, productName:productName, latestVersion: 'latest'}, this)
         this.otherProducts.push(found);
       }
 

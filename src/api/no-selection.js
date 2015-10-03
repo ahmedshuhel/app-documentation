@@ -5,7 +5,7 @@ export class NoSelection {
   canActivate() {
     if(Product.previousSelection) {
       let product = Product.previousSelection;
-      return new Redirect(`api/${product.userName}/${product.productName}/${product.preferredVersion}`);
+      return new Redirect(`${product.userName}/${product.productName}/${product.preferredVersion}/doc/api/overview`);
     }
 
     return true;

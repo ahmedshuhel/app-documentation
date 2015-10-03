@@ -9,12 +9,10 @@ export class Index {
 
   configureRouter(config, router){
     config.map([
-      { route: '', moduleId: './no-selection', title: 'API Home' },
-      { route: [':userName/:productName', ':userName/:productName/:version'], moduleId: './product' },
-      { route: ':userName/:productName/:version/:classOrInterface/:name', moduleId: './class-or-interface' }
+      { route: 'overview', moduleId: './product', title: 'API' },
+      { route: 'home', moduleId: './no-selection', title: 'API Home' },
+      { route: ':classOrInterface/:name', moduleId: './class-or-interface' }
     ]);
-
-    config.mapUnknownRoutes(instruction => instruction.config.moduleId = '');
 
     this.router = router;
   }
