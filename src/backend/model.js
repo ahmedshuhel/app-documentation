@@ -144,7 +144,9 @@ export class Article {
     return this.server.loadArticleTranslation(translation)
       .then(translation => {
         if(!translation.content) {
-          //no translation found
+          translation.subsume(this.primaryTranslation);
+        } else {
+          translation.prepare();
         }
 
         return translation;
@@ -155,10 +157,81 @@ export class Article {
 export class ArticleTranslation {
   constructor(article, culture) {
     this.url = article.primaryUrl;
+    this.culture = culture;
 
     if(culture !== 'en-US') {
       this.url = this.url.replace('en-US', culture);
     }
+  }
+
+  subsume(other) {
+
+  }
+
+  prepare(primaryTranslation) {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(this.content, "text/html");
+
+    var currentChild = doc.firstChild;
+    while (currentChild) {
+      if(currentChild.tagName === 'HTML') {
+        this._handleHTML(currentChild);
+      }
+
+      currentChild = currentChild.nextSibling;
+    }
+  }
+
+  _handleHTML(node) {
+    var currentChild = node.firstChild;
+
+    while (currentChild) {
+      if(currentChild.nodeType === 1) {
+        switch (currentChild.tagName) {
+          case 'HEAD':
+            this._handleHEAD(currentChild);
+            break;
+          case 'BODY':
+            this._handleBODY(currentChild);
+            break;
+        }
+      }
+
+      currentChild = currentChild.nextSibling;
+    }
+  }
+
+  _handleHEAD(node) {
+    var currentChild = node.firstChild;
+
+    while (currentChild) {
+      if(currentChild.nodeType === 1) {
+        switch (currentChild.tagName) {
+          case 'TITLE':
+            this.title = currentChild.innerHTML;
+            break;
+          case 'META':
+            switch(currentChild.getAttribute('name')) {
+              case 'description':
+                this.description = currentChild.getAttribute('content');
+                break;
+              case 'keywords':
+                this.keywords = currentChild.getAttribute('content').split(',').map(x => x.trim());
+                break;
+              case 'author':
+                this.author = currentChild.getAttribute('content');
+                break;
+            }
+            break;
+        }
+      }
+
+      currentChild = currentChild.nextSibling;
+    }
+  }
+
+  _handleBODY(node) {
+    console.log('body');
   }
 }
 

@@ -82,17 +82,25 @@ export class Server {
   }
 
   loadArticleTranslation(translation, culture) {
-    return new HttpClient().createRequest(translation.url)
-      .asGet()
-      .withResponseType('text')
-      .send().then(response => {
-        translation.content = response.content;
-        return translation;
-      })
-      .catch(() => {
-        translation.content = '';
-        return translation;
-      });
+    let found = this.cache.getItem(translation.url);
+    let loaded = found
+      ? Promise.resolve(found)
+      : HttpClient().createRequest(translation.url)
+          .asGet()
+          .withResponseType('text')
+          .send().then(response => response.content)
+          .catch(() => '')
+          .then(content => this.cache.setItem(translation.url, content, this.cache.farFuture()));
+
+    return loaded.then(content => {
+      translation.content = content;
+
+      if(!content) {
+        translation.unavailable = true;
+      }
+
+      return translation;
+    });
   }
 
   _loadProductVersion(product, version) {

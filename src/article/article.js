@@ -40,9 +40,6 @@ export class Article {
         `);
 
         this.article = article;
-      }).catch(e => {
-        //TODO: problem with article
-        console.log(e);
       });
   }
 
