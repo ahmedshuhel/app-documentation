@@ -12,11 +12,11 @@
     </div>
 
     <div class="pull-right">
-      <select class="au-select">
-        <option>English</option>
+      <select class="au-select" value.bind="culture.current">
+        <option repeat.for="culture of culture.options" value.bind="culture">${culture}</option>
       </select>
-      <select class="au-select">
-        <option>ES 2016</option>
+      <select class="au-select" value.bind="language.current">
+        <option repeat.for="language of language.options" value.bind="language">${language}</option>
       </select>
       <a class="au-icon-button" href="#"><i class="fa fa-search"></i></a>
     </div>

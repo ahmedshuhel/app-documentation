@@ -1,4 +1,14 @@
+import {Culture} from 'services/culture';
+import {Language} from 'services/language';
+import {inject} from 'aurelia-framework';
+
+@inject(Culture, Language)
 export class App {
+  constructor(culture, language) {
+    this.culture = culture;
+    this.language = language;
+  }
+
   configureRouter(config, router) {
     config.title = 'Aurelia Docs';
     config.map([

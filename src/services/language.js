@@ -2,21 +2,20 @@ import {inject, ObserverLocator} from 'aurelia-framework';
 import {Cache} from './cache';
 
 @inject(ObserverLocator, Cache)
-export class Culture {
-  options = ['en-US'];
+export class Language {
+  options = ['ES 2016'];
   _handlers = [];
 
   constructor(observerLocator, cache) {
     this.cache = cache;
-    this.base = this.options[0];
-    this.current = cache.getItem('culture.current') || this.base;
+    this.current = cache.getItem('language.current') || this.options[0];
 
     observerLocator.getObserver(this, 'current')
       .subscribe(newValue => this._currentChanged(newValue));
   }
 
   _currentChanged(newValue) {
-    this.cache.setItem('culture.current', newValue);
+    this.cache.setItem('language.current', newValue);
     this._handlers.forEach(x => x(newValue));
   }
 
