@@ -2,7 +2,6 @@
 <html lang="en-US">
   <head>
     <title>Introduction to Dependency Injection</title>
-    <meta name="translations" content="list rfc1766 identifiers separated by comma here for all completed translations">
     <meta name="description" content="Learn how to decompose apps and then construct them at runtime with dependency injection techniques.">
     <meta name="keywords" content="JavaScript, Architecture, Patterns">
     <meta name="author" content="Rob Eisenberg">
@@ -30,23 +29,23 @@
     Example groups display only one example from the group, based on the users selected language.
     They also have a uid so that the translation can proved the title. The translation should not duplicate the example.
     -->
-    <example-group uid="2" title="Something Here">
-      <example-code lang="ES2016" src="foo/bar.js">
+    <example uid="2" title="Something Here">
+      <source-code lang="ES 2016" src="foo/bar.js">
 
-      </example-code>
-      <example-code lang="TypeScript">
+      </source-code>
+      <source-code lang="TypeScript">
         <!--
         Source can be loaded from a src attribute or placed inline.
         You might want to use the src attr if you intend to also run it as a demo.
         -->
-      </example-code>
-    </example-group>
+      </source-code>
+    </example>
 
     <!--
     A demo runs code inline.
     -->
-    <demo uid="3" title="Something Else Here" src="foo/bar.js">
-
+    <demo uid="3" title="Something Else Here">
+      <source-code src="foo/bar.js"></source-code>
     </demo>
   </body>
 </html>

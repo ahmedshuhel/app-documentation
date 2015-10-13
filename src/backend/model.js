@@ -1,4 +1,5 @@
-import {join} from 'aurelia-framework';
+import {join} from 'aurelia-path';
+import {DOM} from 'aurelia-pal';
 
 function prettyName(s) {
   s =  s.replace(/(\-\w)/g, function(m) {
@@ -125,16 +126,12 @@ export class Article {
       return Promise.resolve(this.translations[culture]);
     }
 
-    //TODO: check available translations
-    if(this.primaryTranslation) {
+    if('en-US' in this.translations) {
       return this._loadTranslation(culture);
     }
 
     return this._loadTranslation('en-US')
-      .then(translation => {
-        this.primaryTranslation = translation;
-        return this._loadTranslation(culture);
-      });
+      .then(() => this.getTranslation(culture));
   }
 
   _loadTranslation(culture) {
@@ -143,16 +140,20 @@ export class Article {
 
     return this.server.loadArticleTranslation(translation)
       .then(translation => {
-        if(!translation.content) {
-          translation.subsume(this.primaryTranslation);
-        } else {
-          translation.prepare();
+        if(!translation.unavailable) {
+          translation.prepare(this.translations['en-US']);
+        }
+
+        if(translation.unavailable) {
+          translation.subsume(this.translations['en-US']);
         }
 
         return translation;
       });
   }
 }
+
+let tagsFromSource = ['EXAMPLE', 'DEMO'];
 
 export class ArticleTranslation {
   constructor(article, culture) {
@@ -171,33 +172,29 @@ export class ArticleTranslation {
   prepare(primaryTranslation) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(this.content, "text/html");
+    let docChild = doc.firstChild;
 
-    var currentChild = doc.firstChild;
-    while (currentChild) {
-      if(currentChild.tagName === 'HTML') {
-        this._handleHTML(currentChild);
-      }
+    while (docChild) {
+      if(docChild.tagName === 'HTML') {
+        let htmlChild = docChild.firstChild;
 
-      currentChild = currentChild.nextSibling;
-    }
-  }
+        while (htmlChild) {
+          if(htmlChild.nodeType === 1) {
+            switch (htmlChild.tagName) {
+              case 'HEAD':
+                this._handleHEAD(htmlChild);
+                break;
+              case 'BODY':
+                this._handleBODY(htmlChild, primaryTranslation);
+                break;
+            }
+          }
 
-  _handleHTML(node) {
-    var currentChild = node.firstChild;
-
-    while (currentChild) {
-      if(currentChild.nodeType === 1) {
-        switch (currentChild.tagName) {
-          case 'HEAD':
-            this._handleHEAD(currentChild);
-            break;
-          case 'BODY':
-            this._handleBODY(currentChild);
-            break;
+          htmlChild = htmlChild.nextSibling;
         }
       }
 
-      currentChild = currentChild.nextSibling;
+      docChild = docChild.nextSibling;
     }
   }
 
@@ -205,7 +202,7 @@ export class ArticleTranslation {
     var currentChild = node.firstChild;
 
     while (currentChild) {
-      if(currentChild.nodeType === 1) {
+      if (currentChild.nodeType === 1) {
         switch (currentChild.tagName) {
           case 'TITLE':
             this.title = currentChild.innerHTML;
@@ -230,8 +227,72 @@ export class ArticleTranslation {
     }
   }
 
-  _handleBODY(node) {
-    console.log('body');
+  _handleBODY(node, primaryTranslation) {
+    let template = this._createTemplateFromBody(node);
+    let uids = template.content.querySelectorAll('[uid]');
+    let sections = {};
+
+    for (let i = 0, ii = uids.length; i < ii; ++i) {
+      let current = uids[i];
+      sections[current.getAttribute('uid')] = current;
+    }
+
+    if (primaryTranslation !== this) {
+      for (let uid of primaryTranslation.sections) {
+        let primarySection = primaryTranslation.sections[uid];
+        let translationSection = sections[uid];
+
+        if (translationSection) {
+          let primaryVersion = primarySection.getAttribute('version');
+          if (primaryVersion) {
+            let translationVersion = translationSection.getAttribute('version');
+            translationSection.setAttribute('version-matches', this._determineVersionMatches(primaryVersion, translationVersion));
+          }
+
+          if (this._shouldCopyContent(primarySection.tagName)) {
+            //remove translation node children
+            //copy and add content from primary translation
+          }
+        } else {
+          this.unavailable = true;
+        }
+      }
+    } else {
+      this.sections = sections;
+
+      for(let uid in sections) {
+        sections[uid] = sections[uid].cloneNode(true);
+      }
+    }
+  }
+
+  _createTemplateFromBody(body) {
+    return DOM.createTemplateFromMarkup('<template>' + body.innerHTML + '</template>');
+  }
+
+  _shouldCopyContent(tagName) {
+    return tagsFromSource.indexOf(tagName) !== -1;
+  }
+
+  _determineVersionMatches(primaryVersion, translationVersion) {
+    let primaryParts = primaryVersion.split('.').map(x => parseInt(x.trim(), 10));
+    let translationParts = translationVersion.split('.').map(x => parseInt(x.trim(), 10));
+
+    if (primaryParts[0] == translationParts[0]) {
+      if (primaryParts[1] == translationParts[1]) {
+        if (primaryParts.length > 1 && translationParts.length > 2) {
+          if (primaryParts[2] == translationParts[2]) {
+            return 3;
+          }
+        }
+
+        return 2;
+      }
+
+      return 1;
+    }
+
+    return 0;
   }
 }
 

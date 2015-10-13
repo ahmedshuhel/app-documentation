@@ -85,7 +85,7 @@ export class Server {
     let found = this.cache.getItem(translation.url);
     let loaded = found
       ? Promise.resolve(found)
-      : HttpClient().createRequest(translation.url)
+      : new HttpClient().createRequest(translation.url)
           .asGet()
           .withResponseType('text')
           .send().then(response => response.content)

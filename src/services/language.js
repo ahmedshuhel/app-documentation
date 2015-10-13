@@ -3,7 +3,7 @@ import {Cache} from './cache';
 
 @inject(ObserverLocator, Cache)
 export class Language {
-  options = ['ES 2016'];
+  options = ['ES 2016', 'ES 2015', 'TypeScript'];
   _handlers = [];
 
   constructor(observerLocator, cache) {
