@@ -12,11 +12,12 @@ export class Article {
   }
 
   attached() {
-    this.disposeCultureChangeCallback = this.culture.onChange(() => this.loadArticle());
+    this.cultureSubscription = this.culture.onChange(() => this.loadArticle());
   }
 
   activate(params) {
     this.articleSlug = params.articleSlug;
+    this.local = params.local === 'true';
 
     return this.server.getProduct(params.userName, params.productName)
       .then(product => {
@@ -33,11 +34,11 @@ export class Article {
   }
 
   loadArticle() {
-    return this.productVersion.getArticle(this.articleSlug, this.culture.current)
+    return this.productVersion.getArticle(this.articleSlug, this.culture.current, this.local)
       .then(article => this.article = article);
   }
 
   detached() {
-    this.disposeCultureChangeCallback();
+    this.cultureSubscription.dispose();
   }
 }

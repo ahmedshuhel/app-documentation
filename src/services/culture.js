@@ -3,7 +3,7 @@ import {Cache} from './cache';
 
 @inject(ObserverLocator, Cache)
 export class Culture {
-  options = ['en-US'];
+  options = ['en-US', 'pt-BR'];
   _handlers = [];
 
   constructor(observerLocator, cache) {
@@ -23,9 +23,11 @@ export class Culture {
   onChange(callback) {
     this._handlers.push(callback);
 
-    return () => {
-      let index = this._handlers.indexOf(callback);
-      this._handlers.splice(index, 1);
+    return {
+      dispose() {
+        let index = this._handlers.indexOf(callback);
+        this._handlers.splice(index, 1);
+      }
     };
   }
 }

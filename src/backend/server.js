@@ -81,8 +81,8 @@ export class Server {
       .then(x => this._loadProductVersion(product, version));
   }
 
-  loadArticleTranslation(translation, culture) {
-    let found = this.cache.getItem(translation.url);
+  loadArticleTranslation(translation) {
+    let found = translation.local ? null : this.cache.getItem(translation.url);
     let loaded = found
       ? Promise.resolve(found)
       : new HttpClient().createRequest(translation.url)
@@ -90,7 +90,13 @@ export class Server {
           .withResponseType('text')
           .send().then(response => response.content)
           .catch(() => '')
-          .then(content => this.cache.setItem(translation.url, content, this.cache.farFuture()));
+          .then(content => {
+            if (!translation.local) {
+              this.cache.setItem(translation.url, content, this.cache.farFuture());
+            }
+
+            return content;
+           });
 
     return loaded.then(content => {
       translation.content = content;

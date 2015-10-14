@@ -101,8 +101,14 @@ export class ProductVersion {
     return this.interfaces.find(x => x.name === interfaceName);
   }
 
-  getArticle(slug, culture) {
-    let found = this.articles.find(x => x.slug === slug);
+  getArticle(slug, culture, local) {
+    let found;
+
+    if(local) {
+      found = new Article({ title: 'Local Article Preview', href: '' }, this, this.server, true);
+    } else {
+      found = this.articles.find(x => x.slug === slug);
+    }
 
     if(!found) {
       return Promise.reject();
@@ -126,7 +132,7 @@ class ArticleTranslationViewStrategy extends ViewStrategy {
 }
 
 export class Article {
-  constructor(attrs, productVersion, server) {
+  constructor(attrs, productVersion, server, local) {
     this.title = attrs.title;
     this.productVersion = productVersion;
     this.server = server;
@@ -134,9 +140,10 @@ export class Article {
     this.primaryUrl = join(this.baseUrl, attrs.href);
     this.slug = this.primaryUrl.substring(this.primaryUrl.lastIndexOf('/') + 1).replace('.html', '');
     this.translations = {};
+    this.local = !!local;
   }
 
-  getTranslation(culture) {
+  getTranslation(culture, local) {
     if(culture in this.translations) {
       return Promise.resolve(this.translations[culture]);
     }
@@ -150,7 +157,7 @@ export class Article {
   }
 
   _loadTranslation(culture) {
-    let translation = new ArticleTranslation(this, culture);
+    let translation = new ArticleTranslation(this, culture, this.local);
     this.translations[culture] = translation;
 
     return this.server.loadArticleTranslation(translation)
@@ -173,9 +180,15 @@ export class Article {
 let tagsFromSource = ['EXAMPLE', 'DEMO'];
 
 export class ArticleTranslation {
-  constructor(article, culture) {
-    this.url = article.primaryUrl;
+  constructor(article, culture, local) {
     this.culture = culture;
+
+    if(local) {
+      this.local = true;
+      this.url = 'doc/article/en-US/test.html';
+    } else {
+      this.url = article.primaryUrl;
+    }
 
     if(culture !== 'en-US') {
       this.url = this.url.replace('en-US', culture);
@@ -255,7 +268,10 @@ export class ArticleTranslation {
     }
 
     if (primaryTranslation !== this) {
-      for (let uid of primaryTranslation.sections) {
+      this.author = primaryTranslation.author;
+      this.keywords = primaryTranslation.keywords;
+
+      for (let uid in primaryTranslation.sections) {
         let primarySection = primaryTranslation.sections[uid];
         let translationSection = sections[uid];
 
@@ -267,8 +283,11 @@ export class ArticleTranslation {
           }
 
           if (this._shouldCopyContent(primarySection.tagName)) {
-            //remove translation node children
-            //copy and add content from primary translation
+            while (translationSection.firstChild) {
+              translationSection.removeChild(translationSection.firstChild);
+            }
+
+            //TODO: copy and add content from primary translation
           }
         } else {
           this.unavailable = true;
