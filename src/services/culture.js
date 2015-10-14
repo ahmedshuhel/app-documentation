@@ -21,12 +21,17 @@ export class Culture {
   }
 
   onChange(callback) {
-    this._handlers.push(callback);
+    let handlers = this._handlers;
+
+    handlers.push(callback);
 
     return {
       dispose() {
-        let index = this._handlers.indexOf(callback);
-        this._handlers.splice(index, 1);
+        let index = handlers.indexOf(callback);
+
+        if (index !== -1) {
+          handlers.splice(index, 1);
+        }
       }
     };
   }
