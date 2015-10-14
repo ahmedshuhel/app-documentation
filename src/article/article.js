@@ -1,4 +1,4 @@
-import {bindable, inject, InlineViewStrategy} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Server} from 'backend/server';
 import {Culture} from 'services/culture';
@@ -34,13 +34,7 @@ export class Article {
 
   loadArticle() {
     return this.productVersion.getArticle(this.articleSlug, this.culture.current)
-      .then(article => {
-        article.view = article.view || new InlineViewStrategy(`
-          <template>${article.content}</template>
-        `);
-
-        this.article = article;
-      });
+      .then(article => this.article = article);
   }
 
   detached() {

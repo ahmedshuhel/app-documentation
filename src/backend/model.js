@@ -1,5 +1,7 @@
 import {join} from 'aurelia-path';
 import {DOM} from 'aurelia-pal';
+import {ViewStrategy} from 'aurelia-framework';
+import {TemplateRegistryEntry} from 'aurelia-loader';
 
 function prettyName(s) {
   s =  s.replace(/(\-\w)/g, function(m) {
@@ -110,6 +112,19 @@ export class ProductVersion {
   }
 }
 
+class ArticleTranslationViewStrategy extends ViewStrategy {
+  constructor(articleTranslation) {
+    super();
+    this.articleTranslation = articleTranslation;
+  }
+
+  loadViewFactory(viewEngine, compileInstruction, loadContext) {
+    let entry = new TemplateRegistryEntry(this.articleTranslation.url);
+    entry.setTemplate(this.articleTranslation.template);
+    return viewEngine.loadViewFactory(entry, compileInstruction, loadContext);
+  }
+}
+
 export class Article {
   constructor(attrs, productVersion, server) {
     this.title = attrs.title;
@@ -142,10 +157,12 @@ export class Article {
       .then(translation => {
         if(!translation.unavailable) {
           translation.prepare(this.translations['en-US']);
+          translation.view = new ArticleTranslationViewStrategy(translation);
         }
 
         if(translation.unavailable) {
           translation.subsume(this.translations['en-US']);
+          translation.view = new ArticleTranslationViewStrategy(translation);
         }
 
         return translation;
@@ -228,7 +245,7 @@ export class ArticleTranslation {
   }
 
   _handleBODY(node, primaryTranslation) {
-    let template = this._createTemplateFromBody(node);
+    let template = this.template = this._createTemplateFromBody(node);
     let uids = template.content.querySelectorAll('[uid]');
     let sections = {};
 

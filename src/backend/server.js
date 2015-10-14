@@ -149,7 +149,7 @@ export class Server {
   }
 
   _loadProductDescription(changeLogParser, product) {
-    let tagList = `http://api.github.com/repos/${product.userName}/${product.productName}/tags`;
+    let tagList = `https://api.github.com/repos/${product.userName}/${product.productName}/tags`;
     let content = this.cache.getItem(tagList);
     let loaded;
 
