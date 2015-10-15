@@ -23,8 +23,8 @@
 
     <div class="align-center">
       <div class="au-tabs">
-        <a href="#/" class="au-tab ${router.currentInstruction.config.moduleId == 'article/index' ? 'au-active' : ''}">Step-by-Step</a>
-        <a href="#/api/home" class="au-tab ${router.currentInstruction.config.moduleId == 'api/index' ? 'au-active' : ''}">
+        <a href="#/" class="au-tab ${router.currentInstruction.config.moduleId === 'article/index' ? 'au-active' : ''}">Step-by-Step</a>
+        <a href="#/api/home" class="au-tab ${router.currentInstruction.config.moduleId === 'api/index' ? 'au-active' : ''}">
           Libraries
           <span class="au-tag">API</span>
         </a>

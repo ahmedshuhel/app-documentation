@@ -1,5 +1,5 @@
 import {join} from 'aurelia-path';
-import {DOM} from 'aurelia-pal';
+import {DOM, FEATURE} from 'aurelia-pal';
 import {ViewStrategy} from 'aurelia-framework';
 import {TemplateRegistryEntry} from 'aurelia-loader';
 
@@ -125,9 +125,13 @@ class ArticleTranslationViewStrategy extends ViewStrategy {
   }
 
   loadViewFactory(viewEngine, compileInstruction, loadContext) {
-    let entry = new TemplateRegistryEntry(this.articleTranslation.url);
-    entry.setTemplate(this.articleTranslation.template);
-    return viewEngine.loadViewFactory(entry, compileInstruction, loadContext);
+    if(this.entry) {
+      return Promise.resolve(this.entry.factory);
+    }
+
+    this.entry = new TemplateRegistryEntry(this.articleTranslation.url);
+    this.entry.setTemplate(this.articleTranslation.template);
+    return viewEngine.loadViewFactory(this.entry, compileInstruction, loadContext);
   }
 }
 
@@ -199,7 +203,18 @@ export class ArticleTranslation {
     this.author = other.author;
     this.description = other.description;
     this.keywords = other.keywords;
-    this.template = other.template.cloneNode(true);
+    this.template = DOM.createTemplateFromMarkup('<template>' + other.originalTemplate.content.innerHTML + '</template>');
+
+    let originalContent = other.originalTemplate.content;
+    let template = FEATURE.ensureHTMLTemplateElement(DOM.createElement('template'));
+    let current = originalContent.firstChild;
+
+    while(current) {
+      template.content.appendChild(current.cloneNode(true));
+      current = current.nextSibling;
+    }
+
+    this.template = template;
   }
 
   prepare(primaryTranslation) {
@@ -302,6 +317,16 @@ export class ArticleTranslation {
       for(let uid in sections) {
         sections[uid] = sections[uid].cloneNode(true);
       }
+
+      let originalTemplate = FEATURE.ensureHTMLTemplateElement(DOM.createElement('template'));
+      let current = template.content.firstChild;
+
+      while(current) {
+        originalTemplate.content.appendChild(current.cloneNode(true));
+        current = current.nextSibling;
+      }
+
+      this.originalTemplate = originalTemplate;
     }
   }
 
