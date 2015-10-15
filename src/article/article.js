@@ -15,26 +15,30 @@ export class Article {
     this.cultureSubscription = this.culture.onChange(() => this.loadArticle());
   }
 
-  activate(params) {
+  activate(params, config, instruction) {
     this.articleSlug = params.articleSlug;
-    this.local = params.local === 'true';
+    this.local = instruction.parentInstruction.config.name === 'local';
 
-    return this.server.getProduct(params.userName, params.productName)
-      .then(product => {
-        let tutorial = product.getTutorialBySlug(params.articleSlug);
-        if(tutorial) {
-          tutorial.select();
-        }
+    let getProductVersion = this.local
+      ? this.server.getTestProductVersion()
+      : this.server.getProduct(params.userName, params.productName)
+          .then(product => {
+            let tutorial = product.getTutorialBySlug(params.articleSlug);
+            if(tutorial) {
+              tutorial.select();
+            }
 
-        return product.getVersion(params.version)
-      }).then(productVersion => {
-        this.productVersion = productVersion;
-        return this.loadArticle();
-      });
+            return product.getVersion(params.version)
+          });
+
+    return getProductVersion.then(productVersion => {
+      this.productVersion = productVersion;
+      return this.loadArticle();
+    });
   }
 
   loadArticle() {
-    return this.productVersion.getArticle(this.articleSlug, this.culture.current, this.local)
+    return this.productVersion.getArticle(this.articleSlug, this.culture.current)
       .then(article => this.article = article);
   }
 

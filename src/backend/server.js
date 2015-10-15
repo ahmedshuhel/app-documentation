@@ -81,6 +81,25 @@ export class Server {
       .then(x => this._loadProductVersion(product, version));
   }
 
+  getTestProductVersion() {
+    let product = new Product({
+      userName: 'test',
+      productName: 'product',
+      tutorials: []
+    }, this);
+
+    let productVersion = new ProductVersion(
+      product,
+      'local',
+      this,
+      true
+    );
+
+    product.versions.push(productVersion);
+
+    return Promise.resolve(productVersion);
+  }
+
   loadArticleTranslation(translation) {
     let found = translation.local ? null : this.cache.getItem(translation.url);
     let loaded = found

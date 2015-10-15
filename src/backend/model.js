@@ -48,7 +48,6 @@ export class Product {
     }
 
     return this.server.getProductVersion(this, version).then(productVersion => {
-      productVersion.product = this;
       this.versions.push(productVersion);
       return productVersion;
     });
@@ -84,13 +83,14 @@ export class ProductVersion {
   articles = [];
   keywords = [];
 
-  constructor(product, version, server) {
+  constructor(product, version, server, local) {
     this.product = product;
     this.version = version;
     this.server = server;
     this.baseUrl = join(product.baseUrl, version);
     this.apiUrl = join(this.baseUrl, 'doc/api.json');
     this.packageUrl = join(this.baseUrl, 'package.json');
+    this.local = !!local;
   }
 
   findClass(className) {
@@ -101,11 +101,11 @@ export class ProductVersion {
     return this.interfaces.find(x => x.name === interfaceName);
   }
 
-  getArticle(slug, culture, local) {
+  getArticle(slug, culture) {
     let found;
 
-    if(local) {
-      found = new Article({ title: 'Local Article Preview', href: '' }, this, this.server, true);
+    if(this.local) {
+      found = new Article({ title: 'Local Article', href: slug }, this, this.server, true);
     } else {
       found = this.articles.find(x => x.slug === slug);
     }
@@ -137,6 +137,7 @@ export class Article {
     this.productVersion = productVersion;
     this.server = server;
     this.baseUrl = productVersion.baseUrl;
+    this.href = attrs.href;
     this.primaryUrl = join(this.baseUrl, attrs.href);
     this.slug = this.primaryUrl.substring(this.primaryUrl.lastIndexOf('/') + 1).replace('.html', '');
     this.translations = {};
@@ -185,7 +186,7 @@ export class ArticleTranslation {
 
     if(local) {
       this.local = true;
-      this.url = 'doc/article/en-US/test.html';
+      this.url = `doc/article/en-US/${article.href}.html`;
     } else {
       this.url = article.primaryUrl;
     }
