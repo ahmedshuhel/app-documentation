@@ -163,13 +163,11 @@ export class Article {
 
     return this.server.loadArticleTranslation(translation)
       .then(translation => {
-        if(!translation.unavailable) {
-          translation.prepare(this.translations['en-US']);
-          translation.view = new ArticleTranslationViewStrategy(translation);
-        }
-
         if(translation.unavailable) {
           translation.subsume(this.translations['en-US']);
+          translation.view = new ArticleTranslationViewStrategy(translation);
+        } else {
+          translation.prepare(this.translations['en-US']);
           translation.view = new ArticleTranslationViewStrategy(translation);
         }
 
@@ -197,7 +195,11 @@ export class ArticleTranslation {
   }
 
   subsume(other) {
-
+    this.title = other.title;
+    this.author = other.author;
+    this.description = other.description;
+    this.keywords = other.keywords;
+    this.template = other.template.cloneNode(true);
   }
 
   prepare(primaryTranslation) {
