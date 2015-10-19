@@ -1,0 +1,16 @@
+<template>
+  <form submit.trigger="save()">
+    <div>
+      <input type="text" value.bind="firstName">
+    </div>
+    <div>
+      <input type="text" value.bind="lastName">
+    </div>
+    <div>
+      Full name is ${fullName}.
+    </div>
+    <div>
+      <button typef="submit">Save</button>
+    </div>
+  </form>
+</template>

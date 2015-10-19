@@ -11,15 +11,12 @@
   <body>
     <!--
     Every narrative section gets a "uid" to map translations in.
-    The "format" describes how to transform the tag's content. Only "markdown" is valid for v1.
     The "version" indicates the version of the content contained inside the tag.
     The Major component changes when there are "breaking changes" in content that completely invalidate translations.
-    The Minor component changes when new content is added withot changing old content. It indicates that translatations are still valid, but missing some new info.
-    When typos, grammar or other changes are made which don't change the meaning or content of the narrative, the version should can have its patch component bumped, but it's basically ignored.
-    When the docs are rendered in non-English translations, indicators should be shown if there is new content or if the content is no longer valie.
-    If there is a new narrative section for which there is no translation, that should be indicated.
-    (Perhaps in these last two cases we should revert to displaying the English.)
-    When translation additions/fixes are needed, provide UI that invites the user to help out.
+    The Minor component changes when new content is added without changing old content. It indicates that translatations are still valid, but missing some new info.
+    When typos, grammar or other changes are made which don't change the meaning or content of the narrative, the version can have its patch component bumped, but it's basically ignored.
+    When the docs are rendered in non-English translations, indicators will be shown if there is new content or if the content is no longer valid.
+    If there is a new narrative section for which there is no translation, that will be indicated.
     -->
     <narrative uid="1" version="2.1">
       # This Is A Header
@@ -35,8 +32,8 @@
     </narrative>
 
     <!--
-    Example groups display only one example from the group, based on the users selected language.
-    They also have a uid so that the translation can proved the title. The translation should not duplicate the example.
+    Examples display only one source-code element from the group, based on the user's selected language.
+    They also have a uid so that the translation can proved the title. The translation should not duplicate the source code.
     -->
     <example uid="2" title="Something Here">
       <source-code lang="ES 2016">
@@ -63,9 +60,10 @@
 
     <!--
     A demo runs code inline.
+    They also have a uid so that the translation can proved the title. The translation should not duplicate the source code.
     -->
-    <demo uid="3" title="Something Else Here">
-      <source-code src="foo/bar.js"></source-code>
+    <demo uid="3" title="Demo 1">
+      <source-code src="src/demo1/app.js"></source-code>
     </demo>
   </body>
 </html>

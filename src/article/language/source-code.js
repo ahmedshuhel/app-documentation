@@ -1,4 +1,4 @@
-import {inject, bindable, processContent, noView, TargetInstruction} from 'aurelia-framework';
+import {inject, bindable, processContent, noView, TargetInstruction, Aurelia} from 'aurelia-framework';
 import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
 
@@ -23,12 +23,18 @@ export class SourceCode {
     }
   }
 
-  load() {
+  loadText() {
     if(this.path) {
       return this.loader.loadText(this.path).then(x => this.raw = x);
     } else {
       return Promise.resolve(this.raw);
     }
+  }
+
+  createApp(host) {
+    this.app = new Aurelia(this.loader);
+    this.app.use.standardConfiguration();
+    this.app.start().then(a => a.setRoot(this.path, host));
   }
 }
 

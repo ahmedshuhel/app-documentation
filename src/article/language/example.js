@@ -1,4 +1,4 @@
-import {sync, bindable, inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {Language} from 'services/language';
 import {fixIndent} from './util';
 
@@ -15,7 +15,6 @@ export class Example {
   }
 
   attached() {
-    this.code = this.element.getElementsByTagName('code')[0];
     this.availableSources = map.call(this.element.getElementsByTagName('source-code'), x => x.au.controller.model);
     this.languageSubscription = this.language.onChange(() => this.selectSourceForLanguage())
     this.selectSourceForLanguage();
@@ -47,7 +46,7 @@ export class Example {
 
   select(source) {
     this.selectedSource = source;
-    source.load().then(content => {
+    source.loadText().then(content => {
       this.code.innerHTML = fixIndent(content);
       applySyntaxHighlighting(source.lang, this.code);
     });
