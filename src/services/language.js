@@ -20,11 +20,18 @@ export class Language {
   }
 
   onChange(callback) {
-    this._handlers.push(callback);
+    let handlers = this._handlers;
 
-    return () => {
-      let index = this._handlers.indexOf(callback);
-      this._handlers.splice(index, 1);
+    handlers.push(callback);
+
+    return {
+      dispose() {
+        let index = handlers.indexOf(callback);
+
+        if (index !== -1) {
+          handlers.splice(index, 1);
+        }
+      }
     };
   }
 }

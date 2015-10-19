@@ -39,14 +39,25 @@
     They also have a uid so that the translation can proved the title. The translation should not duplicate the example.
     -->
     <example uid="2" title="Something Here">
-      <source-code lang="ES 2016" src="foo/bar.js">
+      <source-code lang="ES 2016">
+        import {inject} from 'aurelia-framework';
 
+        @inject(Element)
+        export class Test {
+          constructor(element) {
+            this.element = element;
+          }
+        }
       </source-code>
-      <source-code lang="TypeScript">
-        <!--
-        Source can be loaded from a src attribute or placed inline.
-        You might want to use the src attr if you intend to also run it as a demo.
-        -->
+      <source-code lang="TypeScript" src="src/example.ts"></source-code>
+      <source-code lang="ES 2015">
+        export class Test {
+          static inject() { return [Element]; }
+
+          constructor(element) {
+            this.element = element;
+          }
+        }
       </source-code>
     </example>
 
