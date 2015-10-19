@@ -17,8 +17,7 @@ export class SourceCode {
   bind(context) {
     if(this.src){
       this.path = join(context.url, '../../../' + this.src);
-
-      if(this.path.indexOf('http') === -1) {
+      if(context.local) {
         this.path = './' + this.path;
       }
     }
