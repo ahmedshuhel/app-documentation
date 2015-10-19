@@ -3,6 +3,8 @@ import {DOM, FEATURE} from 'aurelia-pal';
 import {ViewStrategy} from 'aurelia-framework';
 import {TemplateRegistryEntry} from 'aurelia-loader';
 
+let baseTranslation = 'en-US';
+
 function prettyName(s) {
   s =  s.replace(/(\-\w)/g, function(m) {
     return m[1].toUpperCase();
@@ -153,11 +155,11 @@ export class Article {
       return Promise.resolve(this.translations[culture]);
     }
 
-    if('en-US' in this.translations) {
+    if(baseTranslation in this.translations) {
       return this._loadTranslation(culture);
     }
 
-    return this._loadTranslation('en-US')
+    return this._loadTranslation(baseTranslation)
       .then(() => this.getTranslation(culture));
   }
 
@@ -168,10 +170,10 @@ export class Article {
     return this.server.loadArticleTranslation(translation)
       .then(translation => {
         if(translation.unavailable) {
-          translation.subsume(this.translations['en-US']);
+          translation.subsume(this.translations[baseTranslation]);
           translation.view = new ArticleTranslationViewStrategy(translation);
         } else {
-          translation.prepare(this.translations['en-US']);
+          translation.prepare(this.translations[baseTranslation]);
           translation.view = new ArticleTranslationViewStrategy(translation);
         }
 
@@ -188,13 +190,13 @@ export class ArticleTranslation {
 
     if(local) {
       this.local = true;
-      this.url = `doc/article/en-US/${article.href}.html`;
+      this.url = `doc/article/${baseTranslation}/${article.href}.html`;
     } else {
       this.url = article.primaryUrl;
     }
 
-    if(culture !== 'en-US') {
-      this.url = this.url.replace('en-US', culture);
+    if(culture !== baseTranslation) {
+      this.url = this.url.replace(baseTranslation, culture);
     }
   }
 
@@ -305,10 +307,17 @@ export class ArticleTranslation {
               translationSection.removeChild(translationSection.firstChild);
             }
 
-            //TODO: copy and add content from primary translation
+            let current = primarySection.firstChild;
+
+            while(current) {
+              translationSection.appendChild(current.cloneNode(true));
+              current = current.nextSibling;
+            }
+
+            this.template = template;
           }
         } else {
-          this.unavailable = true;
+          this.unavailable = true; //TODO: create english section?
         }
       }
     } else {
