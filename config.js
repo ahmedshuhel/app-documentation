@@ -40,11 +40,11 @@ System.config({
     "aurelia-templating-binding": "github:aurelia/templating-binding@0.16.1",
     "aurelia-templating-resources": "github:aurelia/templating-resources@0.16.1",
     "aurelia-templating-router": "github:aurelia/templating-router@0.17.0",
-    "babel": "npm:babel-core@5.8.25",
-    "babel-runtime": "npm:babel-runtime@5.8.25",
+    "babel": "npm:babel-core@5.8.33",
+    "babel-runtime": "npm:babel-runtime@5.8.29",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "commonmark": "npm:commonmark@0.22.0",
-    "core-js": "npm:core-js@0.8.4",
+    "core-js": "npm:core-js@1.2.5",
     "css": "github:systemjs/plugin-css@0.1.18",
     "font-awesome": "npm:font-awesome@4.3.0",
     "joelcoxokc/aurelia-interface-grid": "github:joelcoxokc/aurelia-interface-grid@master",
@@ -203,7 +203,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.25": {
+    "npm:babel-runtime@5.8.29": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:buffer@3.5.1": {
@@ -222,11 +222,14 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:core-js@0.8.4": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:core-js@0.9.18": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:core-js@1.2.5": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
